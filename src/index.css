@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+nav {
+    font-weight: 800;
+    font-style: normal;
+}
+
+body {
+    font-family: "Kanit", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    background-color: #262837;
+}
+
+.productsnav {
+    font-family: "Kanit", sans-serif;
+    font-weight: 400;
+}
+
+::-webkit-scrollbar {
+    background-color: #373345;
+    max-width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #484a5a;
+    border-radius: 4px;
+}
