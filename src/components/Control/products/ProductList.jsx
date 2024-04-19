@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Product } from "./Product";
 import { API } from "aws-amplify";
-import { listProducts } from "./graphql/queries";
+import { listProducts } from "../../graphql/queries";
 
 export function ProductList() {
 
