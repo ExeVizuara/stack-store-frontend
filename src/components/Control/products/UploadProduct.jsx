@@ -33,7 +33,7 @@ export function UploadProduct() {
     };
 
     return (
-        <form>
+        <form onSubmit={add}>
             <ul className="grid grid-cols-8 gap-4 px-10 sm:px-10 text-gray-400 xl:mt-16">
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <li className="flex flex-col">
@@ -96,7 +96,7 @@ export function UploadProduct() {
                     </li>
                 </div>
                 <div className="col-span-8 text-center">
-                    <button onChange={(event) => add}className="hover:bg-[#2c3e19d8] px-6 py-2 border border-[#5c9c19d8] hover:text-white text-[#5c9c19d8] w-full rounded-md">
+                    <button type="submit" className="hover:bg-[#2c3e19d8] px-6 py-2 border border-[#5c9c19d8] hover:text-white text-[#5c9c19d8] w-full rounded-md">
                         REGISTRAR
                     </button>
                 </div>
