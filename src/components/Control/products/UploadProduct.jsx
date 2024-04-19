@@ -5,26 +5,33 @@ import { createProducts as createProductMutation } from "../../../graphql/mutati
 export function UploadProduct() {
 
     const API = generateClient();
+    
+    const [name, setName] = useState("");
+    const [category, setCategory] = useState("");
+    const [code, setCode] = useState();
     const [day, setDay] = useState();
     const [month, setMonth] = useState();
     const [year, setYear] = useState();
-    const [errorMessage, setErrorMessage] = useState("");
-    const [productPost, setProductPost] = useState({
-        name: "",
-        category: "",
-        code: 0,
-        expiration: "",
-        stock: 0,
-        cost: 0,
-        discount: 0,
-        price: 0
-    })
+    const [stock, setStock] = useState();
+    const [cost, setCost] = useState();
+    const [discount, setDiscount] = useState();
+    const [price, setPrice] = useState();
+    const [productPost, setProductPost] = useState({});
 
     const add = async (event) => {
 
         event.preventDefault();
         const formatDate = `${year}-${month}-${day}`;
-        setProductPost({ ...productPost, expiration: formatDate});
+        setProductPost({
+            name: name,
+            category: category,
+            code: code,
+            expiration: formatDate,
+            stock: stock,
+            cost: cost,
+            discount: discount,
+            price: price
+        });
         await API.graphql({
             query: createProductMutation,
             variables: { input: productPost },
@@ -39,19 +46,19 @@ export function UploadProduct() {
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Nombre: </label>
                         <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
-                            setProductPost({ ...productPost, name: event.target.value });
+                            setName(event.target.value);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Categoría: </label>
                         <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
-                            setProductPost({ ...productPost, category: event.target.value });
+                            setCategory(event.target.value);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Código: </label>
                         <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
-                            setProductPost({ ...productPost, code: event.target.value });
+                            setCode(event.target.value);
                         }} />
                     </li>
                     <li className="flex flex-col">
@@ -73,25 +80,25 @@ export function UploadProduct() {
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Stock: </label>
                         <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
-                            setProductPost({ ...productPost, stock: event.target.value });
+                            setStock(event.target.value);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Costo: </label>
                         <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
-                            setProductPost({ ...productPost, cost: event.target.value });
+                            setCost(event.target.value);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Descuento: </label>
                         <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
-                            setProductPost({ ...productPost, discount: event.target.value });
+                            setDiscount(event.target.value);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Precio final: </label>
                         <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
-                            setProductPost({ ...productPost, price: event.target.value });
+                            setPrice(event.target.value);
                         }} />
                     </li>
                 </div>
