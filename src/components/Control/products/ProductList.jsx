@@ -1,28 +1,22 @@
 import { useState } from "react";
 import { Product } from "./Product";
-import Axios from "axios";
+import { API } from "aws-amplify";
+import { listProducts } from "./graphql/queries";
 
-export function ProductList () {
+export function ProductList() {
 
     const [productList, setProductList] = useState([]);
 
-    const getProducts = () => {
-        Axios.get(`${BackendURL}/products`)
-            .then((data) => {
-                setProductList(data);
-            })
-            .catch((err) => {
-                if (err) {
-                    setErrorMessage("Error al cargar lista de productos" + err.data);
-                } else if (err.request) {
-                    console.log(err.request);
-                } else {
-                    console.log('Error', err.message);
-                }
-            });
-    };
 
-    getProducts();
+    useEffect(() => {
+        getProducts();
+    }, []);
+
+    const getProducts = async () => {
+        const apiData = await API.graphql({ query: listProducts });
+        const productsFromAPI = apiData.data.listProducts.items;
+        setProductList(productsFromAPI);
+    }
 
     return (
         <div className="data bg-[#262837] flex flex-col pb-4 lg:p-8 gap-2 lg:gap-4 md:pb-18 rounded-lg max-h-[500px]">
@@ -53,8 +47,8 @@ export function ProductList () {
                 </li>
             </ul>
             <div className="overflow-y-auto overflow-x-auto sm:rounded-md bg-gray-700">
-                { productList.map((product) => (
-                    <Product key={ product.id } { ...product } />
+                {productList.map((product) => (
+                    <Product key={product.id} {...product} />
                 ))}
             </div>
         </div>

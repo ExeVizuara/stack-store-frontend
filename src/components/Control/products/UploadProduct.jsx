@@ -1,5 +1,6 @@
 import { useState } from "react";
-import Axios from "axios";
+import { API } from "aws-amplify";
+import { createProduct as createProductMutation } from "./graphql/mutations";
 
 export function UploadProduct() {
 
@@ -21,23 +22,13 @@ export function UploadProduct() {
     const add = async (event) => {
 
         event.preventDefault();
-    
         const formatDate = `${year}-${month}-${day}`;
         setProductPost({ ...productPost, expiration: formatDate});
-        await Axios.post(`${BackendURL}/create-almacen`, productPost)
-            .then((response) => {
-                console.log(response);
-                alert("Producto registrado");
-            })
-            .catch((error) => {
-                if (error.response) {
-                    setErrorMessage("Error al registrar el producto: " + error.response.data);
-                } else if (error.request) {
-                    console.log(error.request);
-                } else {
-                    console.log('Error', error.message);
-                }
-            });
+        await API.graphql({
+            query: createProductMutation,
+            variables: { input: productPost },
+        });
+        event.target.reset();
     };
 
     return (
