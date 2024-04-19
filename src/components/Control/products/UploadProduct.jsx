@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Axios from "axios";
-import BackendURL from "../../../BackendURL";
 
 export function UploadProduct() {
 

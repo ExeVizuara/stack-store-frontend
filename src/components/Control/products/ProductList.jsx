@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Product } from "./Product";
 import Axios from "axios";
-import BackendURL from "../../../BackendURL";
 
 export function ProductList () {
 

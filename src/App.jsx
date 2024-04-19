@@ -2,9 +2,19 @@ import { useState } from "react";
 import { MainContent } from "./components/shared/MainContent";
 import { MobileMain } from "./components/shared/MobileMain";
 import { Sidebar } from "./components/shared/Sidebar";
+import logo from "../public/logo_vitec.png"
+import "@aws-amplify/ui-react/styles.css";
+import {
+  withAuthenticator,
+  Button,
+  Heading,
+  Image,
+  View,
+  Card,
+} from "@aws-amplify/ui-react";
 
 
-function App() {
+function App({ signOut }) {
 
   {/* Menu movil */ }
 
@@ -48,8 +58,15 @@ function App() {
       <Sidebar showMenu={showMenu} onItemClick={SelectedOption} activatedCats={ currentCategory } />
       <MobileMain onItemClick={toggleMenu} showMenu={showMenu} />
       <MainContent selectedCat={currentCategory} />
+      <View className="App">
+      <Card>
+        <Image src={logo} className="App-logo" alt="logo" />
+        <Heading level={1}>We now have Auth!</Heading>
+      </Card>
+      <Button onClick={signOut}>Sign Out</Button>
+      </View>
     </div>
   );
 };
 
-export default App
+export default withAuthenticator(App);

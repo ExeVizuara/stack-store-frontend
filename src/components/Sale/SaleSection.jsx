@@ -5,7 +5,6 @@ import { RiSearch2Line } from "react-icons/ri";
 import { FindContent } from "./FindContent";
 import Axios from "axios";
 import { PrintReceipt } from "./PrintReceip";
-import BackendURL from "../../BackendURL";
 
 export function SaleSection() {
 
