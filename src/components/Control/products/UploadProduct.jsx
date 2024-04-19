@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { API } from "aws-amplify";
-import { createProduct as createProductMutation } from "../../../graphql/mutations";
+import { API } from "aws-amplify/api";
+import { createProducts as createProductMutation } from "../../../graphql/mutations";
 
 export function UploadProduct() {
 
