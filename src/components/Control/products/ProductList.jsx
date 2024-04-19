@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Product } from "./Product";
 import { generateClient  } from "aws-amplify/api";
 import { listProducts } from "../../../graphql/queries";
