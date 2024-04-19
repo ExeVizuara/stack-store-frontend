@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { API } from "aws-amplify/api";
+import { generateClient } from "aws-amplify/api";
 import { createProducts as createProductMutation } from "../../../graphql/mutations";
 
 export function UploadProduct() {
 
+    const API = generateClient();
     const [day, setDay] = useState();
     const [month, setMonth] = useState();
     const [year, setYear] = useState();

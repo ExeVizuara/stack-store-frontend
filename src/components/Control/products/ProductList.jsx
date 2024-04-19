@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Product } from "./Product";
-import { API } from "aws-amplify/api";
+import { generateClient  } from "aws-amplify/api";
 import { listProducts } from "../../../graphql/queries";
 
 export function ProductList() {
 
     const [productList, setProductList] = useState([]);
 
+    const API = generateClient();
 
     useEffect(() => {
         getProducts();
