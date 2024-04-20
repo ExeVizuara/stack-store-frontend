@@ -17,22 +17,22 @@ export function ProductList({ view }) {
         let apiData = "";
         let productsFromAPI = "";
         switch (view) {
-            case 'Almacen':
+            case Almacen:
                 apiData = await API.graphql({ query: listProducts, variables: { category: 'Almacen' } });
                 productsFromAPI = apiData.data.listProducts.items;
                 setProductList(productsFromAPI);
                 break;
-            case 'Libreria':
+            case Almacen:
                 apiData = await API.graphql({ query: listProducts, variables: { category: 'Libreria' } });
                 productsFromAPI = apiData.data.listProducts.items;
                 setProductList(productsFromAPI);
                 break;
-            case 'Cigarrillos':
+            case Almacen:
                 apiData = await API.graphql({ query: listProducts, variables: { category: 'Almacen' } });
                 productsFromAPI = apiData.data.listProducts.items;
                 setProductList(productsFromAPI);
                 break;
-            case 'Pollo':
+            case Almacen:
                 apiData = await API.graphql({ query: listProducts, variables: { category: 'Almacen' } });
                 productsFromAPI = apiData.data.listProducts.items;
                 setProductList(productsFromAPI);
