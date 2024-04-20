@@ -89,11 +89,11 @@ export function Sidebar ({ onItemClick , activedCats, showMenu, logOut }) {
                     <li className=" hover:bg-[#262837] px-4 rounded-tl-lg rounded-bl-xl group transition-colors">
                         <NavLink
                         to="/"
-                        onClick={() => onItemClick('Logout')}
+                        onClick={logOut}
                         className={`p-4 flex justify-center rounded-xl text-[#5c9c19d8] ${activedCats='Logout' ? activatedLink : ""}`}
                     >
                         <div className="flex flex-col items-center">
-                            <RiLogoutCircleRLine onClick={logOut} className="text-2xl" />
+                            <RiLogoutCircleRLine className="text-2xl" />
                             <span className="text-[12px]">Logout</span>
                         </div>
                     </NavLink>
