@@ -1,7 +1,7 @@
 import { BrowserRouter, NavLink } from "react-router-dom";
 import { useState } from "react";
 
-export function NavBarProducts({ onCategoryChange }) {
+export function NavbarProducts({ onCategoryChange }) {
 
     const [activedCats, setActivedCats] =
     useState({

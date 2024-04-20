@@ -1,7 +1,7 @@
 import { AlmacenSection } from "./products/AlmacenSection";
 import { NavbarSections } from "./NavbarSections";
 import { TitleSection } from "../shared/TitleSection";
-import { LibreriaSection } from "./products/Libreria/AlmacenSection";
+import { LibreriaSection } from "./products/Libreria/LibreriaSection";
 import { useState } from "react";
 
 export function ControlSection() {
