@@ -12,7 +12,7 @@ export function UploadProduct() {
     const [day, setDay] = useState(0);
     const [month, setMonth] = useState(0);
     const [year, setYear] = useState(0);
-    const [expiration, setExpiration] = useState();
+    const [expiration, setExpiration] = useState("");
     const [stock, setStock] = useState(0);
     const [cost, setCost] = useState(0);
     const [discount, setDiscount] = useState(0);

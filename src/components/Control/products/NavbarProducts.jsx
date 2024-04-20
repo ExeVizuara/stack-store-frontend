@@ -5,7 +5,7 @@ import { UploadProduct } from "./UploadProduct";
 import { Messages } from "./Messages";
 
 
-export function NavbarProducts() {
+export function NavbarProducts({ view }) {
 
     const [currentCategory, setCurrentCategory] = useState('List');
 
@@ -58,7 +58,7 @@ export function NavbarProducts() {
                   </NavLink>
                 </BrowserRouter>
               </nav>
-              {currentCategory === 'List' && <ProductList />}
+              {currentCategory === 'List' && <ProductList view={ view }/>}
               {currentCategory === 'Upload' && <UploadProduct />}
               {currentCategory === 'Messages' && <Messages />}
             </div>
