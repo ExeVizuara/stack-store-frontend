@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { generateClient } from "aws-amplify/api";
 import { createProducts as createProductMutation } from "../../../graphql/mutations";
-import { v4 as uuidv4 } from 'uuid';
 
 export function UploadProduct() {
 
@@ -13,7 +12,7 @@ export function UploadProduct() {
     const [day, setDay] = useState(0);
     const [month, setMonth] = useState(0);
     const [year, setYear] = useState(0);
-    const [expiration, setExpiration] = useState("")
+    const [expiration, setExpiration] = useState();
     const [stock, setStock] = useState(0);
     const [cost, setCost] = useState(0);
     const [discount, setDiscount] = useState(0);
@@ -22,7 +21,6 @@ export function UploadProduct() {
     const add = async (event) => {
         event.preventDefault();
         setExpiration(`${year}-${month}-${day}`);
-        const id = uuidv4();
         const data = {
             name: name,
             category: category,
@@ -54,9 +52,7 @@ export function UploadProduct() {
                 alert("Producto registrado exitosamente.");
                 // Limpiar el formulario u otra acción necesaria después del registro exitoso
                 // Por ejemplo, podrías resetear los estados de los inputs del formulario
-                setName("");
-                setCategory("");
-                setCode("");
+                
                 // Limpiar otros estados si es necesario
             }
         } catch (error) {

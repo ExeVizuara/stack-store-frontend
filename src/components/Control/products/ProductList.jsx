@@ -9,9 +9,7 @@ export function ProductList() {
 
     const API = generateClient();
 
-    useEffect(() => {
-        getProducts();
-    }, []);
+    getProducts();
 
     const getProducts = async () => {
         const apiData = await API.graphql({ query: listProducts });
