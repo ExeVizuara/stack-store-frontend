@@ -1,6 +1,23 @@
 import { BrowserRouter, NavLink } from "react-router-dom";
+import { useState } from "react";
 
-export function NavBarProducts({ activedCats, onClick }) {
+export function NavBarProducts({ onCategoryChange }) {
+
+    const [activedCats, setActivedCats] =
+    useState({
+      List: true,
+      Upload: false,
+      Messages: false
+    });
+
+    const handleClick = (option) => {
+        setActivedCats({
+          List: option === 'List',
+          Upload: option === 'Upload',
+          Messages: option === 'Messages'
+        });
+        onCategoryChange(option);
+      };
 
     const activatedLink = "border border-[#5c9c19d8] bg-[#2c3e19d8]";
 

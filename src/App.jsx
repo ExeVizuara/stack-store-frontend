@@ -48,11 +48,11 @@ function App({ signOut }) {
   return (
 
     <div className="bg-[#262837] w-full h-full mb-16">
-      <Sidebar showMenu={showMenu} onItemClick={selectedOption} activatedCats={ currentCategory } logOut={ signOut } />
+      <Sidebar showMenu={showMenu} onItemClick={selectedOption} activatedCats={ currentCategory } logOut={ signOut }/>
       <MobileMain onItemClick={toggleMenu} showMenu={showMenu} />
       <MainContent selectedCat={currentCategory} />
     </div>
   );
 };
 
-export default withAuthenticator(App);
+export default App;
