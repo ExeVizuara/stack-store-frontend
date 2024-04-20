@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter, NavLink } from "react-router-dom";
 
-export function NavbarSections({ category }) {
+export function NavbarSections() {
 
     const [currentCategory, setCurrentCategory] = useState('Almacen');
 
@@ -21,7 +21,6 @@ export function NavbarSections({ category }) {
             Cigarrillos: option === 'Cigarrillos',
             Pollo: option === 'Pollo'
         });
-        category = option;
         console.log(option);
     };
 

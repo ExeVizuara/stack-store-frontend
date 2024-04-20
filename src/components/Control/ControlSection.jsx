@@ -2,7 +2,7 @@ import { NavbarProducts } from "./products/NavbarProducts";
 import { NavbarSections } from "./NavbarSections";
 import { TitleSection } from "../shared/TitleSection";
 
-export function ControlSection({ category }) {
+export function ControlSection() {
 
 
     return (
@@ -11,9 +11,9 @@ export function ControlSection({ category }) {
             <header>
                 {/* Title and search */}
                 <TitleSection />
-                <NavbarSections category={ category } />
+                <NavbarSections />
             </header>
-            <NavbarProducts view={ category }/>
+            <NavbarProducts />
         </div>
     );
 };

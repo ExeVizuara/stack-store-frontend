@@ -58,7 +58,7 @@ export function NavbarProducts({ view }) {
                   </NavLink>
                 </BrowserRouter>
               </nav>
-              {currentCategory === 'List' && <ProductList view={ view }/>}
+              {currentCategory === 'List' && <ProductList />}
               {currentCategory === 'Upload' && <UploadProduct />}
               {currentCategory === 'Messages' && <Messages />}
             </div>
