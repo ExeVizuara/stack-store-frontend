@@ -22,7 +22,7 @@ export function NavbarSections({ currentPage }) {
             Pollo: option === 'Pollo'
         });
         console.log(option);
-        currentPage(option)
+        currentPage(option);
     };
 
     const activatedLink = "relative before:w-1/2 before:h-[2px] before:absolute before:bg-[#5c9c19d8] before:left-0 before:rounded-full before:-bottom-[1px] text-[#5c9c19d8]";
