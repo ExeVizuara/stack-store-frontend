@@ -1,8 +1,8 @@
 projects:
   stackstorefrontend:
-    schemaPath: src/graphql/schema.json
+    schemaPath: amplify/backend/api/stackstorefrontend/build/schema.graphql
     includes:
-      - src/graphql/**/*.js
+      - src/graphql/
     excludes:
       - ./amplify/**
     extensions:
@@ -10,6 +10,6 @@ projects:
         codeGenTarget: javascript
         generatedFileName: ''
         docsFilePath: src/graphql
-extensions:
-  amplify:
-    version: 3
+        region: sa-east-1
+        apiId: null
+        maxDepth: 2
