@@ -11,7 +11,7 @@ export function ProductList({ view }) {
 
     useEffect(() => {
         getProducts();
-    }, []);
+    });
 
     const getProducts = async () => {
         let apiData = "";
