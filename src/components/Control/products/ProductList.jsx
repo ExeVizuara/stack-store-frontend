@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Product } from "./Product";
-import { generateClient } from "aws-amplify/api";
+import { generateClient  } from "aws-amplify/api";
 import { listProducts } from "../../../graphql/queries";
 
 export function ProductList({ view }) {
@@ -11,35 +11,12 @@ export function ProductList({ view }) {
 
     useEffect(() => {
         getProducts();
-    });
+    }, []);
 
     const getProducts = async () => {
-        let apiData = "";
-        let productsFromAPI = "";
-        switch (view) {
-            case 'Almacen':
-                apiData = await API.graphql({ query: listProducts, variables: { category: 'Almacen' } });
-                productsFromAPI = apiData.data.listProducts.items;
-                setProductList(productsFromAPI);
-                break;
-            case 'Libreria':
-                apiData = await API.graphql({ query: listProducts, variables: { category: 'Libreria' } });
-                productsFromAPI = apiData.data.listProducts.items;
-                setProductList(productsFromAPI);
-                break;
-            case 'Cigarrillos':
-                apiData = await API.graphql({ query: listProducts, variables: { category: 'Cigarrillos' } });
-                productsFromAPI = apiData.data.listProducts.items;
-                setProductList(productsFromAPI);
-                break;
-            case 'Pollo':
-                apiData = await API.graphql({ query: listProducts, variables: { category: 'Pollo' } });
-                productsFromAPI = apiData.data.listProducts.items;
-                setProductList(productsFromAPI);
-                break;
-            default:
-                break;
-        }
+        const apiData = await API.graphql({ query: listProducts, variables: { category: 'Almacen' } });
+        const productsFromAPI = apiData.data.listProducts.items;
+        setProductList(productsFromAPI);
     }
 
     return (
