@@ -58,7 +58,7 @@ export function Sidebar ({ onItemClick , activedCats, showMenu, logOut }) {
                         </div>
                     </NavLink>
                     </li>
-                    <li className=" hover:bg-[#262837] px-4 rounded-tl-lg rounded-bl-xl group transition-colors">
+                    {/* <li className=" hover:bg-[#262837] px-4 rounded-tl-lg rounded-bl-xl group transition-colors">
                         <NavLink
                         to="/"
                         onClick={() => onItemClick('Usuarios')}
@@ -69,7 +69,7 @@ export function Sidebar ({ onItemClick , activedCats, showMenu, logOut }) {
                             <span className="text-[12px]">Usuarios</span>
                         </div>
                     </NavLink>
-                    </li>
+                    </li> */}
                     <li className=" hover:bg-[#262837] px-4 rounded-tl-lg rounded-bl-xl group transition-colors">
                         <NavLink
                         to="/"
@@ -94,7 +94,7 @@ export function Sidebar ({ onItemClick , activedCats, showMenu, logOut }) {
                     >
                         <div className="flex flex-col items-center">
                             <RiLogoutCircleRLine className="text-2xl" />
-                            <span className="text-[12px]">Logout</span>
+                            <span className="text-[12px]">Salir</span>
                         </div>
                     </NavLink>
                     </li>

@@ -4,6 +4,8 @@ import { ItemDescription } from "./ItemDescription";
 import { RiSearch2Line } from "react-icons/ri";
 import { FindContent } from "./FindContent";
 import { PrintReceipt } from "./PrintReceip";
+import { generateClient  } from "aws-amplify/api";
+import { listProducts } from "../../graphql/queries";
 
 export function SaleSection() {
 
@@ -14,21 +16,12 @@ export function SaleSection() {
     const [total, setTotal] = useState(0);
     const [printReceipt, setPrintReceipt] = useState(false);
     const [printTicket, setPrintTicket] = useState({ ticket: null});
+    const API = generateClient();
 
-    const loadProducts = () => {
-        // Axios.get(`${BackendURL}/products`)
-        //     .then((response) => {
-        //         setProducts(response.data);
-        //     })
-        //     .catch(error => {
-        //         if (error.response) {
-        //             setErrorMessage("Error al cargar lista de productos");
-        //         } else if (error.request) {
-        //             console.log(error.request);
-        //         } else {
-        //             console.log('Error', error.message);
-        //         }
-        //     })
+    const loadProducts = async () => {
+        const apiData = await API.graphql({ query: listProducts });
+        const productsFromAPI = apiData.data.listProducts.items;
+        setProducts(productsFromAPI);
     };
 
     const handleFind = (e) => {
