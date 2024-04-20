@@ -53,14 +53,14 @@ export default function ProductsCreateForm(props) {
     setErrors({});
   };
   const validations = {
-    name: [],
-    category: [],
-    code: [],
+    name: [{ type: "Required" }],
+    category: [{ type: "Required" }],
+    code: [{ type: "Required" }],
     expiration: [],
-    stock: [],
-    cost: [],
+    stock: [{ type: "Required" }],
+    cost: [{ type: "Required" }],
     discount: [],
-    price: [],
+    price: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -78,23 +78,6 @@ export default function ProductsCreateForm(props) {
     }
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
-  };
-  const convertToLocal = (date) => {
-    const df = new Intl.DateTimeFormat("default", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      calendar: "iso8601",
-      numberingSystem: "latn",
-      hourCycle: "h23",
-    });
-    const parts = df.formatToParts(date).reduce((acc, part) => {
-      acc[part.type] = part.value;
-      return acc;
-    }, {});
-    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
   };
   return (
     <Grid
@@ -168,7 +151,7 @@ export default function ProductsCreateForm(props) {
     >
       <TextField
         label="Name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={name}
         onChange={(e) => {
@@ -199,7 +182,7 @@ export default function ProductsCreateForm(props) {
       ></TextField>
       <TextField
         label="Category"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={category}
         onChange={(e) => {
@@ -230,7 +213,7 @@ export default function ProductsCreateForm(props) {
       ></TextField>
       <TextField
         label="Code"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
@@ -267,11 +250,10 @@ export default function ProductsCreateForm(props) {
         label="Expiration"
         isRequired={false}
         isReadOnly={false}
-        type="datetime-local"
-        value={expiration && convertToLocal(new Date(expiration))}
+        type="date"
+        value={expiration}
         onChange={(e) => {
-          let value =
-            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
+          let { value } = e.target;
           if (onChange) {
             const modelFields = {
               name,
@@ -298,7 +280,7 @@ export default function ProductsCreateForm(props) {
       ></TextField>
       <TextField
         label="Stock"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
@@ -333,7 +315,7 @@ export default function ProductsCreateForm(props) {
       ></TextField>
       <TextField
         label="Cost"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
@@ -403,7 +385,7 @@ export default function ProductsCreateForm(props) {
       ></TextField>
       <TextField
         label="Price"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"

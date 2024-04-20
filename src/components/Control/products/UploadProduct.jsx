@@ -21,12 +21,13 @@ export function UploadProduct() {
 
     const add = async (event) => {
         event.preventDefault();
+        setExpiration(`${year}-${month}-${day}`);
         const id = uuidv4();
         const data = {
             name: name,
             category: category,
             code: code,
-            expiration: '24/07/2024',
+            expiration: expiration,
             stock: stock,
             cost: cost,
             discount: discount,
