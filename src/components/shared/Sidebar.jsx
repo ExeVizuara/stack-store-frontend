@@ -10,7 +10,7 @@ import { BrowserRouter, NavLink } from "react-router-dom";
 import { VitecLogo } from "./VitecLogo";
 
 
-export function Sidebar ({ onItemClick , activedCats, showMenu }) {
+export function Sidebar ({ onItemClick , activedCats, showMenu, logOut }) {
 
     const activatedLink = "p-4 flex justify-center rounded-xl";
 
@@ -93,7 +93,7 @@ export function Sidebar ({ onItemClick , activedCats, showMenu }) {
                         className={`p-4 flex justify-center rounded-xl text-[#5c9c19d8] ${activedCats='Logout' ? activatedLink : ""}`}
                     >
                         <div className="flex flex-col items-center">
-                            <RiLogoutCircleRLine className="text-2xl" />
+                            <RiLogoutCircleRLine onClick={logOut} className="text-2xl" />
                             <span className="text-[12px]">Logout</span>
                         </div>
                     </NavLink>

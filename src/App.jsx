@@ -2,17 +2,10 @@ import { useState } from "react";
 import { MainContent } from "./components/shared/MainContent";
 import { MobileMain } from "./components/shared/MobileMain";
 import { Sidebar } from "./components/shared/Sidebar";
-import logo from "../public/logo_vitec.png"
 import "@aws-amplify/ui-react/styles.css";
 import {
   withAuthenticator,
-  Button,
-  Heading,
-  Image,
-  View,
-  Card,
 } from "@aws-amplify/ui-react";
-
 
 function App({ signOut }) {
 
@@ -38,7 +31,7 @@ function App({ signOut }) {
       Logout: false
     });
 
-  const SelectedOption = (option) => {
+  const selectedOption = (option) => {
     setCurrentCategory(option);
     setActivedCats({
       Home: option === 'Home',
@@ -55,16 +48,9 @@ function App({ signOut }) {
   return (
 
     <div className="bg-[#262837] w-full h-full mb-16">
-      <Sidebar showMenu={showMenu} onItemClick={SelectedOption} activatedCats={ currentCategory } />
+      <Sidebar showMenu={showMenu} onItemClick={selectedOption} activatedCats={ currentCategory } logOut={ signOut } />
       <MobileMain onItemClick={toggleMenu} showMenu={showMenu} />
       <MainContent selectedCat={currentCategory} />
-      <View className="App">
-      <Card>
-        <Image src={logo} className="App-logo" alt="logo" />
-        <Heading level={1}>We now have Auth!</Heading>
-      </Card>
-      <Button onClick={signOut}>Sign Out</Button>
-      </View>
     </div>
   );
 };
