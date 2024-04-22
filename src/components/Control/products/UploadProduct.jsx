@@ -2,7 +2,7 @@ import { useState } from "react";
 import { generateClient } from "aws-amplify/api";
 import { createProducts as createProductMutation } from "../../../graphql/mutations";
 
-export function UploadProduct() {
+export function UploadProduct({ currentPage }) {
 
     const API = generateClient();
 
@@ -20,7 +20,8 @@ export function UploadProduct() {
 
     const add = async (event) => {
         event.preventDefault();
-        setExpiration(`${year}-${month}-${day}`);
+        expire = `${year}-${month}-${day}`;
+        setExpiration(expire);
         const data = {
             name: name,
             category: category,
@@ -71,21 +72,18 @@ export function UploadProduct() {
                         <label className="text-start sm:p-1">Nombre: </label>
                         <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
                             setName(event.target.value);
-                            console.log(name);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Categoría: </label>
-                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
+                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={currentPage} readOnly onChange={(event) => {
                             setCategory(event.target.value);
-                            console.log(category);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Código: </label>
                         <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
                             setCode(event.target.valueAsNumber);
-                            console.log(code);
                         }} />
                     </li>
                     <li className="flex flex-col">
@@ -93,15 +91,12 @@ export function UploadProduct() {
                         <div className="flex flex-row justify-around gap-2">
                             <input type="number" placeholder="Dia" className="w-1/3 text-center rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
                                 setDay(event.target.valueAsNumber);
-                                console.log(day);
                             }} />
                             <input type="number" placeholder="Mes" className="w-1/3 text-center rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
                                 setMonth(event.target.valueAsNumber);
-                                console.log(month);
                             }} />
                             <input type="number" placeholder="Año" className="w-1/3 text-center rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
                                 setYear(event.target.valueAsNumber);
-                                console.log(year);
                             }} />
                         </div>
                     </li>
@@ -111,28 +106,24 @@ export function UploadProduct() {
                         <label className="text-start sm:p-1">Stock: </label>
                         <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
                             setStock(event.target.valueAsNumber);
-                            console.log(stock);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Costo: </label>
                         <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
                             setCost(event.target.valueAsNumber);
-                            console.log(cost);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Descuento: </label>
                         <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
                             setDiscount(event.target.valueAsNumber);
-                            console.log(discount);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Precio final: </label>
                         <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
                             setPrice(event.target.valueAsNumber);
-                            console.log(price);
                         }} />
                     </li>
                 </div>

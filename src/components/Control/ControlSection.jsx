@@ -1,8 +1,7 @@
-import { AlmacenSection } from "./products/AlmacenSection";
+import { useState } from "react";
 import { NavbarSections } from "./NavbarSections";
 import { TitleSection } from "../shared/TitleSection";
-import { LibreriaSection } from "./products/Libreria/LibreriaSection";
-import { useState } from "react";
+import { AlmacenSection } from "./products/Almacen/AlmacenSection";
 
 export function ControlSection() {
 
@@ -20,8 +19,11 @@ export function ControlSection() {
                 <TitleSection />
                 <NavbarSections currentPage={handleCategoryChange} />
             </header>
-            {currentCategory === 'Almacen' && <AlmacenSection />}
-            {currentCategory === 'Libreria' && <LibreriaSection />}
+            <div className="grid grid-cols-3 h-auto w-full mb-4 sm:px-2 xl:h-[570px]">
+                <div className="md:bg-[#1F1D2B] pt-4 sm:pb-8 sm:px-4 px-2 md:px-8 lg:px-12 xl:pt-10 rounded-xl items-center text-center text-gray-300 col-span-3">
+                    <AlmacenSection cat={currentCategory}/>
+                </div>
+            </div>
         </div>
     );
 };
