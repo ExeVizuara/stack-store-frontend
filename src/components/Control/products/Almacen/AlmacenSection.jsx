@@ -22,15 +22,16 @@ export function AlmacenSection({ cat }) {
       const apiData = await API.graphql({ query: listProducts });
       const productsFromAPI = apiData.data.listProducts.items;
       setProductList(productsFromAPI);
-      handlePageChange(cat);
+      console.log(productList);
+      await handlePageChange(cat);
     } catch (error) {
       console.error('Error al obtener productos:', error);
     }
   };
 
-  const handlePageChange = (category) => {
+  const handlePageChange = async (category) => {
     const lowercaseCategory = category.toLowerCase();
-    let results = productList.filter((data) => data.category.toLowerCase().includes(lowercaseCategory));
+    const results = productList.filter((data) => data.category.toLowerCase().includes(lowercaseCategory));
     if (!results) {
       console.log("NO HAY PRODUCTOS")
       setProductList([]);
