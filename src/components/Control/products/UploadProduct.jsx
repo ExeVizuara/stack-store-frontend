@@ -14,7 +14,7 @@ export function UploadProduct({ currentPage }) {
 
     const [name, setName] = useState("");
     const [category, setCategory] = useState(currentPage);
-    const [code, setCode] = useState(0);
+    const [code, setCode] = useState("");
     const [expiration, setExpiration] = useState(new Date());
     const [stock, setStock] = useState(0);
     const [cost, setCost] = useState(0);
@@ -81,8 +81,8 @@ export function UploadProduct({ currentPage }) {
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Código: </label>
-                        <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
-                            setCode(event.target.valueAsNumber);
+                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
+                            setCode(event.target.value);
                         }} />
                     </li>
                     <li className="flex flex-col">
