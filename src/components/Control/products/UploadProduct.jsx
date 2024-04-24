@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { generateClient } from "aws-amplify/api";
 import { createProducts as createProductMutation } from "../../../graphql/mutations";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import { es } from 'date-fns/locale/es';
+registerLocale('es', es)
+setDefaultLocale('es');
 
 export function UploadProduct({ currentPage }) {
 
@@ -9,10 +15,7 @@ export function UploadProduct({ currentPage }) {
     const [name, setName] = useState("");
     const [category, setCategory] = useState("");
     const [code, setCode] = useState(0);
-    const [day, setDay] = useState(0);
-    const [month, setMonth] = useState(0);
-    const [year, setYear] = useState(0);
-    const [expiration, setExpiration] = useState("");
+    const [expiration, setExpiration] = useState(new Date());
     const [stock, setStock] = useState(0);
     const [cost, setCost] = useState(0);
     const [discount, setDiscount] = useState(0);
@@ -20,8 +23,6 @@ export function UploadProduct({ currentPage }) {
 
     const add = async (event) => {
         event.preventDefault();
-        expire = `${year}-${month}-${day}`;
-        setExpiration(expire);
         const data = {
             name: name,
             category: category,
@@ -53,7 +54,7 @@ export function UploadProduct({ currentPage }) {
                 alert("Producto registrado exitosamente.");
                 // Limpiar el formulario u otra acción necesaria después del registro exitoso
                 // Por ejemplo, podrías resetear los estados de los inputs del formulario
-                
+
                 // Limpiar otros estados si es necesario
             }
         } catch (error) {
@@ -88,17 +89,13 @@ export function UploadProduct({ currentPage }) {
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Vencimiento: </label>
-                        <div className="flex flex-row justify-around gap-2">
-                            <input type="number" placeholder="Dia" className="w-1/3 text-center rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
-                                setDay(event.target.valueAsNumber);
-                            }} />
-                            <input type="number" placeholder="Mes" className="w-1/3 text-center rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
-                                setMonth(event.target.valueAsNumber);
-                            }} />
-                            <input type="number" placeholder="Año" className="w-1/3 text-center rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
-                                setYear(event.target.valueAsNumber);
-                            }} />
-                        </div>
+                        <DatePicker
+                            className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
+                            selected={expiration}
+                            onChange={(date) => {
+                                setExpiration(date);
+                            }
+                        }/>
                     </li>
                 </div>
                 <div className="grid col-span-8 sm:col-span-4 gap-2">

@@ -12,6 +12,7 @@ export function SaleSection() {
     const [products, setProducts] = useState([]);
     const [searchProducts, setSearchProducts] = useState(false);
     const [selectProduct, setSelectProduct] = useState([]);
+    const [initialStock, setInitialStock] = useState(0);
     const [search, setSearch] = useState("");
     const [total, setTotal] = useState(0);
     const [printReceipt, setPrintReceipt] = useState(false);
@@ -46,6 +47,8 @@ export function SaleSection() {
         setSelectProduct([...selectProduct, product]);
         setTotal((total) + product.price);
         setSearchProducts(!searchProducts);
+        setInitialStock(product.stock);
+        console.log(product.stock);
     }
 
     const removeProduct = (index, price) => {
@@ -98,7 +101,7 @@ export function SaleSection() {
                         <div className="col-span-3 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
                             <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
                             <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" value={search} placeholder="NOMBRE" onChange={handleFind} onClick={searchItem} />
-                            {searchProducts && <FindContent products={results} addProduct={addProduct} />}
+                            {searchProducts && <FindContent products={results} addProduct={addProduct} stock={initialStock} />}
                         </div>
                         <div className="col-span-3 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
                             <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
