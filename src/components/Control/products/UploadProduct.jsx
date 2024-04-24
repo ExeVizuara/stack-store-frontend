@@ -13,7 +13,7 @@ export function UploadProduct({ currentPage }) {
     const API = generateClient();
 
     const [name, setName] = useState("");
-    const [category, setCategory] = useState("");
+    const [category, setCategory] = useState(currentPage);
     const [code, setCode] = useState(0);
     const [expiration, setExpiration] = useState(new Date());
     const [stock, setStock] = useState(0);
@@ -77,9 +77,7 @@ export function UploadProduct({ currentPage }) {
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Categoría: </label>
-                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={currentPage} readOnly onChange={(event) => {
-                            setCategory(event.target.value);
-                        }} />
+                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={currentPage} readOnly/>
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Código: </label>
