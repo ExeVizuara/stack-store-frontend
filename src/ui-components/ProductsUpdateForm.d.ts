@@ -24,7 +24,7 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type ProductsUpdateFormInputValues = {
     name?: string;
     category?: string;
-    code?: number;
+    code?: string;
     expiration?: string;
     stock?: number;
     cost?: number;
@@ -34,7 +34,7 @@ export declare type ProductsUpdateFormInputValues = {
 export declare type ProductsUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
     category?: ValidationFunction<string>;
-    code?: ValidationFunction<number>;
+    code?: ValidationFunction<string>;
     expiration?: ValidationFunction<string>;
     stock?: ValidationFunction<number>;
     cost?: ValidationFunction<number>;
