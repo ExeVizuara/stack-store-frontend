@@ -6,7 +6,7 @@ type Products @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
   category: String!
-  code: Int!
+  code: String!
   expiration: AWSDate
   stock: Int!
   cost: Int!
