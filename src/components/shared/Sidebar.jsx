@@ -3,7 +3,6 @@ import {
     RiSettingsLine,
     RiLogoutCircleRLine
 } from "react-icons/ri";
-import { FaUserGear } from "react-icons/fa6";
 import { GrDocumentConfig } from "react-icons/gr";
 import { MdOutlinePointOfSale } from "react-icons/md";
 import { BrowserRouter, NavLink } from "react-router-dom";
