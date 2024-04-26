@@ -246,7 +246,6 @@ export default function ProductsCreateForm(props) {
         label="Expiration"
         isRequired={false}
         isReadOnly={false}
-        type="date"
         value={expiration}
         onChange={(e) => {
           let { value } = e.target;

@@ -15,7 +15,7 @@ export function UploadProduct({ currentPage }) {
     const [name, setName] = useState("");
     const [category, setCategory] = useState(currentPage);
     const [code, setCode] = useState("");
-    const [expiration, setExpiration] = useState(new Date());
+    const [expiration, setExpiration] = useState("");
     const [stock, setStock] = useState(0);
     const [cost, setCost] = useState(0);
     const [discount, setDiscount] = useState(0);
@@ -43,19 +43,18 @@ export function UploadProduct({ currentPage }) {
             });
             // Verificar si hay errores en la respuesta GraphQL
             if (result.errors) {
-                // Mostrar los errores en la consola
                 console.error("Errores de GraphQL:", result.errors);
-                // Mostrar los errores en la interfaz de usuario
-                // Por ejemplo, podrías mostrar los errores en un componente de alerta o en un mensaje de error dentro del formulario
-                // Aquí un ejemplo básico de cómo podrías mostrarlos en un alert
                 alert("Ocurrieron errores al procesar la solicitud. Por favor, revisa los datos ingresados.");
             } else {
-                // Si no hay errores, el producto se registró correctamente
                 alert("Producto registrado exitosamente.");
-                // Limpiar el formulario u otra acción necesaria después del registro exitoso
-                // Por ejemplo, podrías resetear los estados de los inputs del formulario
-
-                // Limpiar otros estados si es necesario
+                setName("");
+                setCategory(currentPage);
+                setCode("");
+                setExpiration("");
+                setStock(0);
+                setCost(0);
+                setDiscount(0);
+                setPrice(0);
             }
         } catch (error) {
             // Manejar errores de red u otros errores de la operación GraphQL
@@ -90,8 +89,12 @@ export function UploadProduct({ currentPage }) {
                         <DatePicker
                             className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
                             selected={expiration}
+                            showIcon
+                            isClearable
+                            dateFormat="dd/MM/yyyy"
                             onChange={(date) => {
-                                setExpiration(date);
+                                const formattedDate = date.toISOString().split('T')[0];
+                                setExpiration(formattedDate);
                             }
                         }/>
                     </li>

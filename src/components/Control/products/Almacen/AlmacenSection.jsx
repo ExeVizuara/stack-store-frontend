@@ -48,9 +48,9 @@ export function AlmacenSection({ cat }) {
   return (
     <>
       <NavbarProducts onCategoryChange={handleCategoryChange} />
-      {currentCategory === 'List' && <ProductList productList={productList} />}
-      {currentCategory === 'Upload' && <UploadProduct currentPage={page} />}
-      {currentCategory === 'Messages' && <Messages />}
+        {currentCategory === 'List' && <ProductList productList={productList} />}
+        {currentCategory === 'Upload' && <UploadProduct currentPage={page} />}
+        {currentCategory === 'Messages' && <Messages />}
     </>
   );
 };
