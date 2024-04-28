@@ -8,18 +8,22 @@ export function NavbarSections({ currentPage }) {
     const [activedCats, setActivedCats] =
         useState({
             Almacen: true,
+            Golosinas: false,
+            Bebidas: false,
             Libreria: false,
             Cigarrillos: false,
-            Pollo: false
+            Congelados: false
         });
 
     const handleClick = (option) => {
         setCurrentCategory(option);
         setActivedCats({
             Almacen: option === 'Almacen',
+            Golosinas: option === 'Golosinas',
+            Bebidas: option === 'Bebidas',
             Libreria: option === 'Libreria',
             Cigarrillos: option === 'Cigarrillos',
-            Pollo: option === 'Pollo'
+            Congelados: option === 'Congelados'
         });
         console.log(option);
         currentPage(option);
@@ -40,6 +44,20 @@ export function NavbarSections({ currentPage }) {
                 </NavLink>
                 <NavLink
                     to="/"
+                    onClick={() => handleClick('Golosinas')}
+                    className={`py-2 ${activedCats.Golosinas ? activatedLink : ""}`}
+                >
+                    GOLOSINAS
+                </NavLink>
+                <NavLink
+                    to="/"
+                    onClick={() => handleClick('Bebidas')}
+                    className={`py-2 ${activedCats.Bebidas ? activatedLink : ""}`}
+                >
+                    BEBIDAS
+                </NavLink>
+                <NavLink
+                    to="/"
                     onClick={() => handleClick('Libreria')}
                     className={`py-2 ${activedCats.Libreria ? activatedLink : ""}`}
                 >
@@ -54,10 +72,10 @@ export function NavbarSections({ currentPage }) {
                 </NavLink>
                 <NavLink
                     to="/"
-                    onClick={() => handleClick('Pollo')}
-                    className={`py-2 ${activedCats.Pollo ? activatedLink : ""}`}
+                    onClick={() => handleClick('Congelados')}
+                    className={`py-2 ${activedCats.Congelados ? activatedLink : ""}`}
                 >
-                    POLLO
+                    CONGELADOS
                 </NavLink>
             </BrowserRouter>
         </nav>

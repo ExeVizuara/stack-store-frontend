@@ -44,7 +44,7 @@ export function HomeSection() {
     ];
 
     return (
-        <div className="xl:col-span-6 sm:p-2 lg:p-4">
+        <div className="xl:col-span-6 sm:p-2 lg:p-4 xl:p-2">
             {/* Header */}
             <header className="mb-10">
                 {/* Title and search */}
