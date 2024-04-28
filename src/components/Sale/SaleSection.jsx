@@ -117,7 +117,7 @@ export function SaleSection() {
     }
 
     return (
-        <div className="xl:col-span-6 sm:p-2 lg:p-4">
+        <div className="xl:col-span-6 sm:p-2 lg:p-4 xl:p-2">
             {/* Header */}
             <header className="mb-5">
                 {/* Title and search */}

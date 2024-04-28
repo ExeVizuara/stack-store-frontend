@@ -16,6 +16,8 @@ function App({signOut}) {
 
 function CustomApp({ signOut }) {
   const [showMenu, setShowMenu] = useState(false);
+  const [searchProducts, setSearchProducts] = useState(false);
+  const [openList, setOpenList] = useState(false);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -46,15 +48,20 @@ function CustomApp({ signOut }) {
     setShowMenu(!showMenu);
   };
 
+  const handleOutSide = () => {
+    searchProducts && setSearchProducts(false);
+  }
+
+
   const { authStatus } = useAuthenticator();
 
   return (
     <>
       {authStatus === 'authenticated' && (
-        <div className="bg-[#262837] w-full h-full mb-16">
+        <div className="bg-[#262837] w-full h-full mb-16" onClick={handleOutSide}>
           <Sidebar showMenu={showMenu} onItemClick={selectedOption} activatedCats={currentCategory} logOut={signOut} />
           <MobileMain onItemClick={toggleMenu} showMenu={showMenu} />
-          <MainContent selectedCat={currentCategory} />
+          <MainContent selectedCat={currentCategory} searchProducts={ searchProducts} setSearchProducts={setSearchProducts}/>
         </div>
       )}
     </>

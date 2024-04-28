@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { NavbarProducts } from "../NavbarProducts";
 import { ProductList } from "../ProductList";
 import { UploadProduct } from "../UploadProduct";
-import { Messages } from "../Messages";
+import { UpdateProduct } from "../UpdateProduct";
 import { generateClient } from "aws-amplify/api";
 import { listProducts } from "../../../../graphql/queries";
 
-export function AlmacenSection({ cat }) {
+export function AlmacenSection({ cat, searchProducts, setSearchProducts }) {
 
   const [productList, setProductList] = useState([]);
   const [currentCategory, setCurrentCategory] = useState('List');
@@ -50,7 +50,7 @@ export function AlmacenSection({ cat }) {
       <NavbarProducts onCategoryChange={handleCategoryChange} />
         {currentCategory === 'List' && <ProductList productList={productList} />}
         {currentCategory === 'Upload' && <UploadProduct currentPage={page} />}
-        {currentCategory === 'Messages' && <Messages />}
+        {currentCategory === 'Update' && <UpdateProduct searchProducts={searchProducts} setSearchProducts={ setSearchProducts }/>}
     </>
   );
 };

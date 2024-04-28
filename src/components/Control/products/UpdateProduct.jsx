@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { generateClient } from "aws-amplify/api";
-import { createProducts as createProductMutation } from "../../../graphql/mutations";
+import { RiSearch2Line } from "react-icons/ri";
+import { FindContent } from "../../Sale/FindContent";
+import { updateProducts as updateProductMutation } from "../../../graphql/mutations";
+import { listProducts } from "../../../graphql/queries";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
@@ -8,10 +11,14 @@ import { es } from 'date-fns/locale/es';
 registerLocale('es', es)
 setDefaultLocale('es');
 
-export function UploadProduct({ currentPage }) {
+export function UpdateProduct({ currentPage, searchProducts, setSearchProducts }) {
 
     const API = generateClient();
 
+    const [products, setProducts] = useState([]);
+    const [search, setSearch] = useState("");
+    const [selectProduct, setSelectProduct] = useState([]);
+    const [id, setId] = useState();
     const [name, setName] = useState("");
     const [category, setCategory] = useState(currentPage);
     const [code, setCode] = useState("");
@@ -21,9 +28,49 @@ export function UploadProduct({ currentPage }) {
     const [discount, setDiscount] = useState(0);
     const [price, setPrice] = useState(0);
 
-    const add = async (event) => {
+    const loadProducts = async () => {
+        const apiData = await API.graphql({ query: listProducts });
+        const productsFromAPI = apiData.data.listProducts.items;
+        setProducts(productsFromAPI);
+    };
+
+    let results = [];
+    if (!search) {
+        results = products;
+    } else {
+        results = products.filter((data) =>
+            data.name.toLowerCase().includes(search.toLocaleLowerCase()));
+    }
+
+
+    const handleFind = (e) => {
+        setSearch(e.target.value);
+        console.log(e.target.value);
+    };
+
+    const searchItem = () => {
+        setSearchProducts(true);
+        loadProducts();
+    }
+
+    const setAll = () => {
+        setId("");
+        setName("");
+        setCategory(currentPage);
+        setCode("");
+        setExpiration("");
+        setStock(0);
+        setCost(0);
+        setDiscount(0);
+        setPrice(0);
+    }
+
+
+
+    const update = async (event) => {
         event.preventDefault();
         const data = {
+            id: id,
             name: name,
             category: category,
             code: code,
@@ -36,56 +83,69 @@ export function UploadProduct({ currentPage }) {
         console.log(data);
         try {
             const result = await API.graphql({
-                query: createProductMutation,
+                query: updateProductMutation,
                 variables: {
                     input: data
                 }
             });
-            // Verificar si hay errores en la respuesta GraphQL
             if (result.errors) {
                 console.error("Errores de GraphQL:", result.errors);
                 alert("Ocurrieron errores al procesar la solicitud. Por favor, revisa los datos ingresados.");
             } else {
-                alert("Producto registrado exitosamente.");
-                window.location.reload();
+                alert("Producto actualizado exitosamente.");
+                window.location.reload(); // Recargar la página después de la actualización
                 setAll();
             }
         } catch (error) {
-            // Manejar errores de red u otros errores de la operación GraphQL
             console.error("Error al realizar la operación GraphQL:", error);
-            // Mostrar un mensaje de error genérico en la interfaz de usuario
-            alert("Ocurrió un error al procesar la solicitud. Por favor, intenta nuevamente más tarde si tenes ganas");
+            alert("Ocurrió un error al procesar la solicitud. Por favor, intenta nuevamente más tarde.");
         }
     };
 
-    function setAll() {
-        setName("");
-        setCategory(currentPage);
-        setCode("");
-        setExpiration("");
-        setStock(0);
-        setCost(0);
-        setDiscount(0);
-        setPrice(0);
-    }
+    const addProduct = async (product) => {
+        try {
+            setId(product.id);
+            setName(product.name);
+            setCategory(product.category);
+            setCode(product.code);
+            setExpiration(product.expiration);
+            setStock(product.stock);
+            setCost(product.cost);
+            setDiscount(product.discount);
+            setPrice(product.price);
+            console.log(product);
+            setSelectProduct(product.name);
+            setSearchProducts(false);
+        } catch (error) {
+            console.error('Error al agregar el producto:', error);
+        }
+    };
 
     return (
         <form>
             <ul className="grid grid-cols-8 gap-4 px-10 sm:px-10 text-gray-400 xl:mt-16">
+                <div className="col-span-4 text-center">
+                    <label className="text-lg xl:text-2xl">Busqueda de artículo: </label>
+                </div>
+                <div className="col-span-4 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
+                    <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
+                    <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" value={search ? search : ""} placeholder="NOMBRE" onChange={handleFind} onClick={searchItem} />
+                    {searchProducts && <FindContent products={results} addProduct={addProduct} />}
+                </div>
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Nombre: </label>
-                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
+                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={name} onChange={(event) => {
                             setName(event.target.value);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Categoría: </label>
-                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={currentPage} readOnly />
+                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={category}/>
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Código: </label>
-                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
+                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={code} onChange={(event) => {
                             setCode(event.target.value);
                         }} />
                     </li>
@@ -107,32 +167,32 @@ export function UploadProduct({ currentPage }) {
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Stock: </label>
-                        <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
+                        <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={stock} onChange={(event) => {
                             setStock(event.target.valueAsNumber);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Costo: </label>
-                        <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
+                        <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={cost} onChange={(event) => {
                             setCost(event.target.valueAsNumber);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Descuento: </label>
-                        <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
+                        <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={discount} onChange={(event) => {
                             setDiscount(event.target.valueAsNumber);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Precio final: </label>
-                        <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" onChange={(event) => {
+                        <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={price} onChange={(event) => {
                             setPrice(event.target.valueAsNumber);
                         }} />
                     </li>
                 </div>
                 <div className="col-span-8 text-center">
-                    <button className="hover:bg-[#2c3e19d8] px-6 py-2 border border-[#5c9c19d8] hover:text-white text-[#5c9c19d8] w-full rounded-md" onClick={add}>
-                        REGISTRAR
+                    <button className="hover:bg-[#2c3e19d8] px-6 py-2 border border-[#5c9c19d8] hover:text-white text-[#5c9c19d8] w-full rounded-md" onClick={update}>
+                        GUARDAR
                     </button>
                 </div>
             </ul >
