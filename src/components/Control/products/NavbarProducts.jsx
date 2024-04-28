@@ -7,14 +7,14 @@ export function NavbarProducts({ onCategoryChange }) {
     useState({
       List: true,
       Upload: false,
-      Messages: false
+      Update: false
     });
 
     const handleClick = (option) => {
         setActivedCats({
           List: option === 'List',
           Upload: option === 'Upload',
-          Messages: option === 'Messages'
+          Update: option === 'Update'
         });
         onCategoryChange(option);
       };
@@ -40,10 +40,10 @@ export function NavbarProducts({ onCategoryChange }) {
                 </NavLink>
                 <NavLink
                     to="/"
-                    onClick={() => handleClick('Messages')}
-                    className={`text-gray-300 rounded-lg p-2 px-2 w-full sm:px-12 md:px-16 xl:py-4 ${activedCats.Messages ? activatedLink : "bg-[#262837]"}`}
+                    onClick={() => handleClick('Update')}
+                    className={`text-gray-300 rounded-lg p-2 px-2 w-full sm:px-12 md:px-16 xl:py-4 ${activedCats.Update ? activatedLink : "bg-[#262837]"}`}
                 >
-                    Mensajes
+                    Modificar
                 </NavLink>
             </BrowserRouter>
         </nav>

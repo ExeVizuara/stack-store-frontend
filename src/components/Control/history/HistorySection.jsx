@@ -4,10 +4,10 @@ export function HistorySection () {
 
     return (
       <div className="xl:col-span-2 p-1 sm:px-4 lg:px-6 xl:static xl:p-0">
-        <div className="md:bg-[#1F1D28] rounded-xl sm:p-2 h-full">
+        <div className="md:bg-[#1F1D28] rounded-xl sm:p-2 xl:p-2 h-full">
           {/* Orders */}
           <div className="sm:pt-8 text-gray-300 p-2 sm:p-6 xl:p-2">
-            <h1 className="text-2xl mb-4">Historial de ventas</h1>
+            <h1 className="text-xl mb-4">Historial de ventas</h1>
             {/* Pills */}
             <HistoryNav />
             {/* Card */}

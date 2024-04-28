@@ -26,7 +26,7 @@ export function HistoryNav() {
 
     return (
         <BrowserRouter>
-            <div className="grid grid-cols-3 text-center gap-1 xl:gap-2 flex-wrap mb-8">
+            <div className="grid grid-cols-3 text-center text-sm gap-1 xl:gap-2 flex-wrap mb-8">
                 <NavLink
                     to="/"
                     onClick={() => handleClick('Diario')}
