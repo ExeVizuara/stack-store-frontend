@@ -6,11 +6,11 @@ import { FindContent } from "./FindContent";
 import { PrintReceipt } from "./PrintReceip";
 import { generateClient  } from "aws-amplify/api";
 import { listProducts } from "../../graphql/queries";
+import { loadProducts } from "../shared/ProductService";
 
-export function SaleSection() {
+export function SaleSection({ searchProducts, setSearchProducts }) {
 
     const [products, setProducts] = useState([]);
-    const [searchProducts, setSearchProducts] = useState(false);
     const [selectProduct, setSelectProduct] = useState([]);
     const [initialStocks, setInitialStocks] = useState({});
     const [newStock, setNewStock] = useState(0);
@@ -20,20 +20,15 @@ export function SaleSection() {
     const [printTicket, setPrintTicket] = useState({ ticket: null});
     const API = generateClient();
 
-    const loadProducts = async () => {
-        const apiData = await API.graphql({ query: listProducts });
-        const productsFromAPI = apiData.data.listProducts.items;
-        setProducts(productsFromAPI);
-    };
-
     const handleFind = (e) => {
         setSearch(e.target.value);
         console.log(e.target.value);
     };
 
-    const searchItem = () => {
+    const searchItem = async () => {
         setSearchProducts(true);
-        loadProducts();
+        const allProducts = await loadProducts();
+        setProducts(allProducts);
     }
 
     let results = [];
@@ -57,8 +52,12 @@ export function SaleSection() {
         console.log(newStock);
     }
 
-    const addProduct = async (product) => {
+    const addProduct = async (product, stock) => {
         try {
+            if (product && stock === 0) {
+                alert("No hay stock disponible de ese producto!");
+                return searchItem();
+            }
             // Verificar si existe un valor inicial para el stock del producto
             if (!initialStocks.hasOwnProperty(product.id)) {
                 storeInitialStock(product.id, product.stock - 1);

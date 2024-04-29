@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { generateClient } from "aws-amplify/api";
 import { RiSearch2Line } from "react-icons/ri";
 import { FindContent } from "../../Sale/FindContent";
-import { loadProducts } from "../../shared/productService";
+import { loadProducts } from "../../shared/ProductService";
 import { updateProducts as updateProductMutation } from "../../../graphql/mutations";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

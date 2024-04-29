@@ -4,7 +4,7 @@ import { ProductList } from "../ProductList";
 import { UploadProduct } from "../UploadProduct";
 import { UpdateProduct } from "../UpdateProduct";
 import { generateClient } from "aws-amplify/api";
-import { loadProducts } from "../../../shared/productService";
+import { loadProducts } from "../../../shared/ProductService";
 
 export function AlmacenSection({ cat, searchProducts, setSearchProducts }) {
 

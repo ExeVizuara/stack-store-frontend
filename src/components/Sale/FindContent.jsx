@@ -1,19 +1,14 @@
 import { useEffect, useState } from "react";
 
-export function FindContent({ products, addProduct, stock }) {
+export function FindContent({ products, addProduct }) {
 
     useEffect(() => {
         products
     }, []);
 
     function EvaluateStock(product) {
-        console.log(product.stock)
-        stock = product.stock;
-        if (product && product.stock === 0) {
-            alert("No hay stock disponible de ese producto!");
-        } else {
-            addProduct(product);
-        }
+        console.log("Stock disponible: ", product.stock)
+        addProduct(product, product.stock);
     }
 
     return (
