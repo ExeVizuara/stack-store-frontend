@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { generateClient } from "aws-amplify/api";
 import { RiSearch2Line } from "react-icons/ri";
 import { FindContent } from "../../Sale/FindContent";
+import { loadProducts } from "../../shared/productService";
 import { updateProducts as updateProductMutation } from "../../../graphql/mutations";
-import { listProducts } from "../../../graphql/queries";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
@@ -27,31 +27,44 @@ export function UpdateProduct({ currentPage, searchProducts, setSearchProducts }
     const [cost, setCost] = useState(0);
     const [discount, setDiscount] = useState(0);
     const [price, setPrice] = useState(0);
-
-    const loadProducts = async () => {
-        const apiData = await API.graphql({ query: listProducts });
-        const productsFromAPI = apiData.data.listProducts.items;
-        setProducts(productsFromAPI);
-    };
-
     let results = [];
-    if (!search) {
-        results = products;
-    } else {
-        results = products.filter((data) =>
-            data.name.toLowerCase().includes(search.toLocaleLowerCase()));
-    }
 
+    useEffect(() => {
+        loadProducts();
+    }, [currentPage]);
 
     const handleFind = (e) => {
         setSearch(e.target.value);
         console.log(e.target.value);
     };
 
-    const searchItem = () => {
+    const searchItem = async () => {
         setSearchProducts(true);
-        loadProducts();
+        const allProducts = await loadProducts();
+        handlePageChange(currentPage, allProducts);
     }
+
+    const handlePageChange = async (category, prod) => {
+        const lowercaseCategory = category.toLowerCase();
+        const results = prod.filter((data) => data.category.toLowerCase().includes(lowercaseCategory));
+        if (!results) {
+          console.log("NO HAY PRODUCTOS")
+          setProducts([]);
+        } else {
+          setProducts(results)
+          console.log(results);
+        }
+      };
+
+    if (!search) {
+        results = products;
+        console.log(products);
+    } else {
+        results = products.filter((data) =>
+            data.name.toLowerCase().includes(search.toLocaleLowerCase()));
+        console.log(results);
+    }
+
 
     const setAll = () => {
         setId("");
@@ -141,7 +154,9 @@ export function UpdateProduct({ currentPage, searchProducts, setSearchProducts }
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Categoría: </label>
-                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={category}/>
+                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={category} onChange={(event) => {
+                            setCategory(event.target.value);
+                        }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Código: </label>

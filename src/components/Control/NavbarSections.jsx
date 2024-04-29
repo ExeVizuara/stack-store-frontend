@@ -12,7 +12,8 @@ export function NavbarSections({ currentPage }) {
             Bebidas: false,
             Libreria: false,
             Cigarrillos: false,
-            Congelados: false
+            Congelados: false,
+            PorKG: false
         });
 
     const handleClick = (option) => {
@@ -23,7 +24,8 @@ export function NavbarSections({ currentPage }) {
             Bebidas: option === 'Bebidas',
             Libreria: option === 'Libreria',
             Cigarrillos: option === 'Cigarrillos',
-            Congelados: option === 'Congelados'
+            Congelados: option === 'Congelados',
+            PorKG: option === 'PorKG'
         });
         console.log(option);
         currentPage(option);
@@ -76,6 +78,13 @@ export function NavbarSections({ currentPage }) {
                     className={`py-2 ${activedCats.Congelados ? activatedLink : ""}`}
                 >
                     CONGELADOS
+                </NavLink>
+                <NavLink
+                    to="/"
+                    onClick={() => handleClick('PorKG')}
+                    className={`py-2 ${activedCats.PorKG ? activatedLink : ""}`}
+                >
+                    POR KG
                 </NavLink>
             </BrowserRouter>
         </nav>

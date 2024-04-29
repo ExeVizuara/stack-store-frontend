@@ -4,7 +4,7 @@ import { ProductList } from "../ProductList";
 import { UploadProduct } from "../UploadProduct";
 import { UpdateProduct } from "../UpdateProduct";
 import { generateClient } from "aws-amplify/api";
-import { listProducts } from "../../../../graphql/queries";
+import { loadProducts } from "../../../shared/productService";
 
 export function AlmacenSection({ cat, searchProducts, setSearchProducts }) {
 
@@ -19,17 +19,15 @@ export function AlmacenSection({ cat, searchProducts, setSearchProducts }) {
 
   const getProducts = async () => {
     try {
-      const apiData = await API.graphql({ query: listProducts });
-      const productsFromAPI = apiData.data.listProducts.items;
-      console.log(productsFromAPI);
-      handlePageChange(cat, productsFromAPI);
+      const allProducts = await loadProducts();
+      handlePageChange(cat, allProducts);
     } catch (error) {
       console.error('Error al obtener productos:', error);
     }
   };
 
   const handlePageChange = async (category, prod) => {
-    const lowercaseCategory = category.toLowerCase();
+    const lowercaseCategory = await category.toLowerCase();
     const results = prod.filter((data) => data.category.toLowerCase().includes(lowercaseCategory));
     if (!results) {
       console.log("NO HAY PRODUCTOS")
@@ -50,7 +48,7 @@ export function AlmacenSection({ cat, searchProducts, setSearchProducts }) {
       <NavbarProducts onCategoryChange={handleCategoryChange} />
         {currentCategory === 'List' && <ProductList productList={productList} />}
         {currentCategory === 'Upload' && <UploadProduct currentPage={page} />}
-        {currentCategory === 'Update' && <UpdateProduct searchProducts={searchProducts} setSearchProducts={ setSearchProducts }/>}
+        {currentCategory === 'Update' && <UpdateProduct currentPage={page} searchProducts={searchProducts} setSearchProducts={ setSearchProducts }/>}
     </>
   );
 };
