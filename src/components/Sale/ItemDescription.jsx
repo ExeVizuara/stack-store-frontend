@@ -31,7 +31,7 @@ export function ItemDescription ({ products, removeProduct, total, cancelOperati
             </ul>
             <div className="col-span-6 overflow-y-auto overflow-x-auto bg-gray-700 sm:p-4 min-h-[320px] sm:min-h-[445px] border border-gray-600">
                 { products.map((product, index) => (
-                    <SellProducts key={ index } { ...product } removeProduct={() => removeProduct(index, product.price)}/>
+                    <SellProducts key={ index } { ...product } removeProduct={() => removeProduct(index, product.price, product.id)}/>
                 ))}
             </div>
             <div className="border border-gray-600 sm:rounded-bl-xl bg-gray-700 p-2 px-10 sm:px-14 text-sm sm:text-2xl flex flex-row justify-between">

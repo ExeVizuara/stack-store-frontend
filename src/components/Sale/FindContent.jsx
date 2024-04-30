@@ -7,7 +7,7 @@ export function FindContent({ products, addProduct }) {
     }, []);
 
     function EvaluateStock(product) {
-        console.log("Stock disponible: ", product.stock)
+        console.log("Stock inicial: ", product.stock)
         addProduct(product, product.stock);
     }
 
