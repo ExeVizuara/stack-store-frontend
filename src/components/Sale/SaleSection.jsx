@@ -4,9 +4,8 @@ import { ItemDescription } from "./ItemDescription";
 import { RiSearch2Line } from "react-icons/ri";
 import { FindContent } from "./FindContent";
 import { PrintReceipt } from "./PrintReceip";
-import { generateClient  } from "aws-amplify/api";
-import { listProducts } from "../../graphql/queries";
-import { loadProducts } from "../shared/ProductService";
+import { generateClient } from "aws-amplify/api";
+import { actualizeStock, loadProducts } from "../shared/ProductService";
 
 export function SaleSection({ searchProducts, setSearchProducts }) {
 
@@ -17,7 +16,7 @@ export function SaleSection({ searchProducts, setSearchProducts }) {
     const [search, setSearch] = useState("");
     const [total, setTotal] = useState(0);
     const [printReceipt, setPrintReceipt] = useState(false);
-    const [printTicket, setPrintTicket] = useState({ ticket: null});
+    const [printTicket, setPrintTicket] = useState({ ticket: null });
     const API = generateClient();
 
     const handleFind = (e) => {
@@ -39,18 +38,17 @@ export function SaleSection({ searchProducts, setSearchProducts }) {
             data.name.toLowerCase().includes(search.toLocaleLowerCase()));
     }
 
-    const storeInitialStock = async (productId, stock) => {
+    const storeInitialStock = async (productId, stock, price, product) => {
         setInitialStocks(prevState => ({
             ...prevState,
             [productId]: stock
         }));
-        setNewStock(stock-1);
-        stockManagment();
+        setSelectProduct([...selectProduct, product]);
+        setTotal(total + price);
+        setSearchProducts(!searchProducts);
+        setNewStock(stock);
+        console.log(product);
     };
-
-    const stockManagment = () => {
-        console.log(newStock);
-    }
 
     const addProduct = async (product, stock) => {
         try {
@@ -60,29 +58,27 @@ export function SaleSection({ searchProducts, setSearchProducts }) {
             }
             // Verificar si existe un valor inicial para el stock del producto
             if (!initialStocks.hasOwnProperty(product.id)) {
-                storeInitialStock(product.id, product.stock - 1);
+                await storeInitialStock(product.id, product.stock-1, product.price, product);
             } else {
                 // Verificar si ya se utilizó todo el stock del producto
                 if (initialStocks[product.id] === 0) {
-                    console.log("No hay más stock disponible para este producto.");
-                    return;
+                    return alert("No hay stock disponible de ese producto!");
                 }
-                storeInitialStock(product.id, initialStocks[product.id] - 1);
+                await storeInitialStock(product.id, initialStocks[product.id]-1, product.price, product);
             }
-    
-            // Resto del código para agregar el producto
-            console.log(product);
-            setSelectProduct([...selectProduct, product]);
-            setTotal(total + product.price);
-            setSearchProducts(!searchProducts);
         } catch (error) {
             console.error('Error al agregar el producto:', error);
         }
     };
 
-    const removeProduct = (index, price) => {
+    const removeProduct = async (index, price, productId) => {
         const updatedProducts = selectProduct.filter((_, i) => i !== index);
         setSelectProduct(updatedProducts);
+        setInitialStocks(prevState => ({
+            ...prevState,
+            [productId]: initialStocks[productId] + 1
+        }));
+        console.log("Stock: ", initialStocks[productId]);
         setTotal((total) - price);
     };
 
@@ -94,19 +90,7 @@ export function SaleSection({ searchProducts, setSearchProducts }) {
 
     const chargeProducts = async () => {
         setPrintReceipt(!printReceipt);
-
-        // try {
-        //     const formData = new FormData();
-        //     formData.append('ticket', post.photo);
-
-        //     await Axios.post(`${BackendURL}/upload`, formData, {
-        //         headers: {
-        //             "Content-Type": "multipart/form-data"
-        //         }
-        //     })
-        // } catch (error) {
-        //     console.log("Error al guardar ticket,", error)
-        // }
+        await actualizeStock(selectProduct, initialStocks);
     }
 
     const quit = () => {

@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { generateClient } from "aws-amplify/api";
 import { RiSearch2Line } from "react-icons/ri";
 import { FindContent } from "../../Sale/FindContent";
-import { loadProducts } from "../../shared/ProductService";
-import { updateProducts as updateProductMutation } from "../../../graphql/mutations";
+import { loadProducts, updateProduct } from "../../shared/ProductService";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
@@ -65,55 +64,10 @@ export function UpdateProduct({ currentPage, searchProducts, setSearchProducts }
         console.log(results);
     }
 
-
-    const setAll = () => {
-        setId("");
-        setName("");
-        setCategory(currentPage);
-        setCode("");
-        setExpiration("");
-        setStock(0);
-        setCost(0);
-        setDiscount(0);
-        setPrice(0);
-    }
-
-
-
     const update = async (event) => {
         event.preventDefault();
-        const data = {
-            id: id,
-            name: name,
-            category: category,
-            code: code,
-            expiration: expiration,
-            stock: stock,
-            cost: cost,
-            discount: discount,
-            price: price
-        };
-        console.log(data);
-        try {
-            const result = await API.graphql({
-                query: updateProductMutation,
-                variables: {
-                    input: data
-                }
-            });
-            if (result.errors) {
-                console.error("Errores de GraphQL:", result.errors);
-                alert("Ocurrieron errores al procesar la solicitud. Por favor, revisa los datos ingresados.");
-            } else {
-                alert("Producto actualizado exitosamente.");
-                window.location.reload(); // Recargar la página después de la actualización
-                setAll();
-            }
-        } catch (error) {
-            console.error("Error al realizar la operación GraphQL:", error);
-            alert("Ocurrió un error al procesar la solicitud. Por favor, intenta nuevamente más tarde.");
-        }
-    };
+        updateProduct(id, name, category, code, expiration, stock, cost, discount, price);
+    }
 
     const addProduct = async (product) => {
         try {
@@ -206,7 +160,8 @@ export function UpdateProduct({ currentPage, searchProducts, setSearchProducts }
                     </li>
                 </div>
                 <div className="col-span-8 text-center">
-                    <button className="hover:bg-[#2c3e19d8] px-6 py-2 border border-[#5c9c19d8] hover:text-white text-[#5c9c19d8] w-full rounded-md" onClick={update}>
+                    <button className="hover:bg-[#2c3e19d8] px-6 py-2 border border-[#5c9c19d8] hover:text-white text-[#5c9c19d8] w-full rounded-md"
+                    onClick={update}>
                         GUARDAR
                     </button>
                 </div>

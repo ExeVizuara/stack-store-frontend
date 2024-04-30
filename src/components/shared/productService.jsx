@@ -1,5 +1,6 @@
 import { generateClient } from "aws-amplify/api";
 import { listProducts } from "../../graphql/queries";
+import { updateProducts as updateProductMutation } from "../../graphql/mutations";
 
 export const loadProducts = async (currentPage) => {
     const API = generateClient();
@@ -13,3 +14,62 @@ export const loadProducts = async (currentPage) => {
         console.error('Error al cargar los productos:', error);
     }
 };
+
+export const updateProduct = async (id, name, category, code, expiration, stock, cost, discount, price) => {
+    const API = generateClient();
+    const data = {
+        id: id,
+        name: name,
+        category: category,
+        code: code,
+        expiration: expiration,
+        stock: stock,
+        cost: cost,
+        discount: discount,
+        price: price
+    };
+
+    try {
+        const result = await API.graphql({
+            query: updateProductMutation,
+            variables: {
+                input: data
+            }
+        });
+
+        if (result.errors) {
+            console.error("Errores de GraphQL:", result.errors);
+            alert("Ocurrieron errores al procesar la solicitud. Por favor, revisa los datos ingresados.");
+        } else {
+            alert("Producto actualizado exitosamente.");
+            window.location.reload(); // Recargar la página después de la actualización
+            // Si tienes una función setAll, puedes llamarla aquí para restablecer los valores del formulario
+        }
+    } catch (error) {
+        console.error("Error al realizar la operación GraphQL:", error);
+        alert("Ocurrió un error al procesar la solicitud. Por favor, intenta nuevamente más tarde.");
+    }
+};
+
+export const actualizeStock = async (products, stock) => {
+    const API = generateClient();
+    try {
+        // Realizar la consulta de actualización para cada producto en selectProduct
+        await products.map(async (product) => {
+            await API.graphql({
+                query: updateProductMutation,
+                variables: {
+                    input: {
+                        id: product.id,
+                        stock: stock[product.id],
+                    }
+                }
+            });
+        });
+    } catch (error) {
+        console.error('Error al realizar la operación de carga:', error);
+        // Manejar cualquier error que ocurra durante la actualización de los productos
+        // Puedes mostrar un mensaje de error o tomar otras medidas según sea necesario
+    }
+};
+
