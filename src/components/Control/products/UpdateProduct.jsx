@@ -89,7 +89,7 @@ export function UpdateProduct({ currentPage, searchProducts, setSearchProducts }
     };
 
     return (
-        <form onSubmit={add}>
+        <form onSubmit={addProduct}>
             <ul className="grid grid-cols-8 gap-4 px-10 sm:px-10 text-gray-400 xl:mt-16">
                 <div className="col-span-4 text-center">
                     <label className="text-lg xl:text-2xl">Busqueda de artículo: </label>
