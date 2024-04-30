@@ -89,7 +89,7 @@ export function UpdateProduct({ currentPage, searchProducts, setSearchProducts }
     };
 
     return (
-        <form>
+        <form onSubmit={add}>
             <ul className="grid grid-cols-8 gap-4 px-10 sm:px-10 text-gray-400 xl:mt-16">
                 <div className="col-span-4 text-center">
                     <label className="text-lg xl:text-2xl">Busqueda de artículo: </label>
@@ -160,8 +160,7 @@ export function UpdateProduct({ currentPage, searchProducts, setSearchProducts }
                     </li>
                 </div>
                 <div className="col-span-8 text-center">
-                    <button className="hover:bg-[#2c3e19d8] px-6 py-2 border border-[#5c9c19d8] hover:text-white text-[#5c9c19d8] w-full rounded-md"
-                    onClick={update}>
+                    <button type="submit" className="hover:bg-[#2c3e19d8] px-6 py-2 border border-[#5c9c19d8] hover:text-white text-[#5c9c19d8] w-full rounded-md">
                         GUARDAR
                     </button>
                 </div>
