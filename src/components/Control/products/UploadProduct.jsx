@@ -87,39 +87,39 @@ export function UploadProduct({ currentPage }) {
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Stock: </label>
-                        <input type="number" 
+                        <input type="text" 
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
                             onChange={(event) => {
-                                setStock(event.target.valueAsNumber);
+                                setStock(event.target.value);
                             }} 
                         />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Costo: </label>
-                        <input type="number" 
+                        <input type="text" 
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" 
                             onChange={(event) => {
-                                const value = event.target.valueAsNumber ?? 0;
+                                const value = event.target.value ?? 0;
                                 setCost(value);
                             }} 
                         />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Descuento: </label>
-                        <input type="number" 
+                        <input type="text" 
                             className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
                             onChange={(event) => {
-                                const value = event.target.valueAsNumber ?? 0;
+                                const value = event.target.value ?? 0;
                                 setDiscount(value);
                             }} 
                         />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Precio final: </label>
-                        <input type="number" 
+                        <input type="text" 
                             className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
                             onChange={(event) => {
-                                setPrice(event.target.valueAsNumber);
+                                setPrice(event.target.value);
                             }} 
                         />
                     </li>
