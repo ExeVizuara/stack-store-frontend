@@ -45,3 +45,37 @@ export const listProducts = /* GraphQL */ `
     }
   }
 `;
+export const getSales = /* GraphQL */ `
+  query GetSales($id: ID!) {
+    getSales(id: $id) {
+      id
+      product_name
+      product_category
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listSales = /* GraphQL */ `
+  query ListSales(
+    $filter: ModelSalesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSales(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        product_name
+        product_category
+        price
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;

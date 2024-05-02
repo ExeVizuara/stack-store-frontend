@@ -55,3 +55,42 @@ export const onDeleteProducts = /* GraphQL */ `
     }
   }
 `;
+export const onCreateSales = /* GraphQL */ `
+  subscription OnCreateSales($filter: ModelSubscriptionSalesFilterInput) {
+    onCreateSales(filter: $filter) {
+      id
+      product_name
+      product_category
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateSales = /* GraphQL */ `
+  subscription OnUpdateSales($filter: ModelSubscriptionSalesFilterInput) {
+    onUpdateSales(filter: $filter) {
+      id
+      product_name
+      product_category
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteSales = /* GraphQL */ `
+  subscription OnDeleteSales($filter: ModelSubscriptionSalesFilterInput) {
+    onDeleteSales(filter: $filter) {
+      id
+      product_name
+      product_category
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;

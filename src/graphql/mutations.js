@@ -64,3 +64,51 @@ export const deleteProducts = /* GraphQL */ `
     }
   }
 `;
+export const createSales = /* GraphQL */ `
+  mutation CreateSales(
+    $input: CreateSalesInput!
+    $condition: ModelSalesConditionInput
+  ) {
+    createSales(input: $input, condition: $condition) {
+      id
+      product_name
+      product_category
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateSales = /* GraphQL */ `
+  mutation UpdateSales(
+    $input: UpdateSalesInput!
+    $condition: ModelSalesConditionInput
+  ) {
+    updateSales(input: $input, condition: $condition) {
+      id
+      product_name
+      product_category
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteSales = /* GraphQL */ `
+  mutation DeleteSales(
+    $input: DeleteSalesInput!
+    $condition: ModelSalesConditionInput
+  ) {
+    deleteSales(input: $input, condition: $condition) {
+      id
+      product_name
+      product_category
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;

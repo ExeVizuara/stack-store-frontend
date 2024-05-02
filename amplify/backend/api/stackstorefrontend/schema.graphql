@@ -13,3 +13,10 @@ type Products @model @auth(rules: [{allow: public}]) {
   discount: Int
   price: Int!
 } 
+
+type Sales @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  product_name: String!
+  product_category: String!
+  price: Int!
+} 
