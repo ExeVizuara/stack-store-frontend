@@ -4,11 +4,11 @@ import { ItemDescription } from "./ItemDescription";
 import { RiSearch2Line } from "react-icons/ri";
 import { FindContent } from "./FindContent";
 import { PrintReceipt } from "./PrintReceip";
-import { actualizeStock, loadProducts } from "../shared/ProductService";
+import { actualizeStock } from "../shared/ProductService";
 import { searchName } from "../shared/searchName";
 import { addSale } from "../shared/SalesService";
 
-export function SaleSection({ searchProducts, setSearchProducts, search, setSearch }) {
+export function SaleSection({ allProducts, searchProducts, setSearchProducts, search, setSearch }) {
 
     const [products, setProducts] = useState([]);
     const [selectProduct, setSelectProduct] = useState([]);
@@ -22,9 +22,9 @@ export function SaleSection({ searchProducts, setSearchProducts, search, setSear
     let results = [];
     
     const searchItem = async () => {
-        const allProducts = await loadProducts();
+        const products = await allProducts;
         setSearchProducts(true);
-        setProducts(allProducts);
+        setProducts(products);
     }
 
     const handleFind = (e) => {
@@ -112,7 +112,7 @@ export function SaleSection({ searchProducts, setSearchProducts, search, setSear
                         <div className="col-span-3 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
                             <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
                             <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" value={search} placeholder="NOMBRE" onChange={handleFind} onClick={searchItem} />
-                            {searchProducts && <FindContent products={filteredProducts} addProduct={addProduct} />}
+                            {searchProducts && <FindContent products={!filteredProducts ? products : filteredProducts} addProduct={addProduct} />}
                         </div>
                         <div className="col-span-3 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
                             <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />

@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { generateClient } from "aws-amplify/api";
 import { RiSearch2Line } from "react-icons/ri";
 import { FindContent } from "../../Sale/FindContent";
-import { loadProducts, updateProduct } from "../../shared/ProductService";
+import { updateProduct } from "../../shared/ProductService";
 import { searchName } from "../../shared/searchName";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,14 +10,12 @@ import { es } from 'date-fns/locale/es';
 registerLocale('es', es)
 setDefaultLocale('es');
 
-export function UpdateProduct({ currentPage, searchProducts, setSearchProducts, search, setSearch }) {
-
-    const API = generateClient();
+export function UpdateProduct({ allProducts, currentPage, searchProducts, setSearchProducts, search, setSearch }) {
 
     const [products, setProducts] = useState([]);
     const [selectProduct, setSelectProduct] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
-    const [id, setId] = useState();
+    const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [category, setCategory] = useState(currentPage);
     const [code, setCode] = useState("");
@@ -30,13 +27,24 @@ export function UpdateProduct({ currentPage, searchProducts, setSearchProducts, 
     let results = [];
 
     useEffect(() => {
-        loadProducts();
-    }, [currentPage]);
+        setId("");
+        setName("");
+        setCategory(currentPage);
+        setCode("");
+        setExpiration("");
+        setStock(0);
+        setCost(0);
+        setDiscount(0);
+        setPrice(0);
+        setSelectProduct([]);
+        setSearchProducts(false);
+        results = [];
+    }, []);
 
     const searchItem = async () => {
-        const allProducts = await loadProducts();
+        const productsList = await allProducts;
         setSearchProducts(true);
-        handlePageChange(currentPage, allProducts);
+        handlePageChange(currentPage, productsList);
     }
 
     const handleFind = (e) => {
@@ -52,13 +60,13 @@ export function UpdateProduct({ currentPage, searchProducts, setSearchProducts, 
         const lowercaseCategory = category.toLowerCase();
         const results = await prod.filter((data) => data.category.toLowerCase().includes(lowercaseCategory));
         if (!results) {
-          console.log("NO HAY PRODUCTOS");
-          setProducts([]);
+            console.log("NO HAY PRODUCTOS");
+            setProducts([]);
         } else {
-          setProducts(results);
-          console.log(results);
+            setProducts(results);
+            console.log(results);
         }
-      };
+    };
 
     const update = async (event) => {
         event.preventDefault();
@@ -92,7 +100,7 @@ export function UpdateProduct({ currentPage, searchProducts, setSearchProducts, 
                 </div>
                 <div className="col-span-4 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
                     <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
-                    <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" value={search} placeholder="NOMBRE" onChange={handleFind} onClick={searchItem} />
+                    <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" value={search ? search : ""} placeholder="NOMBRE" onChange={handleFind} onClick={searchItem} />
                     {searchProducts && <FindContent products={filteredProducts} addProduct={addProduct} />}
                 </div>
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
@@ -132,26 +140,26 @@ export function UpdateProduct({ currentPage, searchProducts, setSearchProducts, 
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Stock: </label>
-                        <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={stock} onChange={(event) => {
-                            setStock(event.target.valueAsNumber);
+                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={stock} onChange={(event) => {
+                            setStock(event.target.value);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Costo: </label>
-                        <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={cost} onChange={(event) => {
-                            setCost(event.target.valueAsNumber);
+                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={cost} onChange={(event) => {
+                            setCost(event.target.value);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Descuento: </label>
-                        <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={discount} onChange={(event) => {
-                            setDiscount(event.target.valueAsNumber);
+                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={discount} onChange={(event) => {
+                            setDiscount(event.target.value);
                         }} />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Precio final: </label>
-                        <input type="number" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={price} onChange={(event) => {
-                            setPrice(event.target.valueAsNumber);
+                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={price} onChange={(event) => {
+                            setPrice(event.target.value);
                         }} />
                     </li>
                 </div>

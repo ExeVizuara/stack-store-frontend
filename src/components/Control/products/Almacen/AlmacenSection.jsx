@@ -4,9 +4,8 @@ import { ProductList } from "../ProductList";
 import { UploadProduct } from "../UploadProduct";
 import { UpdateProduct } from "../UpdateProduct";
 import { generateClient } from "aws-amplify/api";
-import { loadProducts } from "../../../shared/ProductService";
 
-export function AlmacenSection({ cat, searchProducts, setSearchProducts, search, setSearch }) {
+export function AlmacenSection({ allProducts, cat, searchProducts, setSearchProducts, search, setSearch }) {
 
   const [productList, setProductList] = useState([]);
   const [currentCategory, setCurrentCategory] = useState('List');
@@ -19,8 +18,9 @@ export function AlmacenSection({ cat, searchProducts, setSearchProducts, search,
 
   const getProducts = async () => {
     try {
-      const allProducts = await loadProducts();
-      handlePageChange(cat, allProducts);
+      const products = await allProducts;
+      let category = await cat;
+      handlePageChange(category, products);
     } catch (error) {
       console.error('Error al obtener productos:', error);
     }
@@ -47,8 +47,8 @@ export function AlmacenSection({ cat, searchProducts, setSearchProducts, search,
     <>
       <NavbarProducts onCategoryChange={handleCategoryChange} />
         {currentCategory === 'List' && <ProductList productList={productList} />}
-        {currentCategory === 'Upload' && <UploadProduct currentPage={page} />}
-        {currentCategory === 'Update' && <UpdateProduct currentPage={page} searchProducts={searchProducts} setSearchProducts={ setSearchProducts } search={search} setSearch={setSearch} />}
+        {currentCategory === 'Upload' && <UploadProduct allProducts={allProducts} currentPage={page} />}
+        {currentCategory === 'Update' && <UpdateProduct allProducts={allProducts} currentPage={page} searchProducts={searchProducts} setSearchProducts={ setSearchProducts } search={search} setSearch={setSearch} />}
     </>
   );
 };

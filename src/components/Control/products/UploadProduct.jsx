@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { addProduct } from "../../shared/ProductService";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -18,6 +18,19 @@ export function UploadProduct({ currentPage }) {
     const [cost, setCost] = useState(0);
     const [discount, setDiscount] = useState(0);
     const [price, setPrice] = useState(0);
+
+    useEffect(() => {
+        setId("");
+        setName("");
+        setCategory(currentPage);
+        setCode("");
+        setExpiration("");
+        setStock(0);
+        setCost(0);
+        setDiscount(0);
+        setPrice(0);
+    }, []);
+
 
     const add = (event) => {
         event.preventDefault();
@@ -63,8 +76,10 @@ export function UploadProduct({ currentPage }) {
                             isClearable
                             dateFormat="dd/MM/yyyy"
                             onChange={(date) => {
-                                const formattedDate = date.toISOString().split('T')[0];
-                                setExpiration(formattedDate);
+                                if (date) {
+                                    const formattedDate = date.toISOString().split('T')[0];
+                                    setExpiration(formattedDate);
+                                } else { setExpiration("") }
                             }} 
                         />
                     </li>

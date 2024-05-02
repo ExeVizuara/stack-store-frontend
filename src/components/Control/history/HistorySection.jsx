@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { loadSales } from "../../shared/SalesService";
 import { HistoryNav } from "./HistoryNav";
 import { HistoryItem } from "./HistoryItem";
 
-export function HistorySection() {
+export function HistorySection({allSales}) {
 
   const currentDate = new Date();
   const year = currentDate.getFullYear();
@@ -18,8 +17,8 @@ export function HistorySection() {
 
   const getSales = async () => {
     try {
-      const allSales = await loadSales();
-      DailySale(allSales);
+      const sales = await allSales;
+      DailySale(sales);
     } catch (error) {
       console.error('Error al obtener productos:', error);
     }
