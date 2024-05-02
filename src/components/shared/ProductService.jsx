@@ -43,7 +43,6 @@ export const addProduct = async (name, category, code, expiration, stock, cost, 
         } else {
             alert("Producto registrado exitosamente.");
             window.location.reload();
-            setAll();
         }
     } catch (error) {
         // Manejar errores de red u otros errores de la operación GraphQL

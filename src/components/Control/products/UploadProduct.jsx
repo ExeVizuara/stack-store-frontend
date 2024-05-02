@@ -9,6 +9,7 @@ setDefaultLocale('es');
 
 export function UploadProduct({ currentPage }) {
 
+    const [id, setId] = useState();
     const [name, setName] = useState("");
     const [category, setCategory] = useState(currentPage);
     const [code, setCode] = useState("");
