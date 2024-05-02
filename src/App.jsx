@@ -18,6 +18,7 @@ function CustomApp({ signOut }) {
   const [showMenu, setShowMenu] = useState(false);
   const [searchProducts, setSearchProducts] = useState(false);
   const [openList, setOpenList] = useState(false);
+  const [search, setSearch] = useState("");
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -49,7 +50,7 @@ function CustomApp({ signOut }) {
   };
 
   const handleOutSide = () => {
-    searchProducts && setSearchProducts(false);
+    !search && setSearchProducts(false);
   }
 
 
@@ -61,7 +62,7 @@ function CustomApp({ signOut }) {
         <div className="bg-[#262837] w-full h-full mb-16" onClick={handleOutSide}>
           <Sidebar showMenu={showMenu} onItemClick={selectedOption} activatedCats={currentCategory} logOut={signOut} />
           <MobileMain onItemClick={toggleMenu} showMenu={showMenu} />
-          <MainContent selectedCat={currentCategory} searchProducts={ searchProducts} setSearchProducts={setSearchProducts}/>
+          <MainContent selectedCat={currentCategory} searchProducts={ searchProducts} setSearchProducts={setSearchProducts} search={search} setSearch={setSearch} />
         </div>
       )}
     </>

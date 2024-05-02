@@ -3,6 +3,7 @@ import { generateClient } from "aws-amplify/api";
 import { RiSearch2Line } from "react-icons/ri";
 import { FindContent } from "../../Sale/FindContent";
 import { loadProducts, updateProduct } from "../../shared/ProductService";
+import { searchName } from "../../shared/searchName";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
@@ -10,13 +11,13 @@ import { es } from 'date-fns/locale/es';
 registerLocale('es', es)
 setDefaultLocale('es');
 
-export function UpdateProduct({ currentPage, searchProducts, setSearchProducts }) {
+export function UpdateProduct({ currentPage, searchProducts, setSearchProducts, search, setSearch }) {
 
     const API = generateClient();
 
     const [products, setProducts] = useState([]);
-    const [search, setSearch] = useState("");
     const [selectProduct, setSelectProduct] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
     const [id, setId] = useState();
     const [name, setName] = useState("");
     const [category, setCategory] = useState(currentPage);
@@ -32,37 +33,32 @@ export function UpdateProduct({ currentPage, searchProducts, setSearchProducts }
         loadProducts();
     }, [currentPage]);
 
-    const handleFind = (e) => {
-        setSearch(e.target.value);
-        console.log(e.target.value);
-    };
-
     const searchItem = async () => {
-        setSearchProducts(true);
         const allProducts = await loadProducts();
+        setSearchProducts(true);
         handlePageChange(currentPage, allProducts);
     }
 
+    const handleFind = (e) => {
+        if (e.target.value) {
+            setSearch(e.target.value);
+            results = searchName(products, e.target.value);
+            setFilteredProducts(results);
+        } else { setSearch("") }
+        console.log(results);
+    };
+
     const handlePageChange = async (category, prod) => {
         const lowercaseCategory = category.toLowerCase();
-        const results = prod.filter((data) => data.category.toLowerCase().includes(lowercaseCategory));
+        const results = await prod.filter((data) => data.category.toLowerCase().includes(lowercaseCategory));
         if (!results) {
-          console.log("NO HAY PRODUCTOS")
+          console.log("NO HAY PRODUCTOS");
           setProducts([]);
         } else {
-          setProducts(results)
+          setProducts(results);
           console.log(results);
         }
       };
-
-    if (!search) {
-        results = products;
-        console.log(products);
-    } else {
-        results = products.filter((data) =>
-            data.name.toLowerCase().includes(search.toLocaleLowerCase()));
-        console.log(results);
-    }
 
     const update = async (event) => {
         event.preventDefault();
@@ -96,8 +92,8 @@ export function UpdateProduct({ currentPage, searchProducts, setSearchProducts }
                 </div>
                 <div className="col-span-4 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
                     <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
-                    <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" value={search ? search : ""} placeholder="NOMBRE" onChange={handleFind} onClick={searchItem} />
-                    {searchProducts && <FindContent products={results} addProduct={addProduct} />}
+                    <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" value={search} placeholder="NOMBRE" onChange={handleFind} onClick={searchItem} />
+                    {searchProducts && <FindContent products={filteredProducts} addProduct={addProduct} />}
                 </div>
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <li className="flex flex-col">

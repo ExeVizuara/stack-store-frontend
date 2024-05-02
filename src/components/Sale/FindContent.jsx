@@ -15,7 +15,7 @@ export function FindContent({ products, addProduct }) {
         <div className="absolute flex flex-col items-center justify-center bg-slate-200 rounded-md z-10 text-slate-500 h-auto max-h-[300px]">
                 <ul className="overflow-y-auto overflow-x-auto">
                     { products.map((product) => (
-                        <li className="hover:bg-slate-300 w-full px-10 py-1 cursor-pointer" 
+                        <li className="hover:bg-slate-300 w-full px-10 py-1 cursor-pointer text-lg" 
                             key={product.id} 
                             onClick={() => EvaluateStock(product)}>
                             {product.name} ({product.stock}) 

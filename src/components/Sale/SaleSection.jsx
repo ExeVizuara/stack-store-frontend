@@ -1,41 +1,39 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import { TitleSection } from "../shared/TitleSection";
 import { ItemDescription } from "./ItemDescription";
 import { RiSearch2Line } from "react-icons/ri";
 import { FindContent } from "./FindContent";
 import { PrintReceipt } from "./PrintReceip";
-import { generateClient } from "aws-amplify/api";
 import { actualizeStock, loadProducts } from "../shared/ProductService";
+import { searchName } from "../shared/searchName";
+import { addSale } from "../shared/SalesService";
 
-export function SaleSection({ searchProducts, setSearchProducts }) {
+export function SaleSection({ searchProducts, setSearchProducts, search, setSearch }) {
 
     const [products, setProducts] = useState([]);
     const [selectProduct, setSelectProduct] = useState([]);
     const [initialStocks, setInitialStocks] = useState({});
+    const [quantity, setQuantity] = useState({});
     const [newStock, setNewStock] = useState(0);
-    const [search, setSearch] = useState("");
+    const [filteredProducts, setFilteredProducts] = useState([]);
     const [total, setTotal] = useState(0);
     const [printReceipt, setPrintReceipt] = useState(false);
     const [printTicket, setPrintTicket] = useState({ ticket: null });
-    const API = generateClient();
-
-    const handleFind = (e) => {
-        setSearch(e.target.value);
-        console.log(e.target.value);
-    };
-
+    let results = [];
+    
     const searchItem = async () => {
-        setSearchProducts(true);
         const allProducts = await loadProducts();
+        setSearchProducts(true);
         setProducts(allProducts);
     }
 
-    let results = [];
-    if (!search) {
-        results = products;
-    } else {
-        results = products.filter((data) =>
-            data.name.toLowerCase().includes(search.toLocaleLowerCase()));
+    const handleFind = (e) => {
+        if (e.target.value) {
+            setSearch(e.target.value);
+            results = searchName(products, e.target.value);
+            setFilteredProducts(results);
+        } else { setSearch("") }
+        console.log(results);
     }
 
     const storeInitialStock = async (productId, stock, price, product) => {
@@ -56,11 +54,9 @@ export function SaleSection({ searchProducts, setSearchProducts }) {
                 alert("No hay stock disponible de ese producto!");
                 return searchItem();
             }
-            // Verificar si existe un valor inicial para el stock del producto
             if (!initialStocks.hasOwnProperty(product.id)) {
                 await storeInitialStock(product.id, product.stock-1, product.price, product);
             } else {
-                // Verificar si ya se utilizó todo el stock del producto
                 if (initialStocks[product.id] === 0) {
                     return alert("No hay stock disponible de ese producto!");
                 }
@@ -91,6 +87,7 @@ export function SaleSection({ searchProducts, setSearchProducts }) {
     const chargeProducts = async () => {
         setPrintReceipt(!printReceipt);
         await actualizeStock(selectProduct, initialStocks);
+        await addSale(selectProduct);
     }
 
     const quit = () => {
@@ -115,7 +112,7 @@ export function SaleSection({ searchProducts, setSearchProducts }) {
                         <div className="col-span-3 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
                             <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
                             <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" value={search} placeholder="NOMBRE" onChange={handleFind} onClick={searchItem} />
-                            {searchProducts && <FindContent products={results} addProduct={addProduct} />}
+                            {searchProducts && <FindContent products={filteredProducts} addProduct={addProduct} />}
                         </div>
                         <div className="col-span-3 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
                             <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />

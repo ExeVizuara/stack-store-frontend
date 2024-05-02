@@ -4,14 +4,14 @@ import { HomeSection } from "../Home/HomeSection";
 import { React } from "react";
 import { SaleSection } from "../Sale/SaleSection";
 
-export function MainContent({ selectedCat, searchProducts, setSearchProducts }) {
+export function MainContent({ selectedCat, searchProducts, setSearchProducts, search, setSearch }) {
 
     return (
         
         <main className="lg:pl-24 grid grid-cols-1 xl:grid-cols-8 py-2 md:px-4 xl:pb-5 h-[785px]">
             {selectedCat === 'Home' && <HomeSection />}
-            {selectedCat === 'Ventas' && <SaleSection searchProducts={ searchProducts } setSearchProducts={ setSearchProducts }/>}
-            {selectedCat === 'Control' && <ControlSection searchProducts={ searchProducts } setSearchProducts={ setSearchProducts }/>}
+            {selectedCat === 'Ventas' && <SaleSection searchProducts={ searchProducts } setSearchProducts={ setSearchProducts } search={search} setSearch={setSearch}/>}
+            {selectedCat === 'Control' && <ControlSection searchProducts={ searchProducts } setSearchProducts={ setSearchProducts } search={search} setSearch={setSearch}/>}
             <HistorySection />
         </main>
     );

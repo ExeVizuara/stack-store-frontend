@@ -6,7 +6,7 @@ import { UpdateProduct } from "../UpdateProduct";
 import { generateClient } from "aws-amplify/api";
 import { loadProducts } from "../../../shared/ProductService";
 
-export function AlmacenSection({ cat, searchProducts, setSearchProducts }) {
+export function AlmacenSection({ cat, searchProducts, setSearchProducts, search, setSearch }) {
 
   const [productList, setProductList] = useState([]);
   const [currentCategory, setCurrentCategory] = useState('List');
@@ -48,7 +48,7 @@ export function AlmacenSection({ cat, searchProducts, setSearchProducts }) {
       <NavbarProducts onCategoryChange={handleCategoryChange} />
         {currentCategory === 'List' && <ProductList productList={productList} />}
         {currentCategory === 'Upload' && <UploadProduct currentPage={page} />}
-        {currentCategory === 'Update' && <UpdateProduct currentPage={page} searchProducts={searchProducts} setSearchProducts={ setSearchProducts }/>}
+        {currentCategory === 'Update' && <UpdateProduct currentPage={page} searchProducts={searchProducts} setSearchProducts={ setSearchProducts } search={search} setSearch={setSearch} />}
     </>
   );
 };
