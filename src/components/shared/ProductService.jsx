@@ -55,6 +55,7 @@ export const addProduct = async (name, category, code, expiration, stock, cost, 
 
 
 export const updateProduct = async (id, name, category, code, expiration, stock, cost, discount, price) => {
+    const API = generateClient();
     const data = {
         id: id,
         name: name,
