@@ -4,7 +4,6 @@ import { MobileMain } from "./components/shared/MobileMain";
 import { Sidebar } from "./components/shared/Sidebar";
 import "@aws-amplify/ui-react/styles.css";
 import { useAuthenticator, withAuthenticator, Authenticator } from '@aws-amplify/ui-react';
-import { generateClient } from "aws-amplify/api";
 import { loadProducts } from "./components/shared/ProductService";
 import { loadSales } from "./components/shared/SalesService";
 
@@ -20,10 +19,8 @@ function App({signOut}) {
 
 function CustomApp({ signOut }) {
 
-  const API = generateClient();
   const [showMenu, setShowMenu] = useState(false);
   const [searchProducts, setSearchProducts] = useState(false);
-  const [openList, setOpenList] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
   const [allSales, setallSales] = useState([]);
   const [search, setSearch] = useState("");
@@ -77,7 +74,8 @@ function CustomApp({ signOut }) {
         <div className="bg-[#262837] w-full h-full mb-16" onClick={handleOutSide}>
           <Sidebar showMenu={showMenu} onItemClick={selectedOption} activatedCats={currentCategory} logOut={signOut} />
           <MobileMain onItemClick={toggleMenu} showMenu={showMenu} />
-          <MainContent allProducts={allProducts}
+          <MainContent 
+            allProducts={allProducts}
             allSales={allSales}
             selectedCat={currentCategory} 
             searchProducts={ searchProducts} 

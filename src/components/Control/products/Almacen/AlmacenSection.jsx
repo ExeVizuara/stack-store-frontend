@@ -27,7 +27,7 @@ export function AlmacenSection({ allProducts, cat, searchProducts, setSearchProd
   };
 
   const handlePageChange = async (category, prod) => {
-    const lowercaseCategory = await category.toLowerCase();
+    const lowercaseCategory = category.toLowerCase();
     const results = prod.filter((data) => data.category.toLowerCase().includes(lowercaseCategory));
     if (!results) {
       console.log("NO HAY PRODUCTOS")

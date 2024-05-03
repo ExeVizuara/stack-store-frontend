@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { addProduct } from "../../shared/ProductService";
+import { addProduct, loadProducts } from "../../shared/ProductService";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
@@ -9,32 +9,48 @@ setDefaultLocale('es');
 
 export function UploadProduct({ currentPage }) {
 
-    const [id, setId] = useState();
-    const [name, setName] = useState("");
-    const [category, setCategory] = useState(currentPage);
-    const [code, setCode] = useState("");
+    const [newProduct, setNewProduct] = useState({});
+    const [allProducts, setAllProducts] = useState([]);
     const [expiration, setExpiration] = useState("");
-    const [stock, setStock] = useState(0);
-    const [cost, setCost] = useState(0);
-    const [discount, setDiscount] = useState(0);
-    const [price, setPrice] = useState(0);
+
+    const getAllProducts = async () => {
+        setAllProducts([loadProducts]);
+    }
 
     useEffect(() => {
-        setId("");
-        setName("");
-        setCategory(currentPage);
-        setCode("");
-        setExpiration("");
-        setStock(0);
-        setCost(0);
-        setDiscount(0);
-        setPrice(0);
+        getAllProducts();
     }, []);
 
+    const handleChange = (e) => {
+        setNewProduct({
+            ...newProduct,
+            [e.target.name]: e.target.value
+        });
+    }
 
-    const add = (event) => {
+    const add = async (event) => {
         event.preventDefault();
-        addProduct(name, category, code, expiration, stock, cost, discount, price);
+        addProduct({
+            name: newProduct.name, 
+            category: currentPage, 
+            code: newProduct.code, 
+            expiration: expiration, 
+            stock: newProduct.stock, 
+            cost: newProduct.cost, 
+            discount: newProduct.discount, 
+            price: newProduct.price
+        });
+        setAllProducts([...allProducts, newProduct]);
+        setNewProduct({
+            name: "",
+            category: "",
+            code: "",
+            expiration: "",
+            stock: "",
+            cost: "",
+            discount: "",
+            price: ""
+        })
     }
 
     return (
@@ -43,28 +59,32 @@ export function UploadProduct({ currentPage }) {
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Nombre: </label>
-                        <input type="text" 
+                        <input 
+                            type="text" 
+                            name="name"
+                            value={newProduct.name}
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" 
-                            onChange={(event) => {
-                                setName(event.target.value);
-                            }}
+                            onChange={handleChange}
                         />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Categoría: </label>
-                        <input type="text" 
-                            required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
+                        <input 
+                            type="text" 
+                            name="category"
                             value={currentPage} 
+                            required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
                             readOnly 
                         />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Código: </label>
-                        <input type="text" 
+                        <input 
+                            type="text" 
+                            name="code"
+                            value={newProduct.code}
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
-                            onChange={(event) => {
-                                setCode(event.target.value);
-                            }}
+                            onChange={handleChange}
                         />
                     </li>
                     <li className="flex flex-col">
@@ -87,40 +107,42 @@ export function UploadProduct({ currentPage }) {
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Stock: </label>
-                        <input type="text" 
+                        <input 
+                            type="text" 
+                            name="stock"
+                            value={newProduct.stock}
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
-                            onChange={(event) => {
-                                setStock(event.target.value);
-                            }} 
+                            onChange={handleChange} 
                         />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Costo: </label>
-                        <input type="text" 
+                        <input 
+                            type="text" 
+                            name="cost"
+                            value={newProduct.cost}
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" 
-                            onChange={(event) => {
-                                const value = event.target.value ?? 0;
-                                setCost(value);
-                            }} 
+                            onChange={handleChange}
                         />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Descuento: </label>
-                        <input type="text" 
+                        <input 
+                            type="text" 
+                            name="discount"
+                            value={newProduct.discount}
                             className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
-                            onChange={(event) => {
-                                const value = event.target.value ?? 0;
-                                setDiscount(value);
-                            }} 
+                            onChange={handleChange}
                         />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Precio final: </label>
-                        <input type="text" 
+                        <input 
+                            type="text" 
+                            name="price"
+                            value={newProduct.price}
                             className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
-                            onChange={(event) => {
-                                setPrice(event.target.value);
-                            }} 
+                            onChange={handleChange} 
                         />
                     </li>
                 </div>

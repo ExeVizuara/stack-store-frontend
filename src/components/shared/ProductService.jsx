@@ -3,30 +3,29 @@ import { listProducts } from "../../graphql/queries";
 import { updateProducts as updateProductMutation } from "../../graphql/mutations";
 import { createProducts as createProductMutation } from "../../graphql/mutations";
 
-export const loadProducts = async (currentPage) => {
+export const loadProducts = async () => {
     const API = generateClient();
-    const page = currentPage;
-
     try {
         const apiData = await API.graphql({ query: listProducts });
         const productsFromAPI = apiData.data.listProducts.items;
+        console.log(productsFromAPI);
         return productsFromAPI;
     } catch (error) {
         console.error('Error al cargar los productos:', error);
     }
 };
 
-export const addProduct = async (name, category, code, expiration, stock, cost, discount, price) => {
+export const addProduct = async (product) => {
     const API = generateClient();
     const data = {
-        name: name,
-        category: category,
-        code: code,
-        expiration: expiration,
-        stock: stock,
-        cost: cost,
-        discount: discount,
-        price: price
+        name: product.name,
+        category: product.category,
+        code: product.code,
+        expiration: product.expiration,
+        stock: product.stock,
+        cost: product.cost,
+        discount: product.discount,
+        price: product.price
     };
     console.log(data);
     try {
@@ -36,13 +35,13 @@ export const addProduct = async (name, category, code, expiration, stock, cost, 
                 input: data
             }
         });
+        loadProducts();
         // Verificar si hay errores en la respuesta GraphQL
         if (result.errors) {
             console.error("Errores de GraphQL:", result.errors);
             alert("Ocurrieron errores al procesar la solicitud. Por favor, revisa los datos ingresados.");
         } else {
             alert("Producto registrado exitosamente.");
-            window.location.reload();
         }
     } catch (error) {
         // Manejar errores de red u otros errores de la operación GraphQL
