@@ -4,7 +4,7 @@ import { MobileMain } from "./components/shared/MobileMain";
 import { Sidebar } from "./components/shared/Sidebar";
 import "@aws-amplify/ui-react/styles.css";
 import { useAuthenticator, withAuthenticator, Authenticator } from '@aws-amplify/ui-react';
-import { loadProducts } from "./components/shared/ProductService";
+//import { loadProducts } from "./components/shared/ProductService";
 import { loadSales } from "./components/shared/SalesService";
 
 
@@ -26,10 +26,6 @@ function CustomApp({ signOut }) {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const products = loadProducts;
-    const sales = loadSales;
-    setAllProducts(products);
-    setallSales(sales);
   }, []);
 
   const toggleMenu = () => {

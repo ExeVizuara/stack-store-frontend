@@ -10,7 +10,7 @@ import { es } from 'date-fns/locale/es';
 registerLocale('es', es)
 setDefaultLocale('es');
 
-export function UpdateProduct({ allProducts, currentPage, searchProducts, setSearchProducts, search, setSearch }) {
+export function UpdateProduct({ productList, currentPage, searchProducts, setSearchProducts, search, setSearch }) {
 
     const [products, setProducts] = useState([]);
     const [selectProduct, setSelectProduct] = useState([]);
@@ -42,7 +42,7 @@ export function UpdateProduct({ allProducts, currentPage, searchProducts, setSea
     }, []);
 
     const searchItem = async () => {
-        const productsList = await allProducts;
+        const productsList = await productList;
         setSearchProducts(true);
         handlePageChange(currentPage, productsList);
     }

@@ -1,14 +1,14 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { TitleSection } from "../shared/TitleSection";
 import { ItemDescription } from "./ItemDescription";
 import { RiSearch2Line } from "react-icons/ri";
 import { FindContent } from "./FindContent";
 import { PrintReceipt } from "./PrintReceip";
-import { actualizeStock } from "../shared/ProductService";
+import { actualizeStock, loadAllProducts } from "../shared/ProductService";
 import { searchName } from "../shared/searchName";
 import { addSale } from "../shared/SalesService";
 
-export function SaleSection({ allProducts, searchProducts, setSearchProducts, search, setSearch }) {
+export function SaleSection({ searchProducts, setSearchProducts, search, setSearch }) {
 
     const [products, setProducts] = useState([]);
     const [selectProduct, setSelectProduct] = useState([]);
@@ -21,10 +21,16 @@ export function SaleSection({ allProducts, searchProducts, setSearchProducts, se
     const [printTicket, setPrintTicket] = useState({ ticket: null });
     let results = [];
     
+    useEffect(() => {
+        const loadProducts = async () => {
+            const productList = await loadAllProducts();
+            setProducts(productList);
+        }
+        loadProducts();
+    }, []);
+
     const searchItem = async () => {
-        const products = await allProducts;
         setSearchProducts(true);
-        setProducts(products);
     }
 
     const handleFind = (e) => {

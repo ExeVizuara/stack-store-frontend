@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { addProduct, loadProducts } from "../../shared/ProductService";
+import { addProduct } from "../../shared/ProductService";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
@@ -7,17 +7,17 @@ import { es } from 'date-fns/locale/es';
 registerLocale('es', es)
 setDefaultLocale('es');
 
-export function UploadProduct({ currentPage }) {
+export function UploadProduct({ productList, currentPage }) {
 
     const [newProduct, setNewProduct] = useState({});
     const [allProducts, setAllProducts] = useState([]);
     const [expiration, setExpiration] = useState("");
 
-    const getAllProducts = async () => {
-        setAllProducts([loadProducts]);
-    }
-
     useEffect(() => {
+        const getAllProducts = async () => {
+            const productsList = await productList;
+            setAllProducts(productsList);
+        }
         getAllProducts();
     }, []);
 

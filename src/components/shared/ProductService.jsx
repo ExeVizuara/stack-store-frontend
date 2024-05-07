@@ -1,17 +1,53 @@
 import { generateClient } from "aws-amplify/api";
-import { listProducts } from "../../graphql/queries";
+import { listAllProducts, listProducts } from "../../graphql/queries";
 import { updateProducts as updateProductMutation } from "../../graphql/mutations";
 import { createProducts as createProductMutation } from "../../graphql/mutations";
 
-export const loadProducts = async () => {
+export const loadAllProducts = async () => {
     const API = generateClient();
     try {
-        const apiData = await API.graphql({ query: listProducts });
+        const allProducts = [];
+        let nextToken = null;
+        const limit = 100;
+    
+        do {
+            const apiData = await API.graphql({
+                query: listAllProducts,
+                variables: {
+                    limit,
+                    nextToken
+                }
+            });
+            
+            const products = apiData.data.listAllProducts.items;
+            allProducts.push(...products, products);
+            nextToken = apiData.data.listAllProducts.nextToken;
+        } while (nextToken);
+        
+        return allProducts;
+    } catch (error) {
+        console.error('Error al cargar todos los productos:', error);
+    }
+};
+
+export const loadProductsByCategory = async (category, limit, nextToken) => {
+    const API = generateClient();
+    try {
+        const apiData = await API.graphql({
+            query: listProducts,
+            variables: {
+                category: category,
+                limit: limit,
+                nextToken: nextToken
+            }
+        });
         const productsFromAPI = apiData.data.listProducts.items;
+        const newNextToken = apiData.data.listProducts.nextToken;
         console.log(productsFromAPI);
-        return productsFromAPI;
+        return { products: productsFromAPI, nextToken: newNextToken };
     } catch (error) {
         console.error('Error al cargar los productos:', error);
+        throw error;
     }
 };
 
@@ -35,7 +71,6 @@ export const addProduct = async (product) => {
                 input: data
             }
         });
-        loadProducts();
         // Verificar si hay errores en la respuesta GraphQL
         if (result.errors) {
             console.error("Errores de GraphQL:", result.errors);

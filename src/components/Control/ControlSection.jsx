@@ -1,11 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavbarSections } from "./NavbarSections";
 import { TitleSection } from "../shared/TitleSection";
 import { AlmacenSection } from "./products/Almacen/AlmacenSection";
+import { loadProductsByCategory } from "../../components/shared/ProductService";
+import { loadSales } from "../shared/SalesService";
 
-export function ControlSection({allProducts, setSearchProducts, searchProducts, search, setSearch}) {
+export function ControlSection({ setSearchProducts, searchProducts, search, setSearch }) {
 
     const [currentCategory, setCurrentCategory] = useState('Almacen');
+    const [productList, setProductList] = useState([]);
+    const [nextToken, setNextToken] = useState(null);
+    const [limit, setLimit] = useState(100);
+
+    useEffect(() => {
+        const loadProducts = async () => {
+            try {
+                const { products: loadedProducts, nextToken: loadedNextToken } = await loadProductsByCategory(currentCategory, limit, null);
+                setProductList(loadedProducts);
+                setNextToken(loadedNextToken);
+            } catch (error) {
+                console.error('Error al cargar los productos:', error);
+            }
+        };
+        loadProducts();
+    }, [currentCategory]);
 
     const handleCategoryChange = (category) => {
         setCurrentCategory(category);
@@ -21,7 +39,7 @@ export function ControlSection({allProducts, setSearchProducts, searchProducts, 
             </header>
             <div className="grid grid-cols-3 h-auto w-full mb-4 sm:px-2 xl:h-auto">
                 <div className="md:bg-[#1F1D2B] pt-4 sm:pb-8 sm:px-4 px-2 md:px-8 lg:px-8 lg:py-6 rounded-xl items-center text-center text-gray-300 col-span-3">
-                    <AlmacenSection allProducts={allProducts} cat={currentCategory} searchProducts={searchProducts} setSearchProducts={ setSearchProducts } search={search} setSearch={setSearch} />
+                    <AlmacenSection productsList={productList} cat={currentCategory} searchProducts={searchProducts} setSearchProducts={setSearchProducts} search={search} setSearch={setSearch} />
                 </div>
             </div>
         </div>

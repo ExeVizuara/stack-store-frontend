@@ -19,13 +19,22 @@ export const getProducts = /* GraphQL */ `
     }
   }
 `;
+
 export const listProducts = /* GraphQL */ `
   query ListProducts(
-    $filter: ModelProductsFilterInput
+    $category: String
     $limit: Int
     $nextToken: String
   ) {
-    listProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listProducts(
+      filter: {
+        category: {
+          contains: $category
+        }
+      }
+      limit: $limit
+      nextToken: $nextToken
+    ) {
       items {
         id
         name
@@ -45,6 +54,34 @@ export const listProducts = /* GraphQL */ `
     }
   }
 `;
+
+export const listAllProducts = /* GraphQL */ `
+  query ListAllProducts(
+    $filter: ModelSalesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAllProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        category
+        code
+        expiration
+        stock
+        cost
+        discount
+        price
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+
 export const getSales = /* GraphQL */ `
   query GetSales($id: ID!) {
     getSales(id: $id) {
