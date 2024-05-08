@@ -1,38 +1,38 @@
 import { useState, useEffect } from "react";
 import { HistoryNav } from "./HistoryNav";
 import { HistoryItem } from "./HistoryItem";
+import { currentTime } from "../../shared/Clock";
 
 export function HistorySection({allSales}) {
 
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth() + 1;
-  const day = currentDate.getDate();
-  const formattedDate = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
   const [salesList, setSalesList] = useState([]);
+  const [currentDateTime, setCurrentDateTime] = useState("");
 
   useEffect(() => {
+    const date = currentTime();
+    setCurrentDateTime(date);
     getSales();
   }, []);
 
   const getSales = async () => {
     try {
       const sales = await allSales;
-      DailySale(sales);
+      dailySale(sales);
     } catch (error) {
       console.error('Error al obtener productos:', error);
     }
   };
 
-  const DailySale = async (sales) => {
+  const dailySale = async (sales) => {
 
-    const results = sales.filter((data) => data.createdAt.includes(formattedDate));
+    const results = sales.filter((data) => data.createdAt.includes(currentDateTime));
     if (!results) {
       console.log("NO HAY VENTAS HOY")
       setSalesList([]);
     } else {
-      setSalesList(results)
-      console.log(results);
+      const sortedSales = results.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setSalesList(sortedSales)
+      console.log(sortedSales);
     }
   };
 
@@ -48,7 +48,7 @@ export function HistorySection({allSales}) {
           <div>
             {/* Product */}
             <div className="bg-[#262837] sm:p-4 rounded-xl overflow-y-auto overflow-x-auto">
-              <h4 className="text-center text-xs pl-1 border p-1 rounded-2xl border-gray-500">{formattedDate}</h4>
+              <h4 className="text-center text-xs pl-1 border p-1 rounded-2xl border-gray-500">{currentDateTime}</h4>
               {salesList.map((sale) => (
                 <HistoryItem key={sale.id} product_name={sale.product_name} price={sale.price} />
               ))}

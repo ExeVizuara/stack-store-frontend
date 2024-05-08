@@ -20,7 +20,8 @@ export const addSale = async (selectProduct) => {
         for (const product of selectProduct) {
             const saleData = {
                 product_name: product.name,
-                product_category: 1,
+                product_category: product.category,
+                product_date: date,
                 price: product.price,
             };
 

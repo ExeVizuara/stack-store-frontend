@@ -15,7 +15,7 @@ export function ProductList({ productList }) {
                     CODIGO
                 </li>
                 <li>
-                    VENCIMIENTO
+                    VENCE
                 </li>
                 <li>
                     STOCK
@@ -24,7 +24,7 @@ export function ProductList({ productList }) {
                     COSTO
                 </li>
                 <li>
-                    DESCUENTO
+                    DESC
                 </li>
                 <li>
                     PRECIO
@@ -35,6 +35,7 @@ export function ProductList({ productList }) {
                     <Product key={product.id} {...product} />
                 ))}
             </div>
+            <h3 className="flex flex-row justify-end">Total = {productList.length} productos</h3>
         </div>
     )
 };
