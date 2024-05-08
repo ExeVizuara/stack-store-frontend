@@ -1,51 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getProducts = /* GraphQL */ `
-  query GetProducts($id: ID!) {
-    getProducts(id: $id) {
-      id
-      name
-      category
-      code
-      expiration
-      stock
-      cost
-      discount
-      price
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-
-export const listProducts = /* GraphQL */ `
-  query ListProducts(
-    $limit: Int
-    $nextToken: String
-  ) {
-    listProducts( limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        category
-        code
-        expiration
-        stock
-        cost
-        discount
-        price
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-
 export const listProductsByCategory = /* GraphQL */ `
   query ListProductsByCategory(
     $category: String
@@ -76,14 +31,31 @@ export const listProductsByCategory = /* GraphQL */ `
     }
   }
 `;
-
-export const listAllProducts = /* GraphQL */ `
-  query ListAllProducts(
-    $filter: ModelSalesFilterInput
+export const getProducts = /* GraphQL */ `
+  query GetProducts($id: ID!) {
+    getProducts(id: $id) {
+      id
+      name
+      category
+      code
+      expiration
+      stock
+      cost
+      discount
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listProducts = /* GraphQL */ `
+  query ListProducts(
+    $filter: ModelProductsFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listAllProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name
@@ -103,13 +75,13 @@ export const listAllProducts = /* GraphQL */ `
     }
   }
 `;
-
 export const getSales = /* GraphQL */ `
   query GetSales($id: ID!) {
     getSales(id: $id) {
       id
       product_name
       product_category
+      product_date
       price
       createdAt
       updatedAt
@@ -128,6 +100,7 @@ export const listSales = /* GraphQL */ `
         id
         product_name
         product_category
+        product_date
         price
         createdAt
         updatedAt

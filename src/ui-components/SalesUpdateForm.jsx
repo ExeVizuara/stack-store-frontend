@@ -27,6 +27,7 @@ export default function SalesUpdateForm(props) {
   const initialValues = {
     product_name: "",
     product_category: "",
+    product_date: "",
     price: "",
   };
   const [product_name, setProduct_name] = React.useState(
@@ -34,6 +35,9 @@ export default function SalesUpdateForm(props) {
   );
   const [product_category, setProduct_category] = React.useState(
     initialValues.product_category
+  );
+  const [product_date, setProduct_date] = React.useState(
+    initialValues.product_date
   );
   const [price, setPrice] = React.useState(initialValues.price);
   const [errors, setErrors] = React.useState({});
@@ -43,6 +47,7 @@ export default function SalesUpdateForm(props) {
       : initialValues;
     setProduct_name(cleanValues.product_name);
     setProduct_category(cleanValues.product_category);
+    setProduct_date(cleanValues.product_date);
     setPrice(cleanValues.price);
     setErrors({});
   };
@@ -65,6 +70,7 @@ export default function SalesUpdateForm(props) {
   const validations = {
     product_name: [{ type: "Required" }],
     product_category: [{ type: "Required" }],
+    product_date: [{ type: "Required" }],
     price: [{ type: "Required" }],
   };
   const runValidationTasks = async (
@@ -95,6 +101,7 @@ export default function SalesUpdateForm(props) {
         let modelFields = {
           product_name,
           product_category,
+          product_date,
           price,
         };
         const validationResponses = await Promise.all(
@@ -158,6 +165,7 @@ export default function SalesUpdateForm(props) {
             const modelFields = {
               product_name: value,
               product_category,
+              product_date,
               price,
             };
             const result = onChange(modelFields);
@@ -184,6 +192,7 @@ export default function SalesUpdateForm(props) {
             const modelFields = {
               product_name,
               product_category: value,
+              product_date,
               price,
             };
             const result = onChange(modelFields);
@@ -200,6 +209,33 @@ export default function SalesUpdateForm(props) {
         {...getOverrideProps(overrides, "product_category")}
       ></TextField>
       <TextField
+        label="Product date"
+        isRequired={true}
+        isReadOnly={false}
+        value={product_date}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              product_name,
+              product_category,
+              product_date: value,
+              price,
+            };
+            const result = onChange(modelFields);
+            value = result?.product_date ?? value;
+          }
+          if (errors.product_date?.hasError) {
+            runValidationTasks("product_date", value);
+          }
+          setProduct_date(value);
+        }}
+        onBlur={() => runValidationTasks("product_date", product_date)}
+        errorMessage={errors.product_date?.errorMessage}
+        hasError={errors.product_date?.hasError}
+        {...getOverrideProps(overrides, "product_date")}
+      ></TextField>
+      <TextField
         label="Price"
         isRequired={true}
         isReadOnly={false}
@@ -214,6 +250,7 @@ export default function SalesUpdateForm(props) {
             const modelFields = {
               product_name,
               product_category,
+              product_date,
               price: value,
             };
             const result = onChange(modelFields);

@@ -73,6 +73,7 @@ export const createSales = /* GraphQL */ `
       id
       product_name
       product_category
+      product_date
       price
       createdAt
       updatedAt
@@ -89,6 +90,7 @@ export const updateSales = /* GraphQL */ `
       id
       product_name
       product_category
+      product_date
       price
       createdAt
       updatedAt
@@ -105,6 +107,7 @@ export const deleteSales = /* GraphQL */ `
       id
       product_name
       product_category
+      product_date
       price
       createdAt
       updatedAt
