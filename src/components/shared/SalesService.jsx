@@ -14,14 +14,14 @@ export const loadSales = async () => {
     }
 };
 
-export const addSale = async (selectProduct) => {
+export const addSale = async (selectProduct, currentDateTime) => {
     const API = generateClient();
     try {
         for (const product of selectProduct) {
             const saleData = {
                 product_name: product.name,
                 product_category: product.category,
-                product_date: date,
+                product_date: currentDateTime,
                 price: product.price,
             };
 

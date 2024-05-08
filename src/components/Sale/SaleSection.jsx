@@ -19,6 +19,7 @@ export function SaleSection({ searchProducts, setSearchProducts, search, setSear
     const [total, setTotal] = useState(0);
     const [printReceipt, setPrintReceipt] = useState(false);
     const [printTicket, setPrintTicket] = useState({ ticket: null });
+    const [currentTime, setCurrentTime] = useState("");
     let results = [];
 
     useEffect(() => {
@@ -92,9 +93,11 @@ export function SaleSection({ searchProducts, setSearchProducts, search, setSear
     }
 
     const chargeProducts = async () => {
+        const date = await currentTime();
+        setCurrentTime(date)
         setPrintReceipt(!printReceipt);
         await actualizeStock(selectProduct, initialStocks);
-        await addSale(selectProduct);
+        await addSale(selectProduct, currentTime);
     }
 
     const quit = () => {
