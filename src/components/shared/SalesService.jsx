@@ -24,19 +24,17 @@ export const addSale = async (selectProduct) => {
                 price: product.price,
             };
 
-            // Llamar a la función GraphQL mutation para crear el nuevo registro en la base de datos
             const result = await API.graphql({
-                query: createSalesMutation, // Reemplaza createSaleMutation con el nombre de tu mutación GraphQL
+                query: createSalesMutation,
                 variables: {
                     input: saleData
                 }
             });
 
-            // Verificar si hubo errores en la respuesta GraphQL
             if (result.errors) {
                 console.error("Errores de GraphQL:", result.errors);
                 alert("Ocurrieron errores al procesar la solicitud. Por favor, revisa los datos ingresados.");
-                return; // Salir de la función en caso de errores
+                return;
             }
         }
 

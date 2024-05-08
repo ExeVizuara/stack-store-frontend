@@ -8,8 +8,6 @@ export function ControlSection({ setSearchProducts, searchProducts, search, setS
 
     const [currentCategory, setCurrentCategory] = useState('Almacen');
     const [productList, setProductList] = useState([]);
-    const [nextToken, setNextToken] = useState(null);
-    const [limit, setLimit] = useState(100);
 
     useEffect(() => {
         const loadProducts = async () => {

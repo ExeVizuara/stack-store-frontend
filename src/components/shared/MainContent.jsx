@@ -10,8 +10,8 @@ export function MainContent({ allProducts, allSales, selectedCat, searchProducts
         
         <main className="lg:pl-24 grid grid-cols-1 xl:grid-cols-8 py-2 md:px-4 xl:pb-5 h-[785px]">
             {selectedCat === 'Home' && <HomeSection />}
-            {selectedCat === 'Ventas' && <SaleSection allProducts={allProducts} searchProducts={ searchProducts } setSearchProducts={ setSearchProducts } search={search} setSearch={setSearch}/>}
-            {selectedCat === 'Control' && <ControlSection allProducts={allProducts} searchProducts={ searchProducts } setSearchProducts={ setSearchProducts } search={search} setSearch={setSearch}/>}
+            {selectedCat === 'Ventas' && <SaleSection searchProducts={ searchProducts } setSearchProducts={ setSearchProducts } search={search} setSearch={setSearch}/>}
+            {selectedCat === 'Control' && <ControlSection searchProducts={ searchProducts } setSearchProducts={ setSearchProducts } search={search} setSearch={setSearch}/>}
             <HistorySection allSales={allSales}/>
         </main>
     );

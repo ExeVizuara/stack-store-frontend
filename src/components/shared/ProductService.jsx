@@ -1,5 +1,5 @@
 import { generateClient } from "aws-amplify/api";
-import { listProducts, listProductsByCategory } from "../../graphql/queries";
+import { listProducts } from "../../graphql/queries";
 import { updateProducts as updateProductMutation } from "../../graphql/mutations";
 import { createProducts as createProductMutation } from "../../graphql/mutations";
 

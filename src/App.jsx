@@ -26,6 +26,8 @@ function CustomApp({ signOut }) {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
+    const salesList = loadSales();
+    setallSales(salesList);
   }, []);
 
   const toggleMenu = () => {
