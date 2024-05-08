@@ -53,6 +53,7 @@ export function SaleSection({ searchProducts, setSearchProducts, search, setSear
         setTotal(total + price);
         setSearchProducts(!searchProducts);
         setNewStock(stock);
+        setSearch("");
         console.log(product);
     };
 
