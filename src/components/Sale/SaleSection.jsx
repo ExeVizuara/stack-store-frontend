@@ -7,6 +7,7 @@ import { PrintReceipt } from "./PrintReceip";
 import { actualizeStock, loadAllProducts } from "../shared/ProductService";
 import { searchName } from "../shared/searchName";
 import { addSale } from "../shared/SalesService";
+import { currentTime } from "../shared/Clock";
 
 export function SaleSection({ searchProducts, setSearchProducts, search, setSearch }) {
 
@@ -19,7 +20,7 @@ export function SaleSection({ searchProducts, setSearchProducts, search, setSear
     const [total, setTotal] = useState(0);
     const [printReceipt, setPrintReceipt] = useState(false);
     const [printTicket, setPrintTicket] = useState({ ticket: null });
-    const [currentTime, setCurrentTime] = useState("");
+    const [currentDateTime, setCurrentDateTime] = useState("");
     let results = [];
 
     useEffect(() => {
@@ -94,11 +95,11 @@ export function SaleSection({ searchProducts, setSearchProducts, search, setSear
     }
 
     const chargeProducts = async () => {
-        const date = await currentTime();
-        setCurrentTime(date)
+        const date = currentTime();
+        setCurrentDateTime(date)
         setPrintReceipt(!printReceipt);
         await actualizeStock(selectProduct, initialStocks);
-        await addSale(selectProduct, currentTime);
+        await addSale(selectProduct, currentDateTime);
     }
 
     const quit = () => {
