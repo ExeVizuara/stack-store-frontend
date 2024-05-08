@@ -3,7 +3,6 @@ import { NavbarSections } from "./NavbarSections";
 import { TitleSection } from "../shared/TitleSection";
 import { AlmacenSection } from "./products/Almacen/AlmacenSection";
 import { loadProductsByCategory } from "../../components/shared/ProductService";
-import { loadSales } from "../shared/SalesService";
 
 export function ControlSection({ setSearchProducts, searchProducts, search, setSearch }) {
 
@@ -15,9 +14,8 @@ export function ControlSection({ setSearchProducts, searchProducts, search, setS
     useEffect(() => {
         const loadProducts = async () => {
             try {
-                const { products: loadedProducts, nextToken: loadedNextToken } = await loadProductsByCategory(currentCategory, limit, null);
-                setProductList(loadedProducts);
-                setNextToken(loadedNextToken);
+                const products = await loadProductsByCategory(currentCategory);
+                setProductList(products);
             } catch (error) {
                 console.error('Error al cargar los productos:', error);
             }

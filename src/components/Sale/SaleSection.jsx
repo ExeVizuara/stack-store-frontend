@@ -20,7 +20,7 @@ export function SaleSection({ searchProducts, setSearchProducts, search, setSear
     const [printReceipt, setPrintReceipt] = useState(false);
     const [printTicket, setPrintTicket] = useState({ ticket: null });
     let results = [];
-    
+
     useEffect(() => {
         const loadProducts = async () => {
             const productList = await loadAllProducts();
@@ -37,6 +37,7 @@ export function SaleSection({ searchProducts, setSearchProducts, search, setSear
         if (e.target.value) {
             setSearch(e.target.value);
             results = searchName(products, e.target.value);
+            setSearchProducts(true);
             setFilteredProducts(results);
         } else { setSearch("") }
         console.log(results);
@@ -61,12 +62,12 @@ export function SaleSection({ searchProducts, setSearchProducts, search, setSear
                 return searchItem();
             }
             if (!initialStocks.hasOwnProperty(product.id)) {
-                await storeInitialStock(product.id, product.stock-1, product.price, product);
+                await storeInitialStock(product.id, product.stock - 1, product.price, product);
             } else {
                 if (initialStocks[product.id] === 0) {
                     return alert("No hay stock disponible de ese producto!");
                 }
-                await storeInitialStock(product.id, initialStocks[product.id]-1, product.price, product);
+                await storeInitialStock(product.id, initialStocks[product.id] - 1, product.price, product);
             }
         } catch (error) {
             console.error('Error al agregar el producto:', error);
@@ -118,7 +119,12 @@ export function SaleSection({ searchProducts, setSearchProducts, search, setSear
                         <div className="col-span-3 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
                             <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
                             <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" value={search} placeholder="NOMBRE" onChange={handleFind} onClick={searchItem} />
-                            {searchProducts && <FindContent products={!filteredProducts ? products : filteredProducts} addProduct={addProduct} />}
+                            {searchProducts && (
+                                <FindContent
+                                    products={!filteredProducts && products.length > 0 ? products : filteredProducts}
+                                    addProduct={addProduct}
+                                />
+                            )}
                         </div>
                         <div className="col-span-3 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
                             <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />

@@ -20,3 +20,16 @@ type Sales @model @auth(rules: [{allow: public}]) {
   product_category: String!
   price: Int!
 } 
+
+type Query {
+  listProductsByCategory(
+    category: String
+    limit: Int
+    nextToken: String
+  ): ProductList
+}
+
+type ProductList {
+  items: [Products]
+  nextToken: String
+}

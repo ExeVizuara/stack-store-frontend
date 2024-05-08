@@ -1,27 +1,27 @@
 import { generateClient } from "aws-amplify/api";
-import { listAllProducts, listProducts } from "../../graphql/queries";
+import { listProducts, listProductsByCategory } from "../../graphql/queries";
 import { updateProducts as updateProductMutation } from "../../graphql/mutations";
 import { createProducts as createProductMutation } from "../../graphql/mutations";
 
 export const loadAllProducts = async () => {
     const API = generateClient();
+    let allProducts=[];
     try {
-        const allProducts = [];
         let nextToken = null;
         const limit = 100;
     
         do {
             const apiData = await API.graphql({
-                query: listAllProducts,
+                query: listProducts,
                 variables: {
                     limit,
                     nextToken
                 }
             });
             
-            const products = apiData.data.listAllProducts.items;
-            allProducts.push(...products, products);
-            nextToken = apiData.data.listAllProducts.nextToken;
+            const products = apiData.data.listProducts.items;
+            allProducts.push(...products);
+            nextToken = apiData.data.listProducts.nextToken;
         } while (nextToken);
         
         return allProducts;
@@ -30,21 +30,14 @@ export const loadAllProducts = async () => {
     }
 };
 
-export const loadProductsByCategory = async (category, limit, nextToken) => {
+export const loadProductsByCategory = async (category) => {
     const API = generateClient();
     try {
-        const apiData = await API.graphql({
-            query: listProducts,
-            variables: {
-                category: category,
-                limit: limit,
-                nextToken: nextToken
-            }
-        });
-        const productsFromAPI = apiData.data.listProducts.items;
-        const newNextToken = apiData.data.listProducts.nextToken;
+        const productsFromAPI = await loadAllProducts();
+        const filteredProducts = productsFromAPI.filter((data) => data.category.includes(category));
         console.log(productsFromAPI);
-        return { products: productsFromAPI, nextToken: newNextToken };
+
+        return filteredProducts;
     } catch (error) {
         console.error('Error al cargar los productos:', error);
         throw error;

@@ -22,16 +22,38 @@ export const getProducts = /* GraphQL */ `
 
 export const listProducts = /* GraphQL */ `
   query ListProducts(
+    $limit: Int
+    $nextToken: String
+  ) {
+    listProducts( limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        category
+        code
+        expiration
+        stock
+        cost
+        discount
+        price
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+
+export const listProductsByCategory = /* GraphQL */ `
+  query ListProductsByCategory(
     $category: String
     $limit: Int
     $nextToken: String
   ) {
-    listProducts(
-      filter: {
-        category: {
-          contains: $category
-        }
-      }
+    listProductsByCategory(
+      category: $category
       limit: $limit
       nextToken: $nextToken
     ) {
