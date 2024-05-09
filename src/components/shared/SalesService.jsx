@@ -1,6 +1,7 @@
 import { generateClient } from "aws-amplify/api";
 import { createSales as createSalesMutation } from "../../graphql/mutations";
 import { listSales } from "../../graphql/queries";
+import { currentTime } from "./Clock";
 
 export const loadSales = async () => {
     const API = generateClient();
@@ -14,8 +15,9 @@ export const loadSales = async () => {
     }
 };
 
-export const addSale = async (selectProduct, currentDateTime) => {
+export const addSale = async (selectProduct) => {
     const API = generateClient();
+    const currentDateTime = currentTime();
     try {
         for (const product of selectProduct) {
             const saleData = {

@@ -27,21 +27,21 @@ export function NavbarProducts({ onCategoryChange }) {
                 <NavLink
                     to="/"
                     onClick={() => handleClick('List')}
-                    className={`text-gray-300 rounded-lg p-2 px-2 w-full sm:px-12 md:px-16 xl:py-4 ${activedCats.List ? activatedLink : "bg-[#262837]"}`}
+                    className={`text-gray-300 rounded-lg p-2 px-2 w-full sm:px-12 md:px-16 xl:py-2 ${activedCats.List ? activatedLink : "bg-[#262837]"}`}
                 >
                     Productos
                 </NavLink>
                 <NavLink
                     to="/"
                     onClick={() => handleClick('Upload')}
-                    className={`text-gray-300 rounded-lg p-2 px-2 w-full sm:px-12 md:px-16 xl:py-4 ${activedCats.Upload ? activatedLink : "bg-[#262837]"}`}
+                    className={`text-gray-300 rounded-lg p-2 px-2 w-full sm:px-12 md:px-16 xl:py-2 ${activedCats.Upload ? activatedLink : "bg-[#262837]"}`}
                 >
                     Agregar
                 </NavLink>
                 <NavLink
                     to="/"
                     onClick={() => handleClick('Update')}
-                    className={`text-gray-300 rounded-lg p-2 px-2 w-full sm:px-12 md:px-16 xl:py-4 ${activedCats.Update ? activatedLink : "bg-[#262837]"}`}
+                    className={`text-gray-300 rounded-lg p-2 px-2 w-full sm:px-12 md:px-16 xl:py-2 ${activedCats.Update ? activatedLink : "bg-[#262837]"}`}
                 >
                     Modificar
                 </NavLink>
