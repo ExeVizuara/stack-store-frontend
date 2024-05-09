@@ -14,12 +14,13 @@ export function UploadProduct({ productList, currentPage }) {
     const [expiration, setExpiration] = useState("");
 
     useEffect(() => {
-        const getAllProducts = async () => {
-            const productsList = await productList;
-            setAllProducts(productsList);
-        }
         getAllProducts();
     }, []);
+
+    const getAllProducts = async () => {
+        const productsList = await productList;
+        setAllProducts(productsList);
+    }
 
     const handleChange = (e) => {
         setNewProduct({
@@ -50,7 +51,8 @@ export function UploadProduct({ productList, currentPage }) {
             cost: "",
             discount: "",
             price: ""
-        })
+        });
+        getAllProducts();
     }
 
     return (
