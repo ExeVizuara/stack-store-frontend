@@ -2,10 +2,10 @@ import { generateClient } from "aws-amplify/api";
 import { createSales as createSalesMutation } from "../../graphql/mutations";
 import { listSales } from "../../graphql/queries";
 import { currentTime } from "./Clock";
+import { loadAllProducts } from "./ProductService";
 
 export const loadSales = async () => {
     const API = generateClient();
-
     try {
         const apiData = await API.graphql({ query: listSales });
         const productsFromAPI = apiData.data.listSales.items;
@@ -40,10 +40,7 @@ export const addSale = async (selectProduct) => {
                 return;
             }
         }
-
-        // Si se registraron todos los productos sin errores, mostrar un mensaje de éxito
-        alert("Venta registrada exitosamente.");
-        // Puedes realizar otras acciones después de registrar la venta aquí
+        loadAllProducts();
     } catch (error) {
         console.error("Error al realizar la operación GraphQL:", error);
         alert("Ocurrió un error al procesar la solicitud. Por favor, intenta nuevamente más tarde.");

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { addProduct } from "../../shared/ProductService";
+import { addProduct, loadAllProducts, loadProductsByCategory } from "../../shared/ProductService";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
@@ -29,13 +29,18 @@ export function UploadProduct({ productList, currentPage }) {
         });
     }
 
+    const handleExpirationChange = (date) => {
+        const formattedDate = date.toISOString().split('T')[0];
+        setExpiration(formattedDate);
+    };
+
     const add = async (event) => {
         event.preventDefault();
-        addProduct({
+        await addProduct({
             name: newProduct.name, 
             category: currentPage, 
             code: newProduct.code, 
-            expiration: expiration, 
+            expiration: expiration ? expiration : "",
             stock: newProduct.stock, 
             cost: newProduct.cost, 
             discount: newProduct.discount, 
@@ -52,7 +57,8 @@ export function UploadProduct({ productList, currentPage }) {
             discount: "",
             price: ""
         });
-        getAllProducts();
+        await loadAllProducts();
+        await loadProductsByCategory(currentPage);
     }
 
     return (
@@ -64,7 +70,7 @@ export function UploadProduct({ productList, currentPage }) {
                         <input 
                             type="text" 
                             name="name"
-                            value={newProduct.name}
+                            value={newProduct.name || ""}
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" 
                             onChange={handleChange}
                         />
@@ -84,7 +90,7 @@ export function UploadProduct({ productList, currentPage }) {
                         <input 
                             type="text" 
                             name="code"
-                            value={newProduct.code}
+                            value={newProduct.code || ""}
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
                             onChange={handleChange}
                         />
@@ -93,15 +99,13 @@ export function UploadProduct({ productList, currentPage }) {
                         <label className="text-start sm:p-1">Vencimiento: </label>
                         <DatePicker
                             className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
-                            selected={expiration}
+                            selected={expiration ? expiration : ""}
                             showIcon
                             isClearable
                             dateFormat="dd/MM/yyyy"
                             onChange={(date) => {
-                                if (date) {
-                                    const formattedDate = date.toISOString().split('T')[0];
-                                    setExpiration(formattedDate);
-                                } else { setExpiration("") }
+                                if (!date) { setExpiration("") } 
+                                else { handleExpirationChange }
                             }} 
                         />
                     </li>
@@ -112,7 +116,7 @@ export function UploadProduct({ productList, currentPage }) {
                         <input 
                             type="text" 
                             name="stock"
-                            value={newProduct.stock}
+                            value={newProduct.stock || ""}
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
                             onChange={handleChange} 
                         />
@@ -122,7 +126,7 @@ export function UploadProduct({ productList, currentPage }) {
                         <input 
                             type="text" 
                             name="cost"
-                            value={newProduct.cost}
+                            value={newProduct.cost || ""}
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" 
                             onChange={handleChange}
                         />
@@ -132,7 +136,7 @@ export function UploadProduct({ productList, currentPage }) {
                         <input 
                             type="text" 
                             name="discount"
-                            value={newProduct.discount}
+                            value={newProduct.discount || ""}
                             className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
                             onChange={handleChange}
                         />
@@ -142,7 +146,7 @@ export function UploadProduct({ productList, currentPage }) {
                         <input 
                             type="text" 
                             name="price"
-                            value={newProduct.price}
+                            value={newProduct.price || ""}
                             className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
                             onChange={handleChange} 
                         />

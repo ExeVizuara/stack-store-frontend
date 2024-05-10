@@ -9,7 +9,6 @@ export const loadAllProducts = async () => {
     try {
         let nextToken = null;
         const limit = 100;
-    
         do {
             const apiData = await API.graphql({
                 query: listProducts,
@@ -17,13 +16,11 @@ export const loadAllProducts = async () => {
                     limit,
                     nextToken
                 }
-            });
-            
+            });    
             const products = apiData.data.listProducts.items;
             allProducts.push(...products);
             nextToken = apiData.data.listProducts.nextToken;
         } while (nextToken);
-        
         return allProducts;
     } catch (error) {
         console.error('Error al cargar todos los productos:', error);
