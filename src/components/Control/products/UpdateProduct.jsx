@@ -15,13 +15,13 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
     const [products, setProducts] = useState([]);
     const [selectProduct, setSelectProduct] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
-    const [updateProduct, setUpdateProduct] = useState({});
+    const [actualizeProduct, setActualizeProduct] = useState({});
     const [allProducts, setAllProducts] = useState([]);
     const [expiration, setExpiration] = useState("");
     let results = [];
 
     useEffect(() => {
-        setUpdateProduct({
+        setActualizeProduct({
             id: "",
             name: "",
             category: currentPage,
@@ -62,24 +62,29 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
     };
 
     const handleChange = (e) => {
-        setUpdateProduct({
-            ...updateProduct,
+        setActualizeProduct({
+            ...actualizeProduct,
             [e.target.name]: e.target.value
         });
     };
 
-    const handleExpirationChange = (date) => {
-        const formattedDate = date.toISOString().split('T')[0];
-        setExpiration(formattedDate);
-    };
-
     const update = async (event) => {
         event.preventDefault();
-        await updateProduct(event);
-        setUpdateProduct({
+        updateProduct({
+            id: actualizeProduct.id,
+            name: actualizeProduct.name,
+            category: actualizeProduct.category,
+            code: actualizeProduct.code,
+            expiration: expiration,
+            stock: actualizeProduct.stock,
+            cost: actualizeProduct.cost,
+            discount: actualizeProduct.discount,
+            price: actualizeProduct.price
+        });
+        setActualizeProduct({
             id: "",
             name: "",
-            category: "",
+            category: currentPage,
             code: "",
             expiration: "",
             stock: "",
@@ -91,7 +96,7 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
 
     const addProduct = async (product) => {
         try {
-            setUpdateProduct({
+            setActualizeProduct({
                 id: product.id,
                 name: product.name,
                 category: product.category,
@@ -127,7 +132,7 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
                         <input 
                             type="text" 
                             name="name"
-                            value={updateProduct.name}
+                            value={actualizeProduct.name}
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" 
                             onChange={handleChange}
                         />
@@ -137,7 +142,7 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
                         <input 
                             type="text" 
                             name="category"
-                            value={updateProduct.category} 
+                            value={actualizeProduct.category} 
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
                         />
                     </li>
@@ -146,7 +151,7 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
                         <input 
                             type="text" 
                             name="code"
-                            value={updateProduct.code}
+                            value={actualizeProduct.code}
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
                             onChange={handleChange}
                         />
@@ -155,7 +160,7 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
                         <label className="text-start sm:p-1">Vencimiento: </label>
                         <DatePicker
                             className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
-                            selected={updateProduct.expiration}
+                            selected={actualizeProduct.expiration}
                             showIcon
                             isClearable
                             dateFormat="dd/MM/yyyy"
@@ -175,7 +180,7 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
                         <input 
                             type="text" 
                             name="stock"
-                            value={updateProduct.stock}
+                            value={actualizeProduct.stock}
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
                             onChange={handleChange} 
                         />
@@ -185,7 +190,7 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
                         <input 
                             type="text" 
                             name="cost"
-                            value={updateProduct.cost}
+                            value={actualizeProduct.cost}
                             required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" 
                             onChange={handleChange}
                         />
@@ -195,7 +200,7 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
                         <input 
                             type="text" 
                             name="discount"
-                            value={updateProduct.discount}
+                            value={actualizeProduct.discount}
                             className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
                             onChange={handleChange}
                         />
@@ -205,7 +210,7 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
                         <input 
                             type="text" 
                             name="price"
-                            value={updateProduct.price}
+                            value={actualizeProduct.price}
                             className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
                             onChange={handleChange} 
                         />
