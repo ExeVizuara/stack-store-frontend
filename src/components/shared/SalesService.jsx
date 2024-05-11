@@ -41,6 +41,7 @@ export const addSale = async (selectProduct) => {
             }
         }
         loadAllProducts();
+        loadSales();
     } catch (error) {
         console.error("Error al realizar la operación GraphQL:", error);
         alert("Ocurrió un error al procesar la solicitud. Por favor, intenta nuevamente más tarde.");

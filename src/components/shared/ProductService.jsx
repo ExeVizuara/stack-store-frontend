@@ -77,18 +77,18 @@ export const addProduct = async (product) => {
 };
 
 
-export const updateProduct = async (id, name, category, code, expiration, stock, cost, discount, price) => {
+export const updateProduct = async (product) => {
     const API = generateClient();
     const data = {
-        id: id,
-        name: name,
-        category: category,
-        code: code,
-        expiration: expiration,
-        stock: stock,
-        cost: cost,
-        discount: discount,
-        price: price
+        id: product.id,
+        name: product.name,
+        category: product.category,
+        code: product.code,
+        expiration: product.expiration,
+        stock: product.stock,
+        cost: product.cost,
+        discount: product.discount,
+        price: product.price
     };
 
     try {
@@ -104,7 +104,6 @@ export const updateProduct = async (id, name, category, code, expiration, stock,
             alert("Ocurrieron errores al procesar la solicitud. Por favor, revisa los datos ingresados.");
         } else {
             alert("Producto actualizado exitosamente.");
-            window.location.reload(); // Recargar la página después de la actualización
             // Si tienes una función setAll, puedes llamarla aquí para restablecer los valores del formulario
         }
     } catch (error) {

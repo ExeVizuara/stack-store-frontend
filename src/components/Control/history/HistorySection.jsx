@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { HistoryNav } from "./HistoryNav";
 import { HistoryItem } from "./HistoryItem";
 import { currentTime } from "../../shared/Clock";
+import { generateClient } from "aws-amplify/api";
+import * as subscriptions from "../../../graphql/subscriptions";
 
-export function HistorySection({allSales}) {
+export function HistorySection({ allSales }) {
 
   const [salesList, setSalesList] = useState([]);
   const [currentDateTime, setCurrentDateTime] = useState("");
@@ -13,6 +15,21 @@ export function HistorySection({allSales}) {
     setCurrentDateTime(date);
     getSales();
   }, []);
+
+  useEffect(() => {
+    const API = generateClient();
+    const subscription = API.graphql({ query: subscriptions.onCreateSales })
+      .subscribe({
+        next: ({ data }) => {
+          const newSale = data.value.data.onCreateSales;
+          setSalesList([...salesList, newSale]);
+          console.log(data)
+        },
+        error: (error) => console.warn(error)
+      });
+
+    return () => subscription.unsubscribe();
+  }, [salesList]);
 
   const getSales = async () => {
     try {

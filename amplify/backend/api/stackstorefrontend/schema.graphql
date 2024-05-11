@@ -34,3 +34,7 @@ type ProductList {
   items: [Products]
   nextToken: String
 }
+
+type Subscription {
+    onCreateSale: Sales
+}

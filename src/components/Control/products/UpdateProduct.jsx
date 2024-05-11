@@ -15,30 +15,23 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
     const [products, setProducts] = useState([]);
     const [selectProduct, setSelectProduct] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
-    const [id, setId] = useState("");
-    const [name, setName] = useState("");
-    const [category, setCategory] = useState(currentPage);
-    const [code, setCode] = useState("");
+    const [updateProduct, setUpdateProduct] = useState({});
+    const [allProducts, setAllProducts] = useState([]);
     const [expiration, setExpiration] = useState("");
-    const [stock, setStock] = useState(0);
-    const [cost, setCost] = useState(0);
-    const [discount, setDiscount] = useState(0);
-    const [price, setPrice] = useState(0);
     let results = [];
 
     useEffect(() => {
-        setId("");
-        setName("");
-        setCategory(currentPage);
-        setCode("");
-        setExpiration("");
-        setStock(0);
-        setCost(0);
-        setDiscount(0);
-        setPrice(0);
-        setSelectProduct([]);
-        setSearchProducts(false);
-        results = [];
+        setUpdateProduct({
+            id: "",
+            name: "",
+            category: currentPage,
+            code: "",
+            expiration: "",
+            stock: "",
+            cost: "",
+            discount: "",
+            price: ""
+        });
     }, []);
 
     const searchItem = async () => {
@@ -68,22 +61,47 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
         }
     };
 
+    const handleChange = (e) => {
+        setUpdateProduct({
+            ...updateProduct,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleExpirationChange = (date) => {
+        const formattedDate = date.toISOString().split('T')[0];
+        setExpiration(formattedDate);
+    };
+
     const update = async (event) => {
         event.preventDefault();
-        updateProduct(id, name, category, code, expiration, stock, cost, discount, price);
+        await updateProduct(event);
+        setUpdateProduct({
+            id: "",
+            name: "",
+            category: "",
+            code: "",
+            expiration: "",
+            stock: "",
+            cost: "",
+            discount: "",
+            price: ""
+        });
     }
 
     const addProduct = async (product) => {
         try {
-            setId(product.id);
-            setName(product.name);
-            setCategory(product.category);
-            setCode(product.code);
-            setExpiration(product.expiration);
-            setStock(product.stock);
-            setCost(product.cost);
-            setDiscount(product.discount);
-            setPrice(product.price);
+            setUpdateProduct({
+                id: product.id,
+                name: product.name,
+                category: product.category,
+                code: product.code,
+                expiration: product.expiration,
+                stock: product.stock,
+                cost: product.cost,
+                discount: product.discount,
+                price: product.price
+            });
             console.log(product);
             setSelectProduct(product.name);
             setSearchProducts(false);
@@ -105,62 +123,92 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
                 </div>
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <li className="flex flex-col">
-                        <label className="text-start sm:p-1">Nombre: </label>
-                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={name} onChange={(event) => {
-                            setName(event.target.value);
-                        }} />
+                    <label className="text-start sm:p-1">Nombre: </label>
+                        <input 
+                            type="text" 
+                            name="name"
+                            value={updateProduct.name}
+                            required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" 
+                            onChange={handleChange}
+                        />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Categoría: </label>
-                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={category} onChange={(event) => {
-                            setCategory(event.target.value);
-                        }} />
+                        <input 
+                            type="text" 
+                            name="category"
+                            value={updateProduct.category} 
+                            required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
+                        />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Código: </label>
-                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={code} onChange={(event) => {
-                            setCode(event.target.value);
-                        }} />
+                        <input 
+                            type="text" 
+                            name="code"
+                            value={updateProduct.code}
+                            required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
+                            onChange={handleChange}
+                        />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Vencimiento: </label>
                         <DatePicker
                             className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
-                            selected={expiration}
+                            selected={updateProduct.expiration}
                             showIcon
                             isClearable
                             dateFormat="dd/MM/yyyy"
                             onChange={(date) => {
-                                const formattedDate = date.toISOString().split('T')[0];
-                                setExpiration(formattedDate);
+                                if (!date) { setExpiration("") }
+                                else {
+                                    const formattedDate = date.toISOString().split('T')[0];
+                                    setExpiration(formattedDate);
+                                }
                             }
-                            } />
+                        } />
                     </li>
                 </div>
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Stock: </label>
-                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={stock} onChange={(event) => {
-                            setStock(event.target.value);
-                        }} />
+                        <input 
+                            type="text" 
+                            name="stock"
+                            value={updateProduct.stock}
+                            required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
+                            onChange={handleChange} 
+                        />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Costo: </label>
-                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={cost} onChange={(event) => {
-                            setCost(event.target.value);
-                        }} />
+                        <input 
+                            type="text" 
+                            name="cost"
+                            value={updateProduct.cost}
+                            required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" 
+                            onChange={handleChange}
+                        />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Descuento: </label>
-                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={discount} onChange={(event) => {
-                            setDiscount(event.target.value);
-                        }} />
+                        <input 
+                            type="text" 
+                            name="discount"
+                            value={updateProduct.discount}
+                            className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
+                            onChange={handleChange}
+                        />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Precio final: </label>
-                        <input type="text" required className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1" value={price} onChange={(event) => {
-                            setPrice(event.target.value);
-                        }} />
+                        <input 
+                            type="text" 
+                            name="price"
+                            value={updateProduct.price}
+                            className="sm:w-full rounded-md bg-[#1F1D2B] md:bg-[#262837] p-1"
+                            onChange={handleChange} 
+                        />
                     </li>
                 </div>
                 <div className="col-span-8 text-center">

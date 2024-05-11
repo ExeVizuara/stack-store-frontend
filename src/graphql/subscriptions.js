@@ -1,6 +1,20 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateSale = /* GraphQL */ `
+  subscription OnCreateSale {
+    onCreateSale {
+      id
+      product_name
+      product_category
+      product_date
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onCreateProducts = /* GraphQL */ `
   subscription OnCreateProducts($filter: ModelSubscriptionProductsFilterInput) {
     onCreateProducts(filter: $filter) {
