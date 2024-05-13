@@ -115,7 +115,6 @@ export const updateProduct = async (product) => {
 export const actualizeStock = async (products, stock) => {
     const API = generateClient();
     try {
-        // Realizar la consulta de actualización para cada producto en selectProduct
         await products.map(async (product) => {
             await API.graphql({
                 query: updateProductMutation,

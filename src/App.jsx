@@ -21,14 +21,7 @@ function CustomApp({ signOut }) {
 
   const [showMenu, setShowMenu] = useState(false);
   const [searchProducts, setSearchProducts] = useState(false);
-  const [allProducts, setAllProducts] = useState([]);
-  const [allSales, setallSales] = useState([]);
   const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    const salesList = loadSales();
-    setallSales(salesList);
-  }, []);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -73,8 +66,6 @@ function CustomApp({ signOut }) {
           <Sidebar showMenu={showMenu} onItemClick={selectedOption} activatedCats={currentCategory} logOut={signOut} />
           <MobileMain onItemClick={toggleMenu} showMenu={showMenu} />
           <MainContent 
-            allProducts={allProducts}
-            allSales={allSales}
             selectedCat={currentCategory} 
             searchProducts={ searchProducts} 
             setSearchProducts={setSearchProducts} 

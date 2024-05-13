@@ -15,6 +15,20 @@ export const loadSales = async () => {
     }
 };
 
+export const loadDailySales = async (date) => {
+    try {
+        const salesFromAPI = await loadSales();
+        const filteredSales = salesFromAPI.filter((data) => data.product_date.includes(date));
+        console.log("Ventas de hoy " + date + " : " + filteredSales.length);
+        console.log(filteredSales);
+        return filteredSales;
+    } catch (error) {
+        console.error('Error al cargar las ventas del hoy:', error);
+        throw error;
+    }
+};
+
+
 export const addSale = async (selectProduct) => {
     const API = generateClient();
     const currentDateTime = currentTime();
@@ -40,6 +54,7 @@ export const addSale = async (selectProduct) => {
                 return;
             }
         }
+        console.log(selectProduct);
         loadAllProducts();
         loadSales();
     } catch (error) {
