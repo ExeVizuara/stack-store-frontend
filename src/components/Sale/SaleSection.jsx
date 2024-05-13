@@ -6,12 +6,11 @@ import { FindContent } from "./FindContent";
 import { PrintReceipt } from "./PrintReceip";
 import { actualizeStock, loadAllProducts } from "../shared/ProductService";
 import { searchName } from "../shared/searchName";
-import { addSale } from "../shared/SalesService";
+import { addSale, getSales } from "../shared/SalesService";
 
-export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, allSales, setAllSales, searchProducts, setSearchProducts, search, setSearch }) {
+export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSales, searchProducts, setSearchProducts, search, setSearch }) {
 
     const [products, setProducts] = useState([]);
-    const [sales, setSales] = useState([]);
     const [selectProduct, setSelectProduct] = useState([]);
     const [initialStocks, setInitialStocks] = useState({});
     const [quantity, setQuantity] = useState({});
@@ -24,7 +23,6 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, allSales,
 
     useEffect(() => {
         loadProducts();
-        setSales(allSales);
         setSearch("")
     }, []);
 
@@ -100,8 +98,9 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, allSales,
         if(total === 0) return alert("Debe seleccionar al menos un producto primero");
         setPrintReceipt(!printReceipt);
         await actualizeStock(selectProduct, initialStocks);
-        await addSale(selectProduct);
-        setAllSales(prevSales => [...prevSales, selectProduct]);
+        const actializeSales = await addSale(selectProduct);
+        console.log(actializeSales);
+        getSales(setAllSales);
         setTotalSaleOfTheDay(totalSaleOfTheDay+total);
     }
 

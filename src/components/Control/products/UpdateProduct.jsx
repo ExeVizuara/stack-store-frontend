@@ -92,6 +92,7 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
             discount: "",
             price: ""
         });
+        setSearch("");
     }
 
     const addProduct = async (product) => {

@@ -2,7 +2,6 @@ import { generateClient } from "aws-amplify/api";
 import { createSales as createSalesMutation } from "../../graphql/mutations";
 import { listSales } from "../../graphql/queries";
 import { currentTime } from "./Clock";
-import { loadAllProducts } from "./ProductService";
 
 export const loadSales = async () => {
     const API = generateClient();
@@ -33,7 +32,7 @@ export const addSale = async (selectProduct) => {
     const API = generateClient();
     const currentDateTime = currentTime();
     try {
-        for (const product of selectProduct) {
+        selectProduct.map(async (product) => {
             const saleData = {
                 product_name: product.name,
                 product_category: product.category,
@@ -53,12 +52,30 @@ export const addSale = async (selectProduct) => {
                 alert("Ocurrieron errores al procesar la solicitud. Por favor, revisa los datos ingresados.");
                 return;
             }
-        }
+        });
         console.log(selectProduct);
-        loadAllProducts();
-        loadSales();
+        await loadSales();
+        const daily = await loadDailySales(currentDateTime);
+        return daily;
     } catch (error) {
         console.error("Error al realizar la operación GraphQL:", error);
         alert("Ocurrió un error al procesar la solicitud. Por favor, intenta nuevamente más tarde.");
     }
 }
+
+export const getSales = async (setAllSales) => {
+    const currentDateTime = currentTime();
+    try {
+        const sales = await loadDailySales(currentDateTime);
+        if (!sales) {
+            console.log("NO HAY VENTAS HOY")
+            setAllSales([]);
+        } else {
+            const sortedSales = await sales.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            setAllSales(sortedSales);
+            console.log(sortedSales);
+        }
+    } catch (error) {
+        console.error('Error al obtener productos:', error);
+    }
+};

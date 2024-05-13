@@ -55,8 +55,7 @@ function CustomApp({ signOut }) {
   const handleOutSide = () => {
     !search && setSearchProducts(false);
   }
-
-
+  
   const { authStatus } = useAuthenticator();
 
   return (

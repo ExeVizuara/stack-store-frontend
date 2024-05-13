@@ -2,30 +2,14 @@ import { useState, useEffect } from "react";
 import { HistoryNav } from "./HistoryNav";
 import { HistoryItem } from "./HistoryItem";
 import { currentTime } from "../../shared/Clock";
-import { loadDailySales } from "../../shared/SalesService";
+import { getSales } from "../../shared/SalesService";
 
 export function HistorySection({ allSales, setAllSales }) {
 
   const currentDateTime = currentTime();
-  
-  const getSales = async () => {
-    try {
-      const sales = await loadDailySales(currentDateTime);
-      if (!sales) {
-        console.log("NO HAY VENTAS HOY")
-        setAllSales([]);
-      } else {
-        const sortedSales = await sales.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        setAllSales(sortedSales);
-        console.log(sortedSales);
-      }
-    } catch (error) {
-      console.error('Error al obtener productos:', error);
-    }
-  };
 
   useEffect(() => {
-    getSales();
+    getSales(setAllSales);
   }, []);
 
   
