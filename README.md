@@ -3,7 +3,9 @@
 Aplicación destinada al control de stock, entrada y salida de productos, ventas y registro de todo lo necesario para un Local comercial,
 pero enfocado principalmente en negocios que funcionan como Drugstores o Miniservices, etc.
 
-Realizado con React.js, Node.js, Express, Tailwindcss, MySQL.
+Realizado con React.js, Node.js, Express, Tailwindcss para la UI.
+
+El backend y el despliegue está funcionando con la api Graphql de Amplify Studio (AWS).
 
 Momentaneamente en desarrollo.
 
