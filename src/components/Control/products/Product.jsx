@@ -1,7 +1,7 @@
 export function Product({ name, category, code, expiration, stock, cost, discount, price }) {
 
     return (
-        <ul className="grid grid-cols-8 sm:text-xs md:text-md 2xl:text-lg text-[7px] pl-2 border-b-2 text-gray-400 border-b-slate-600 py-1">
+        <ul className="grid grid-cols-8 sm:text-xs md:text-md 2xl:text-[12px] text-[7px] pl-2 border-b-2 text-gray-400 border-b-slate-600 py-1">
             <li>
                 {name}
             </li>

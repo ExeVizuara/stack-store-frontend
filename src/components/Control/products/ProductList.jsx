@@ -3,7 +3,7 @@ import { Product } from "./Product";
 export function ProductList({ productList }) {
 
     return (
-        <div className="data bg-[#262837] flex flex-col pb-4 lg:p-8 gap-2 lg:gap-4 md:pb-18 rounded-lg max-h-[500px]">
+        <div className="data bg-[#262837] flex flex-col pb-4 lg:p-4 gap-2 lg:gap-4 md:pb-18 rounded-lg max-h-[500px]">
             <ul className="grid grid-cols-8 md:text-sm text-[8px] border-b-2 border-b-slate-400 pb-2 px-1">
                 <li>
                     NOMBRE
