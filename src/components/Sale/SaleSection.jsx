@@ -138,13 +138,13 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
             </header>
             <div className="px-1 md:bg-[#1F1D2B] rounded-xl sm:px-2 md:px-4 sm:min-h-[720px]">
                 <div className="sm:pt-8 text-gray-300 sm:p-6 xl:p-2">
-                    <div className="grid grid-cols-9 sm:text-2xl mb-2 py-2 px-1 sm:px-6 md:border md:border-[#5c9c19d8] rounded-xl gap-1 w-full">
-                        <div className="col-span-3 row-span-2 md:text-center px-2">
+                    <div className="grid sm:grid-cols-9 sm:text-2xl mb-2 py-2 px-1 sm:px-6 md:border md:border-[#5c9c19d8] rounded-xl gap-1 w-full">
+                        <div className="sm:col-span-3 row-span-2 md:text-center px-2">
                             <label className="text-lg xl:text-2xl">Busqueda de artículo: </label>
                         </div>
-                        <div className="col-span-6 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
-                            <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
-                            <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" value={search} placeholder="NOMBRE" onChange={handleFind} onClick={searchItem} />
+                        <div className="sm:col-span-6  relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg p-2 sm:p-0">
+                            <RiSearch2Line className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm" />
+                            <input type="text" className="text-gray-400 pl-2 text-[11px] sm:text-sm outline-none w-full bg-transparent" value={search} placeholder="NOMBRE" onChange={handleFind} onClick={searchItem} />
                             {searchProducts && (
                                 <FindContent
                                     products={!filteredProducts && products.length > 0 ? products : filteredProducts}
@@ -152,9 +152,9 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
                                 />
                             )}
                         </div>
-                        <div className="col-span-6 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
-                            <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
-                            <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" placeholder="CODIGO" />
+                        <div className="sm:col-span-6 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg p-2 sm:p-0">
+                            <RiSearch2Line className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm" />
+                            <input type="text" className="text-gray-400 pl-2 text-[11px] sm:text-sm outline-none w-full bg-transparent" placeholder="CODIGO" />
                         </div>
                     </div>
                     <div className="relative bg-[#262837] rounded-xl">

@@ -16,7 +16,6 @@ export function HomeSection() {
         { label: 'Viernes', value: 25000 },
         { label: 'Sabado', value: 33000 },
         { label: 'Domingo', value: 21000 }
-        // Agrega más datos de ventas según sea necesario
     ];
 
     const monthlyData = [
@@ -32,7 +31,6 @@ export function HomeSection() {
         { label: 'Octubre', value: 21000 },
         { label: 'Noviembre', value: 21000 },
         { label: 'Diciembre', value: 21000 }
-        // Agrega más datos de ventas según sea necesario
     ];
 
     const productSalesData = [
@@ -40,7 +38,6 @@ export function HomeSection() {
         { product: 'Librería', sales: 80 },
         { product: 'Cigarrillos', sales: 120 },
         { product: 'Pollo', sales: 120 }
-        // Agrega más datos de ventas según sea necesario
     ];
 
     return (

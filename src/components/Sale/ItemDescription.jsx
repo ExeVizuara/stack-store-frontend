@@ -31,13 +31,13 @@ export function ItemDescription ({ products, removeProduct, total, subTotal, can
                     <SellProducts key={ index } { ...product } removeProduct={() => removeProduct(index, product.price, product.id)} quantity={quantity[product.id]} addQuantity={() => addQuantity(product.id)} subtractQuantity={() => subtractQuantity(product.id)} subTotal={subTotal} />
                 ))}
             </div>
-            <div className="border border-gray-600 sm:rounded-bl-xl bg-gray-700 p-2 px-10 sm:px-14 text-sm sm:text-2xl flex flex-row justify-between">
-                <h1 className="self-center">TOTAL A PAGAR:</h1>
-                <span className="border border-gray-600 bg-[#d8dccbd8] text-[#46493fd8] rounded-md p-3 px-10 sm:px-12">${total}</span>
+            <div className="border border-gray-600 sm:rounded-bl-xl bg-gray-500 p-2 px-6 sm:px-14 text-sm sm:text-2xl flex flex-row justify-between">
+                <h1 className="self-center text-3xl">TOTAL A PAGAR:</h1>
+                <span className="border border-gray-600 bg-[#d8dccbd8] text-[#46493fd8] text-3xl rounded-md p-3 w-auto sm:px-12">${total}</span>
             </div>
             <div className="sm:flex sm:flex-row sm:justify-end">
-                <button className="text-md border border-[#ca3232d8] text-[#d8dccbd8] bg-[#46493fd8] hover:bg-[#bd4444ec] hover:text-[#d8dccbd8] rounded-b-sm sm:rounded-b-md p-1 px-10 sm:px-8 w-full sm:w-auto" onClick={ cancelOperation }>BORRAR</button>
-                <button className="text-md border border-[#5c9c19d8] text-[#d8dccbd8] bg-[#46493fd8] hover:bg-[#5c9c19d8] hover:text-[#d8dccbd8] rounded-b-sm sm:rounded-b-md p-1 px-10 sm:px-8 w-full sm:w-auto" onClick={ chargeProducts }>COBRAR</button>
+                <button className="text-md border border-[#ca3232d8] text-[#d8dccbd8] bg-[#bd4444ec] hover:bg-[#da6f49d8] hover:text-[#d8dccbd8] rounded-b-sm sm:rounded-b-md p-1 px-10 sm:px-8 w-full sm:w-auto" onClick={ cancelOperation }>BORRAR</button>
+                <button className="text-md border border-[#5c9c19d8] text-[#d8dccbd8] bg-[#266428e8] hover:bg-[#379935d8] hover:text-[#d8dccbd8] rounded-b-sm sm:rounded-b-md p-1 px-10 sm:px-8 w-full sm:w-auto" onClick={ chargeProducts }>COBRAR</button>
             </div>
         </div>
     )
