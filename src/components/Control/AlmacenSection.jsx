@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { NavbarProducts } from "../NavbarProducts";
-import { ProductList } from "../ProductList";
-import { UploadProduct } from "../UploadProduct";
-import { UpdateProduct } from "../UpdateProduct";
+import { NavbarProducts } from "./products/NavbarProducts";
+import { ProductList } from "./products/ProductList";
+import { UploadProduct } from "./products/UploadProduct";
+import { UpdateProduct } from "./products/UpdateProduct";
 
 export function AlmacenSection({ productsList, cat, searchProducts, setSearchProducts, search, setSearch }) {
 

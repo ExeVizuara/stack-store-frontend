@@ -1,7 +1,7 @@
 import { generateClient } from "aws-amplify/api";
-import { listProducts } from "../../graphql/queries";
-import { updateProducts as updateProductMutation } from "../../graphql/mutations";
-import { createProducts as createProductMutation } from "../../graphql/mutations";
+import { listProducts } from "../graphql/queries";
+import { updateProducts as updateProductMutation } from "../graphql/mutations";
+import { createProducts as createProductMutation } from "../graphql/mutations";
 
 export const loadAllProducts = async () => {
     const API = generateClient();

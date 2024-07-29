@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { addProduct, loadAllProducts, loadProductsByCategory } from "../../shared/ProductService";
+import { addProduct, loadAllProducts, loadProductsByCategory } from "../../../services/ProductService";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";

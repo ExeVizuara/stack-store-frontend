@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { HistoryNav } from "./HistoryNav";
 import { HistoryItem } from "./HistoryItem";
 import { currentTime } from "../../shared/Clock";
-import { getSales } from "../../shared/SalesService";
+import { getSales } from "../../../services/SalesService";
 
 export function HistorySection({ allSales, setAllSales }) {
 
@@ -25,7 +25,7 @@ export function HistorySection({ allSales, setAllSales }) {
           <div>
             {/* Product */}
             <div className="bg-[#262837] sm:p-4 rounded-xl overflow-y-auto overflow-x-auto">
-              <h4 className="text-center text-xs pl-1 border p-1 rounded-2xl border-gray-500">{currentDateTime}</h4>
+              <h4 className="text-center text-xs pl-1 border p-1 rounded-2xl border-gray-500">Martes</h4>
               {allSales.map((sale) => (
                 <HistoryItem key={sale.id} product_name={sale.product_name} price={sale.price} />
               ))}

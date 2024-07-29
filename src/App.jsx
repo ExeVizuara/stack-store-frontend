@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { MainContent } from "./components/shared/MainContent";
 import { MobileMain } from "./components/shared/MobileMain";
 import { Sidebar } from "./components/shared/Sidebar";
 import "@aws-amplify/ui-react/styles.css";
 import { useAuthenticator, withAuthenticator, Authenticator } from '@aws-amplify/ui-react';
-//import { loadProducts } from "./components/shared/ProductService";
-import { loadSales } from "./components/shared/SalesService";
 
 
 function App({signOut}) {
@@ -62,11 +60,15 @@ function CustomApp({ signOut }) {
     <>
       {authStatus === 'authenticated' && (
         <div className="bg-[#262837] w-full h-full mb-16" onClick={handleOutSide}>
-          <Sidebar showMenu={showMenu} onItemClick={selectedOption} activatedCats={currentCategory} logOut={signOut} />
+          <Sidebar showMenu={showMenu} 
+            onItemClick={selectedOption} 
+            activatedCats={currentCategory} 
+            logOut={signOut} 
+          />
           <MobileMain onItemClick={toggleMenu} showMenu={showMenu} />
           <MainContent 
             selectedCat={currentCategory} 
-            searchProducts={ searchProducts} 
+            searchProducts={searchProducts} 
             setSearchProducts={setSearchProducts} 
             search={search} setSearch={setSearch} 
           />

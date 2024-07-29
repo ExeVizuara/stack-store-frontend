@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { RiSearch2Line } from "react-icons/ri";
 import { FindContent } from "../../Sale/FindContent";
-import { updateProduct } from "../../shared/ProductService";
-import { searchName } from "../../shared/searchName";
+import { updateProduct } from "../../../services/ProductService";
+import { searchName } from "../../../utils/SearchName";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";

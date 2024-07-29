@@ -6,7 +6,7 @@ import {
 import { GrDocumentConfig } from "react-icons/gr";
 import { MdOutlinePointOfSale } from "react-icons/md";
 import { BrowserRouter, NavLink } from "react-router-dom";
-import { VitecLogo } from "./VitecLogo";
+import { VitecLogo } from "../../utils/VitecLogo";
 
 
 export function Sidebar ({ onItemClick , activedCats, showMenu, logOut }) {

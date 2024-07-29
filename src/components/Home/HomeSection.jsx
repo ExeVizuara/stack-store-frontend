@@ -45,9 +45,7 @@ export function HomeSection() {
 
     return (
         <div className="xl:col-span-6 sm:p-2 lg:p-4 xl:p-2">
-            {/* Header */}
             <header className="mb-10">
-                {/* Title and search */}
                 <TitleSection />
             </header>
             <div className="grid grid-cols-1 md:grid-cols-8 lg:gap-6 sm:gap-4">

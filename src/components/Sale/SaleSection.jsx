@@ -4,9 +4,9 @@ import { ItemDescription } from "./ItemDescription";
 import { RiSearch2Line } from "react-icons/ri";
 import { FindContent } from "./FindContent";
 import { PrintReceipt } from "./PrintReceip";
-import { actualizeStock, loadAllProducts } from "../shared/ProductService";
-import { searchName } from "../shared/searchName";
-import { addSale, getSales } from "../shared/SalesService";
+import { actualizeStock, loadAllProducts } from "../../services/ProductService";
+import { searchName } from "../../utils/SearchName";
+import { addSale, getSales } from "../../services/SalesService";
 
 export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSales, searchProducts, setSearchProducts, search, setSearch }) {
 
@@ -16,6 +16,7 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
     const [quantity, setQuantity] = useState({});
     const [newStock, setNewStock] = useState(0);
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [subTotal, setSubTotal] = useState(0);
     const [total, setTotal] = useState(0);
     const [printReceipt, setPrintReceipt] = useState(false);
     const [printTicket, setPrintTicket] = useState({ ticket: null });
@@ -56,6 +57,11 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
         setNewStock(stock);
         setSearch("");
         console.log(product);
+        setSubTotal(price * quantity[productId])
+        setQuantity( prevQuantity => ({
+            ...prevQuantity,
+            [productId]: 1
+        }));
     };
 
     const addProduct = async (product, stock) => {
@@ -76,6 +82,21 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
             console.error('Error al agregar el producto:', error);
         }
     };
+
+    const addQuantity = (productId) => {
+        setQuantity( prevQuantity => ({
+            ...prevQuantity,
+            [productId]: quantity[productId]+1
+        }));
+        console.log(quantity[productId]);
+    }
+    const subtractQuantity = (productId) => {
+        setQuantity( prevQuantity => ({
+            ...prevQuantity,
+            [productId]: quantity[productId]-1
+        }));
+        console.log(quantity[productId]);
+    }
 
     const removeProduct = async (index, price, productId) => {
         const updatedProducts = selectProduct.filter((_, i) => i !== index);
@@ -98,8 +119,8 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
         if(total === 0) return alert("Debe seleccionar al menos un producto primero");
         setPrintReceipt(!printReceipt);
         await actualizeStock(selectProduct, initialStocks);
-        const actializeSales = await addSale(selectProduct);
-        console.log(actializeSales);
+        const actualizeSales = await addSale(selectProduct);
+        console.log(actualizeSales);
         getSales(setAllSales);
         setTotalSaleOfTheDay(totalSaleOfTheDay+total);
     }
@@ -112,9 +133,7 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
 
     return (
         <div className="xl:col-span-6 sm:p-2 lg:p-4 xl:p-2">
-            {/* Header */}
             <header className="mb-5">
-                {/* Title and search */}
                 <TitleSection />
             </header>
             <div className="px-1 md:bg-[#1F1D2B] rounded-xl sm:px-2 md:px-4 sm:min-h-[720px]">
@@ -123,7 +142,7 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
                         <div className="col-span-3 row-span-2 md:text-center px-2">
                             <label className="text-lg xl:text-2xl">Busqueda de artículo: </label>
                         </div>
-                        <div className="col-span-3 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
+                        <div className="col-span-6 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
                             <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
                             <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" value={search} placeholder="NOMBRE" onChange={handleFind} onClick={searchItem} />
                             {searchProducts && (
@@ -133,22 +152,14 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
                                 />
                             )}
                         </div>
-                        <div className="col-span-3 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
-                            <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
-                            <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" placeholder="CATEGORIA" />
-                        </div>
-                        <div className="col-span-3 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
+                        <div className="col-span-6 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
                             <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
                             <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" placeholder="CODIGO" />
-                        </div>
-                        <div className="col-span-3 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
-                            <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
-                            <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" placeholder="VENCIMIENTO" />
                         </div>
                     </div>
                     <div className="relative bg-[#262837] rounded-xl">
                         {printReceipt && <PrintReceipt products={selectProduct} total={total} quit={quit} />}
-                        <ItemDescription products={selectProduct} removeProduct={removeProduct} total={total} cancelOperation={cancelOperation} chargeProducts={chargeProducts} />
+                        <ItemDescription products={selectProduct} removeProduct={removeProduct} total={total} cancelOperation={cancelOperation} chargeProducts={chargeProducts} quantity={quantity} addQuantity={addQuantity} subtractQuantity={subtractQuantity} subTotal={subTotal} />
                     </div>
                 </div>
             </div>

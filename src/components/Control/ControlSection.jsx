@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { NavbarSections } from "./NavbarSections";
 import { TitleSection } from "../shared/TitleSection";
-import { AlmacenSection } from "./products/Almacen/AlmacenSection";
-import { loadProductsByCategory } from "../../components/shared/ProductService";
+import { AlmacenSection } from "./AlmacenSection";
+import { loadProductsByCategory } from "../../services/ProductService";
 import { DailySaleComponent } from "./products/DailySaleComponent";
 
 export function ControlSection({ totalSaleOfTheDay, setSearchProducts, searchProducts, search, setSearch }) {
