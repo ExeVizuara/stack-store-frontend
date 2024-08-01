@@ -58,7 +58,7 @@ export function UploadProduct({ productList, currentPage }) {
 
     return (
         <form onSubmit={add}>
-            <ul className="grid grid-cols-8 gap-4 px-10 sm:px-10 text-gray-400 xl:mt-16">
+            <ul className="grid grid-cols-8 gap-4 px-10 sm:px-10 text-gray-400 bg-gray-700 py-5">
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Nombre: </label>

@@ -59,7 +59,7 @@ function CustomApp({ signOut }) {
   return (
     <>
       {authStatus === 'authenticated' && (
-        <div className="bg-[#262837] w-full h-full mb-16" onClick={handleOutSide}>
+        <div className="bg-gray-700 w-full h-full mb-16" onClick={handleOutSide}>
           <Sidebar showMenu={showMenu} 
             onItemClick={selectedOption} 
             activatedCats={currentCategory} 

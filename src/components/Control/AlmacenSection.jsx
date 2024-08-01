@@ -4,7 +4,7 @@ import { ProductList } from "./products/ProductList";
 import { UploadProduct } from "./products/UploadProduct";
 import { UpdateProduct } from "./products/UpdateProduct";
 
-export function AlmacenSection({ productsList, cat, searchProducts, setSearchProducts, search, setSearch }) {
+export function AlmacenSection({ productsList, cat, searchProducts, setSearchProducts, search, setSearch, editMode }) {
 
   const [productList, setProductList] = useState([]);
   const [currentCategory, setCurrentCategory] = useState('List');
@@ -36,9 +36,9 @@ export function AlmacenSection({ productsList, cat, searchProducts, setSearchPro
   return (
     <>
       <NavbarProducts onCategoryChange={handleCategoryChange} />
-        {currentCategory === 'List' && <ProductList productList={productList} />}
+        {currentCategory === 'List' && <ProductList productList={productList} editMode={editMode} />}
         {currentCategory === 'Upload' && <UploadProduct productList={productList} currentPage={page} />}
-        {currentCategory === 'Update' && <UpdateProduct productList={productList} currentPage={page} searchProducts={searchProducts} setSearchProducts={ setSearchProducts } search={search} setSearch={setSearch} />}
+        {currentCategory === 'Update' && <UpdateProduct productList={productList} currentPage={page} searchProducts={searchProducts} setSearchProducts={ setSearchProducts } search={search} setSearch={setSearch} editMode={editMode} />}
     </>
   );
 };

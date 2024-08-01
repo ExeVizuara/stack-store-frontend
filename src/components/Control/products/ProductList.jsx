@@ -1,9 +1,9 @@
 import { Product } from "./Product";
 
-export function ProductList({ productList }) {
+export function ProductList({ productList, editMode }) {
 
     return (
-        <div className="data bg-[#262837] flex flex-col pb-4 lg:p-4 gap-2 lg:gap-4 md:pb-18 rounded-lg max-h-[500px]">
+        <div className="data bg-gray-700 flex flex-col pb-4 lg:p-4 gap-2 lg:gap-4 md:pb-18 rounded-lg max-h-[500px]">
             <ul className="grid grid-cols-8 md:text-sm text-[8px] border-b-2 border-b-slate-400 pb-2 px-1">
                 <li>
                     NOMBRE
@@ -30,9 +30,9 @@ export function ProductList({ productList }) {
                     PRECIO
                 </li>
             </ul>
-            <div className="overflow-y-auto overflow-x-auto sm:rounded-md bg-gray-700">
+            <div className="overflow-y-auto overflow-x-auto sm:rounded-md bg-[#262837]">
                 {productList.map((product) => (
-                    <Product key={product.id} {...product} />
+                    <Product key={product.id} {...product} editMode={editMode}/>
                 ))}
             </div>
             <h3 className="flex flex-row justify-end">Total = {productList.length} productos</h3>
