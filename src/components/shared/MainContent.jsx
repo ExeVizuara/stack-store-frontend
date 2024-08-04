@@ -14,7 +14,13 @@ export function MainContent({ selectedCat, searchProducts, setSearchProducts, se
     
     return (
         <main className="lg:pl-24 grid grid-cols-1 xl:grid-cols-8 py-2 md:px-4 xl:pb-5 sm:h-[785px]">
-            {selectedCat === 'Home' && <HomeSection />}
+            {selectedCat === 'Home' && 
+                <HomeSection searchProducts={ searchProducts } 
+                    setSearchProducts={ setSearchProducts } 
+                    search={search} 
+                    setSearch={setSearch}
+                />
+            }
             {selectedCat === 'Ventas' && 
                 <SaleSection totalSaleOfTheDay={totalSaleOfTheDay} 
                     setTotalSaleOfTheDay={setTotalSaleOfTheDay} 

@@ -6,7 +6,7 @@ import { ProductSalesChart } from "./ProductSalesChart";
 import { Annotations } from "./Annotations";
 import { SystemMessages } from "./SystemMessages";
 
-export function HomeSection() {
+export function HomeSection({ searchProducts, setSearchProducts, search, setSearch }) {
 
     const salesData = [
         { label: 'Lunes', value: 21000 },
@@ -43,7 +43,7 @@ export function HomeSection() {
     return (
         <div className="xl:col-span-6 sm:p-2 lg:p-4 xl:p-2">
             <header className="mb-10">
-                <TitleSection />
+                <TitleSection searchProducts={searchProducts} setSearchProducts={setSearchProducts} search={search} setSearch={setSearch}/>
             </header>
             <div className="grid grid-cols-1 md:grid-cols-8 lg:gap-6 sm:gap-4">
                 <div className="col-span-8">

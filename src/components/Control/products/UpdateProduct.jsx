@@ -122,7 +122,7 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
 
     return (
         <form onSubmit={update}>
-            <ul className="absolute left-[10%] top-0 sm:left-[20%] grid grid-cols-8 gap-4 px-10 sm:py-5 sm:px-10 text-gray-400 xl:mt-16 bg-white rounded-md">
+            <ul className="absolute left-[10%] top-6 sm:top-4 sm:left-[30%] grid grid-cols-8 gap-4 px-10 sm:py-5 py-5 sm:px-10 text-gray-400 xl:mt-16 bg-white rounded-md">
             <button className="absolute right-2 top-1 bg-red-500 border border-red-800 px-1" onClick={editMode}>x</button>
                 {/* <div className="col-span-4 text-center">
                     <label className="text-lg xl:text-2xl">Busqueda de artículo: </label>

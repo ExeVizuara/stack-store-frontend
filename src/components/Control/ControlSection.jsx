@@ -47,7 +47,7 @@ export function ControlSection({ totalSaleOfTheDay, setSearchProducts, searchPro
                 <TitleSection />
                 <NavbarSections currentPage={handleCategoryChange} />
             </header>
-            {editOn && <UpdateProduct editMode={editMode} productEdit={productEdit} currentPage={currentCategory}/>}
+            {editOn && <UpdateProduct editMode={editMode} productEdit={productEdit} currentPage={currentCategory} productList={productList} />}
             <div className="grid grid-cols-3 h-auto w-full mb-4 sm:px-2 xl:h-auto">
                 <div className="md:bg-[#1F1D2B] pt-4 sm:pb-8 sm:px-4 px-2 md:px-8 lg:px-8 lg:py-6 rounded-xl items-center text-center text-gray-300 col-span-3">
                     <DailySaleComponent currentPage={currentCategory} totalSaleOfTheDay={totalSaleOfTheDay} />

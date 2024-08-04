@@ -28,3 +28,7 @@ body {
     background-color: #484a5a;
     border-radius: 4px;
 }
+
+.transition-width {
+    transition-property: width;
+}
