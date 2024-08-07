@@ -1,22 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { updateProduct } from "../../../services/ProductService";
-import { searchName } from "../../../utils/SearchName";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import { es } from 'date-fns/locale/es';
+import { useSearchContext } from "../../../services/SearchProvider";
 registerLocale('es', es)
 setDefaultLocale('es');
 
-export function UpdateProduct({ productList, currentPage, searchProducts, setSearchProducts, search, setSearch, editMode, productEdit }) {
+export function UpdateProduct({ productList, currentPage, editMode, productEdit }) {
 
+    const { search, setSearch, searchProducts, setSearchProducts } = useSearchContext();
     const [products, setProducts] = useState([]);
     const [selectProduct, setSelectProduct] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [actualizeProduct, setActualizeProduct] = useState({});
     const [allProducts, setAllProducts] = useState([]);
     const [expiration, setExpiration] = useState("");
-    let results = [];
 
     useEffect(() => {
         console.log(currentPage)
@@ -123,7 +123,7 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
     return (
         <form onSubmit={update}>
             <ul className="absolute left-[10%] top-6 sm:top-4 sm:left-[30%] grid grid-cols-8 gap-4 px-10 sm:py-5 py-5 sm:px-10 text-gray-400 xl:mt-16 bg-white rounded-md">
-            <button className="absolute right-2 top-1 bg-red-500 border border-red-800 px-1" onClick={editMode}>x</button>
+                <button className="absolute right-2 top-1 bg-red-500 border border-red-800 px-1" onClick={editMode}>x</button>
                 {/* <div className="col-span-4 text-center">
                     <label className="text-lg xl:text-2xl">Busqueda de artículo: </label>
                 </div>
@@ -134,28 +134,28 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
                 </div> */}
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <li className="flex flex-col">
-                    <label className="text-start sm:p-1">Nombre: </label>
-                        <input 
-                            type="text" 
+                        <label className="text-start sm:p-1">Nombre: </label>
+                        <input
+                            type="text"
                             name="name"
                             value={actualizeProduct.name}
-                            required className="sm:w-full rounded-md bg-gray-500 p-1" 
+                            required className="sm:w-full rounded-md bg-gray-500 p-1"
                             onChange={handleChange}
                         />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Categoría: </label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             name="category"
-                            value={actualizeProduct.category} 
+                            value={actualizeProduct.category}
                             required className="sm:w-full rounded-md bg-gray-500 p-1"
                         />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Código: </label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             name="code"
                             value={actualizeProduct.code}
                             required className="sm:w-full rounded-md bg-gray-500 p-1"
@@ -177,34 +177,34 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
                                     setExpiration(formattedDate);
                                 }
                             }
-                        } />
+                            } />
                     </li>
                 </div>
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Stock: </label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             name="stock"
                             value={actualizeProduct.stock}
                             required className="sm:w-full rounded-md bg-gray-500 p-1"
-                            onChange={handleChange} 
+                            onChange={handleChange}
                         />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Costo: </label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             name="cost"
                             value={actualizeProduct.cost}
-                            required className="sm:w-full rounded-md bg-gray-500 p-1" 
+                            required className="sm:w-full rounded-md bg-gray-500 p-1"
                             onChange={handleChange}
                         />
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Descuento: </label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             name="discount"
                             value={actualizeProduct.discount}
                             className="sm:w-full rounded-md bg-gray-500 p-1"
@@ -213,12 +213,12 @@ export function UpdateProduct({ productList, currentPage, searchProducts, setSea
                     </li>
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Precio final: </label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             name="price"
                             value={actualizeProduct.price}
                             className="sm:w-full rounded-md bg-gray-500 p-1"
-                            onChange={handleChange} 
+                            onChange={handleChange}
                         />
                     </li>
                 </div>

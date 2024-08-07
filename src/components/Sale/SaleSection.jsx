@@ -7,9 +7,11 @@ import { PrintReceipt } from "./PrintReceip";
 import { actualizeStock, loadAllProducts } from "../../services/ProductService";
 import { searchName } from "../../utils/SearchName";
 import { addSale, getSales } from "../../services/SalesService";
+import { useSearchContext } from "../../services/SearchProvider";
 
-export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSales, searchProducts, setSearchProducts, search, setSearch }) {
+export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSales }) {
 
+    const { search, setSearch, searchProducts, setSearchProducts } = useSearchContext();
     const [products, setProducts] = useState([]);
     const [selectProduct, setSelectProduct] = useState([]);
     const [initialStocks, setInitialStocks] = useState({});
@@ -34,6 +36,7 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
 
     const searchItem = async () => {
         setSearchProducts(true);
+        console.log("Buscando");
     }
 
     const handleFind = (e) => {

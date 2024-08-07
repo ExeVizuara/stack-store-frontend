@@ -1,8 +1,18 @@
 import { Product } from "./Product";
+import { useSearchContext } from "../../../services/SearchProvider";
+import { useEffect } from "react";
 
-export function ProductList({ productList, editMode }) {
+export function ProductList({ productList, filteredProducts, editMode }) {
 
+    const { search, searchProducts } = useSearchContext();
     const sortedProductList = productList.sort((a, b) => a.name.localeCompare(b.name));
+    const sortedFilteredProducts = filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+    // const displayProducts = searchProducts ? sortedFilteredProducts : sortedProductList;
+
+    useEffect(()=>{
+        
+    }, [])
+
     return (
         <div className="data bg-gray-700 flex flex-col pb-4 lg:p-4 gap-2 lg:gap-4 md:pb-18 rounded-lg max-h-[500px]">
             <ul className="grid grid-cols-8 md:text-sm text-[8px] border-b-2 border-b-slate-400 pb-2 px-1">
@@ -31,12 +41,20 @@ export function ProductList({ productList, editMode }) {
                     PRECIO
                 </li>
             </ul>
-            <div className="overflow-y-auto overflow-x-auto sm:rounded-md bg-[#262837]">
-                {sortedProductList.map((product) => (
+            {search ? 
+                <div className="overflow-y-auto overflow-x-auto sm:rounded-md bg-[#262837]">
+                {sortedFilteredProducts.map((product) => (
                     <Product key={product.id} {...product} editMode={editMode}/>
                 ))}
-            </div>
-            <h3 className="flex flex-row justify-end">Total = {productList.length} productos</h3>
+                </div>
+                :
+                <div className="overflow-y-auto overflow-x-auto sm:rounded-md bg-[#262837]">
+                    {sortedProductList.map((product) => (
+                        <Product key={product.id} {...product} editMode={editMode}/>
+                    ))}
+                </div>
+            }
+            <h3 className="flex flex-row justify-end">Total = {search ? sortedFilteredProducts.length : sortedProductList.length} productos</h3>
         </div>
     )
 };

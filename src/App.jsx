@@ -4,22 +4,21 @@ import { MobileMain } from "./components/shared/MobileMain";
 import { Sidebar } from "./components/shared/Sidebar";
 import "@aws-amplify/ui-react/styles.css";
 import { useAuthenticator, withAuthenticator, Authenticator } from '@aws-amplify/ui-react';
+import { useSearchContext } from "./services/SearchProvider";
 
-
-function App({signOut}) {
+function App({ signOut }) {
 
   return (
     <Authenticator>
-      <CustomApp signOut={signOut}/>
+      <CustomApp signOut={signOut} />
     </Authenticator>
   );
 };
 
 function CustomApp({ signOut }) {
 
+  const { search, setSearchProducts } = useSearchContext();
   const [showMenu, setShowMenu] = useState(false);
-  const [searchProducts, setSearchProducts] = useState(false);
-  const [search, setSearch] = useState("");
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -53,25 +52,20 @@ function CustomApp({ signOut }) {
   const handleOutSide = () => {
     !search && setSearchProducts(false);
   }
-  
+
   const { authStatus } = useAuthenticator();
 
   return (
     <>
       {authStatus === 'authenticated' && (
         <div className="bg-gray-700 w-full h-full mb-16" onClick={handleOutSide}>
-          <Sidebar showMenu={showMenu} 
-            onItemClick={selectedOption} 
-            activatedCats={currentCategory} 
-            logOut={signOut} 
+          <Sidebar showMenu={showMenu}
+            onItemClick={selectedOption}
+            activatedCats={currentCategory}
+            logOut={signOut}
           />
           <MobileMain onItemClick={toggleMenu} showMenu={showMenu} />
-          <MainContent 
-            selectedCat={currentCategory} 
-            searchProducts={searchProducts} 
-            setSearchProducts={setSearchProducts} 
-            search={search} setSearch={setSearch} 
-          />
+            <MainContent selectedCat={currentCategory} />
         </div>
       )}
     </>
