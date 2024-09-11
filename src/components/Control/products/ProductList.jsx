@@ -54,7 +54,7 @@ export function ProductList({ productList, filteredProducts, editMode }) {
                     ))}
                 </div>
             }
-            <h3 className="flex flex-row justify-end">Total = {search ? sortedFilteredProducts.length : sortedProductList.length} productos</h3>
+            <h3 className="flex flex-row justify-end">Resultados = {search ? sortedFilteredProducts.length : sortedProductList.length} productos</h3>
         </div>
     )
 };
