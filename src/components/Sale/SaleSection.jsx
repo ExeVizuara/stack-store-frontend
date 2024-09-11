@@ -6,10 +6,11 @@ import { FindContent } from "./FindContent";
 import { PrintReceipt } from "./PrintReceip";
 import { actualizeStock, loadAllProducts } from "../../services/ProductService";
 import { searchName } from "../../utils/SearchName";
-import { addSale, getSales } from "../../services/SalesService";
+import { addSale, getSales, loadDailySales } from "../../services/SalesService";
 import { useSearchContext } from "../../services/SearchProvider";
+import { CurrentTime } from "../shared/Clock";
 
-export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSales }) {
+export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSales, allSales }) {
 
     const { search, setSearch, searchProducts, setSearchProducts } = useSearchContext();
     const [products, setProducts] = useState([]);
@@ -136,11 +137,11 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
     }
 
     const chargeProducts = async () => {
+        const currentDateTime = CurrentTime();
         if(total === 0) return alert("Debe seleccionar al menos un producto primero");
         setPrintReceipt(!printReceipt);
         await actualizeStock(selectProduct, initialStocks);
-        const actualizeSales = await addSale(selectProduct);
-        console.log(actualizeSales);
+        await addSale(selectProduct);
         getSales(setAllSales);
         setTotalSaleOfTheDay(totalSaleOfTheDay+total);
     }

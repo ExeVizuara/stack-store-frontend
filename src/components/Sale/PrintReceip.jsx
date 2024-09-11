@@ -1,6 +1,6 @@
 import { SellItem } from "./SellItem";
 import { useEffect } from "react";
-import { Clock } from "../shared/Clock";
+import { Clock, CurrentTime } from "../shared/Clock";
 
 export function PrintReceipt({ products, total, quit, quantity, subTotal }) {
 

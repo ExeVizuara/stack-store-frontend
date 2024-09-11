@@ -1,7 +1,7 @@
 import { generateClient } from "aws-amplify/api";
 import { createSales as createSalesMutation } from "../graphql/mutations";
 import { listSales } from "../graphql/queries";
-import { currentTime } from "../components/shared/Clock";
+import { CurrentTime } from "../components/shared/Clock";
 
 export const loadSales = async () => {
     const API = generateClient();
@@ -30,7 +30,7 @@ export const loadDailySales = async (date) => {
 
 export const addSale = async (selectProduct) => {
     const API = generateClient();
-    const currentDateTime = currentTime();
+    const currentDateTime = CurrentTime();
     try {
         selectProduct.map(async (product) => {
             const saleData = {
@@ -64,7 +64,7 @@ export const addSale = async (selectProduct) => {
 }
 
 export const getSales = async (setAllSales) => {
-    const currentDateTime = currentTime();
+    const currentDateTime = CurrentTime();
     try {
         const sales = await loadDailySales(currentDateTime);
         if (!sales) {
@@ -75,6 +75,7 @@ export const getSales = async (setAllSales) => {
             setAllSales(sortedSales);
             console.log(sortedSales);
         }
+        console.log(sales);
     } catch (error) {
         console.error('Error al obtener productos:', error);
     }

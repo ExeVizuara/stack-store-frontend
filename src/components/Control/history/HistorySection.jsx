@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { HistoryNav } from "./HistoryNav";
 import { HistoryItem } from "./HistoryItem";
-import { currentTime } from "../../shared/Clock";
+import { CurrentTime } from "../../shared/Clock";
 import { getSales } from "../../../services/SalesService";
 
 export function HistorySection({ allSales, setAllSales }) {
-
-  const currentDateTime = currentTime();
 
   useEffect(() => {
     getSales(setAllSales);
