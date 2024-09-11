@@ -18,7 +18,7 @@ export function HistorySection({ allSales, setAllSales }) {
       <div className="md:bg-[#1F1D28] rounded-xl sm:p-2 xl:p-2 h-full">
         {/* Orders */}
         <div className="sm:pt-8 text-gray-300 p-2 sm:p-6 xl:p-2">
-          <h1 className="text-xl mb-4">Historial de ventas</h1>
+          <h1 className="text-3xl sm:text-xl mb-2">Historial de ventas</h1>
           {/* Pills */}
           <HistoryNav />
           {/* Card */}
