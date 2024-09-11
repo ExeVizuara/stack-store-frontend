@@ -42,9 +42,6 @@ export function HomeSection({ searchProducts, setSearchProducts, search, setSear
 
     return (
         <div className="xl:col-span-6 sm:p-2 lg:p-4 xl:p-2">
-            <header className="mb-10">
-                <TitleSection searchProducts={searchProducts} setSearchProducts={setSearchProducts} search={search} setSearch={setSearch}/>
-            </header>
             <div className="grid grid-cols-1 md:grid-cols-8 lg:gap-6 sm:gap-4">
                 <div className="col-span-8">
                     <HomeTitles title="MENSAJES DEL SISTEMA"/>

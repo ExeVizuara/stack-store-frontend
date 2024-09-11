@@ -88,12 +88,9 @@ export function ControlSection({ totalSaleOfTheDay }) {
     }
     
     return (
-        <div className="xl:col-span-6 sm:p-2 p-1 lg:p-4 xl:p-2 xl:h-screen">
+        <div>
             {/* Header */}
-            <header>
-                {/* Title */}
-                <div className="flex flex-row justify-between md:items-center gap-4 px-4">
-                    <TitleSection />
+                <div className="flex flex-row justify-end md:items-center gap-4 px-4">
                     <div>
                         <div className="w-full relative">
                             <RiSearch2Line className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 cursor-pointer" onClick={searchItem}/>
@@ -110,7 +107,6 @@ export function ControlSection({ totalSaleOfTheDay }) {
                     </div>
                 </div>
                 <NavbarSections currentPage={handleCategoryChange} />
-            </header>
             {editOn && <UpdateProduct editMode={editMode} productEdit={productEdit} currentPage={currentCategory} productList={productList} />}
             <div className="grid grid-cols-3 h-auto w-full mb-4 sm:px-2 xl:h-auto">
                 <div className="md:bg-[#1F1D2B] pt-4 sm:pb-8 sm:px-4 px-2 md:px-8 lg:px-8 lg:py-6 rounded-xl items-center text-center text-gray-300 col-span-3">

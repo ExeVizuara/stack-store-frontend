@@ -28,7 +28,7 @@ export function ItemDescription ({ products, removeProduct, total, subTotal, can
             </ul>
             <div className="col-span-6 overflow-y-auto overflow-x-auto bg-gray-700 sm:p-4 min-h-[320px] sm:min-h-[445px] border border-gray-600">
                 { products.map((product, index) => (
-                    <SellProducts key={ index } { ...product } removeProduct={() => removeProduct(index, product.price, product.id)} quantity={quantity[product.id]} addQuantity={() => addQuantity(product.id)} subtractQuantity={() => subtractQuantity(product.id)} subTotal={subTotal} />
+                    <SellProducts key={ index } { ...product } removeProduct={() => removeProduct(index, product.price, product.id)} quantity={quantity[product.id]} addQuantity={() => addQuantity(product.id, product.price)} subtractQuantity={() => subtractQuantity(product.id, product.price)} subTotal={subTotal[product.id]} />
                 ))}
             </div>
             <div className="border border-gray-600 sm:rounded-bl-xl bg-gray-500 p-2 px-6 sm:px-14 text-sm sm:text-2xl flex flex-row justify-between">
