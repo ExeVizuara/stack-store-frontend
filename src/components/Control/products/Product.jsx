@@ -7,16 +7,16 @@ export function Product({ id, name, category, code, expiration, stock, cost, dis
         editMode(product);
     }
     return (
-        <ul className="grid grid-cols-8 sm:text-xs md:text-md xl:text-[12px] text-[7px] pl-2 border-b-2 text-gray-400 border-b-slate-600 py-1">
+        <ul className="grid grid-cols-7 sm:text-xs md:text-md xl:text-[12px] text-[7px] pl-2 border-b-2 text-gray-400 border-b-slate-600 py-1">
             <li>
                 {name}
             </li>
             <li>
                 {category}
             </li>
-            <li>
+            {/* <li>
                 {code}
-            </li>
+            </li> */}
             <li>
                 {expiration}
             </li>

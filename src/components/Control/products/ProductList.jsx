@@ -15,16 +15,16 @@ export function ProductList({ productList, filteredProducts, editMode }) {
 
     return (
         <div className="data bg-gray-700 flex flex-col pb-4 lg:p-4 gap-2 lg:gap-4 md:pb-18 rounded-lg max-h-[500px]">
-            <ul className="grid grid-cols-8 md:text-sm text-[8px] border-b-2 border-b-slate-400 pb-2 px-1">
+            <ul className="grid grid-cols-7 md:text-sm text-[8px] border-b-2 border-b-slate-400 pb-2 px-1">
                 <li>
                     NOMBRE
                 </li>
                 <li>
                     CATEGORIA
                 </li>
-                <li>
+                {/* <li>
                     CODIGO
-                </li>
+                </li> */}
                 <li>
                     VENCE
                 </li>
