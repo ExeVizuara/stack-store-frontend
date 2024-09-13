@@ -33,33 +33,6 @@ export function UpdateProduct({ productList, currentPage, editMode, productEdit 
         });
     }, []);
 
-    // const searchItem = async () => {
-    //     const productsList = await productList;
-    //     setSearchProducts(true);
-    //     handlePageChange(currentPage, productsList);
-    // }
-
-    // const handleFind = (e) => {
-    //     if (e.target.value) {
-    //         setSearch(e.target.value);
-    //         results = searchName(products, e.target.value);
-    //         setFilteredProducts(results);
-    //     } else { setSearch("") }
-    //     console.log(results);
-    // };
-
-    // const handlePageChange = async (category, prod) => {
-    //     const lowercaseCategory = category.toLowerCase();
-    //     const results = await prod.filter((data) => data.category.toLowerCase().includes(lowercaseCategory));
-    //     if (!results) {
-    //         console.log("NO HAY PRODUCTOS");
-    //         setProducts([]);
-    //     } else {
-    //         setProducts(results);
-    //         console.log(results);
-    //     }
-    // };
-
     const handleChange = (e) => {
         setActualizeProduct({
             ...actualizeProduct,
@@ -124,14 +97,6 @@ export function UpdateProduct({ productList, currentPage, editMode, productEdit 
         <form onSubmit={update}>
             <ul className="absolute left-[10%] top-6 sm:top-4 sm:left-[30%] grid grid-cols-8 gap-4 px-10 sm:py-5 py-5 sm:px-10 text-gray-400 xl:mt-16 bg-white rounded-md">
                 <button className="absolute right-2 top-1 bg-red-500 border border-red-800 px-1" onClick={editMode}>x</button>
-                {/* <div className="col-span-4 text-center">
-                    <label className="text-lg xl:text-2xl">Busqueda de artículo: </label>
-                </div>
-                <div className="col-span-4 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg">
-                    <RiSearch2Line className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
-                    <input type="text" className="text-gray-300 text-[11px] sm:text-sm outline-none w-full bg-transparent" value={search ? search : ""} placeholder="NOMBRE" onChange={handleFind} onClick={searchItem} />
-                    {searchProducts && <FindContent products={filteredProducts} addProduct={addProduct} />}
-                </div> */}
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <li className="flex flex-col">
                         <label className="text-start sm:p-1">Nombre: </label>
@@ -206,7 +171,7 @@ export function UpdateProduct({ productList, currentPage, editMode, productEdit 
                         <input
                             type="text"
                             name="discount"
-                            value={actualizeProduct.discount}
+                            value={actualizeProduct.discount ? actualizeProduct.discount : "0"}
                             className="sm:w-full rounded-md bg-gray-500 p-1"
                             onChange={handleChange}
                         />

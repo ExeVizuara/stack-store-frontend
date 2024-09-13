@@ -28,7 +28,7 @@ export declare type ProductsCreateFormInputValues = {
     expiration?: string;
     stock?: number;
     cost?: number;
-    discount?: number;
+    discount?: string;
     price?: number;
 };
 export declare type ProductsCreateFormValidationValues = {
@@ -38,7 +38,7 @@ export declare type ProductsCreateFormValidationValues = {
     expiration?: ValidationFunction<string>;
     stock?: ValidationFunction<number>;
     cost?: ValidationFunction<number>;
-    discount?: ValidationFunction<number>;
+    discount?: ValidationFunction<string>;
     price?: ValidationFunction<number>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
