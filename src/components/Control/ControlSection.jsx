@@ -27,6 +27,7 @@ export function ControlSection({ totalSaleOfTheDay }) {
             try {
                 const products = await loadProductsByCategory(currentCategory);
                 setProductList(products);
+                console.log('Productos cargados: ', products.length);
             } catch (error) {
                 console.error('Error al cargar los productos:', error);
             }
@@ -68,7 +69,6 @@ export function ControlSection({ totalSaleOfTheDay }) {
             setProducts([]);
         } else {
             setProducts(results);
-            console.log(results);
             return results;
         }
     }
@@ -86,31 +86,33 @@ export function ControlSection({ totalSaleOfTheDay }) {
         console.log(product);
         await selectProductEdit(product);
     }
-    
+
     return (
-        <div>
+        <div className="xl:col-span-6 sm:p-2 p-1 lg:p-4 xl:p-2 xl:h-screen">
             {/* Header */}
-                <div className="flex flex-row justify-end md:items-center gap-4 px-4">
-                    <div>
-                        <div className="w-full relative">
-                            <RiSearch2Line className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 cursor-pointer" onClick={searchItem}/>
-                            <input type="text"
-                                placeholder="Producto"
-                                value={search ? search : ""}
-                                onFocus={handleFocus}
-                                onBlur={handleBlur}
-                                onChange={handleSearch}
-                                onClick={searchItem}
-                                className={`bg-[#1F1D2B] py-2 p-10 pr-4 rounded-lg text-gray-300 outline-none transition-width duration-300 ease-in-out cursor-pointer ${isExpanded ? 'w-40' : 'w-10'}`}
-                            />
-                        </div>
+            <TitleSection />
+            <NavbarSections currentPage={handleCategoryChange} />
+            <div className="flex flex-row justify-end md:items-center gap-4 px-4">
+                <div className="absolute">
+                    <div className="w-full relative">
+                        <RiSearch2Line className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 cursor-pointer" onClick={searchItem} />
+                        <input type="text"
+                            placeholder="Producto"
+                            value={search ? search : ""}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                            onChange={handleSearch}
+                            onClick={searchItem}
+                            className={`bg-[#1F1D2B] py-2 p-10 pr-4 rounded-lg text-gray-300 outline-none transition-width duration-300 ease-in-out cursor-pointer ${isExpanded ? 'w-40' : 'w-10'}`}
+                        />
                     </div>
                 </div>
-                <NavbarSections currentPage={handleCategoryChange} />
+            </div>
+
             {editOn && <UpdateProduct editMode={editMode} productEdit={productEdit} currentPage={currentCategory} productList={productList} />}
             <div className="grid grid-cols-3 h-auto w-full mb-4 sm:px-2 xl:h-auto">
                 <div className="md:bg-[#1F1D2B] pt-4 sm:pb-8 sm:px-4 px-2 md:px-8 lg:px-8 lg:py-6 rounded-xl items-center text-center text-gray-300 col-span-3">
-                    <DailySaleComponent currentPage={currentCategory} totalSaleOfTheDay={totalSaleOfTheDay} />
+                    {/* <DailySaleComponent currentPage={currentCategory} totalSaleOfTheDay={totalSaleOfTheDay} /> */}
                     <AlmacenSection productsList={productList} filteredProducts={filteredProducts} cat={currentCategory} editMode={editMode} />
                 </div>
             </div>

@@ -36,7 +36,7 @@ export function NavbarProducts({ onCategoryChange }) {
                     onClick={() => handleClick('Upload')}
                     className={`text-gray-300 rounded-t-md px-3 ${activedCats.Upload ? activatedLink : "bg-[#262837]"}`}
                 >
-                    Agregar
+                    +
                 </NavLink>
                 {/* <NavLink
                     to="/"
