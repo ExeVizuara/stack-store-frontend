@@ -10,7 +10,7 @@ type Products @model @auth(rules: [{allow: public}]) {
   expiration: String
   stock: Int!
   cost: Int!
-  discount: Int
+  discount: String
   price: Int!
 } 
 
