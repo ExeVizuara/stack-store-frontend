@@ -14,7 +14,7 @@ export function SellProducts({
     {
 
     return (
-        <ul className="relative text-center grid grid-cols-5 sm:text-xs md:text-md 2xl:text-lg text-[8px] p-2 border-b-2 text-gray-400 border-b-slate-600 py-1">
+        <ul className="relative text-center grid grid-cols-5 sm:text-xs md:text-md 2xl:text-lg text-[10px] p-2 border-b-2 text-gray-400 border-b-slate-600 py-1">
             <li>
                 {name}
             </li>
@@ -32,7 +32,7 @@ export function SellProducts({
             <li>
                 {subTotal}
             </li>
-            <button className="absolute right-4 top-1 bg-red-500 border px-1" onClick={removeProduct}>x</button>
+            <button className="absolute right-3 top-1 bg-red-500 border px-1" onClick={removeProduct}>x</button>
         </ul>
     )
 }

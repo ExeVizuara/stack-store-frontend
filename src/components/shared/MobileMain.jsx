@@ -11,7 +11,7 @@ export function MobileMain({ onItemClick , showMenu }) {
 
   return (
     <>
-      <nav className="bg-[#1F1D2B] lg:hidden fixed w-full bottom-0 left-0 text-3xl text-gray-400 py-2 px-8 flex items-center justify-between rounded-tl-xl rounded-tr-xl">
+      <nav className="bg-[#1F1D2B] lg:hidden fixed w-full bottom-0 left-0 text-3xl text-gray-400 py-2 px-8 flex items-center justify-between rounded-tl-xl rounded-tr-xl z-10">
         <button className="p-2">
           <RiUser3Line />
         </button>
