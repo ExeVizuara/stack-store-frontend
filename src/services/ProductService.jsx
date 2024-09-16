@@ -2,6 +2,7 @@ import { generateClient } from "aws-amplify/api";
 import { listProducts } from "../graphql/queries";
 import { updateProducts as updateProductMutation } from "../graphql/mutations";
 import { createProducts as createProductMutation } from "../graphql/mutations";
+import { deleteProducts as deleteProductsMutation } from "../graphql/mutations";
 
 export const loadAllProducts = async () => {
     const API = generateClient();
@@ -112,6 +113,26 @@ export const updateProduct = async (product) => {
     }
 };
 
+export const deleteProduct = async (productID) => {
+    const API = generateClient();
+    console.log('Seleccionado producto ID: ', productID);
+
+    try {
+        const deleteProductForID = await API.graphql({
+            query: deleteProductsMutation,
+            variables: { input: { id: productID } }
+        });
+        console.log('Respuesta completa de la API:', deleteProductForID);
+
+        if (deleteProductForID.data) {
+            console.log('Producto eliminado:', deleteProductForID.data.deleteProducts);
+        } else {
+            console.log('La respuesta de la API no contiene datos:', deleteProductForID);
+        }
+    } catch (error) {
+        console.log('Error al eliminar producto', error);
+    };
+};
 export const actualizeStock = async (products, stock) => {
     const API = generateClient();
     try {

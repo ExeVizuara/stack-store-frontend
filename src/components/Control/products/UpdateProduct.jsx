@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { updateProduct } from "../../../services/ProductService";
+import { deleteProduct, updateProduct } from "../../../services/ProductService";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
@@ -69,6 +69,22 @@ export function UpdateProduct({ productList, currentPage, editMode, productEdit 
             editMode();
         } catch (error) {
             console.log("Error al procesar la solicitud")
+        }
+    }
+
+    const productForDelete = async (product) => {
+
+        const productID = product.id;
+        const isConfirmed = window.confirm('¿Estás seguro de que deseas eliminar este producto?');
+        if (isConfirmed) {
+            try {
+                await deleteProduct(productID);
+                editMode();
+                alert('Producto eliminado correctamente');
+            } 
+            catch (error) {
+                console.log('Ocurrió un error')
+            }
         }
     }
 
@@ -188,8 +204,13 @@ export function UpdateProduct({ productList, currentPage, editMode, productEdit 
                     </li>
                 </div>
                 <div className="col-span-8 text-center">
-                    <button type="submit" className="hover:bg-[#2c3e19d8] px-6 py-2 border border-[#5c9c19d8] hover:text-white text-[#5c9c19d8] w-full rounded-md">
+                    <button type="submit" className="bg-[#2c3e19d8] px-6 py-2 border border-[#5c9c19d8] text-white w-full rounded-md">
                         GUARDAR
+                    </button>
+                </div>
+                <div className="col-span-8 text-center">
+                    <button type="button" onClick={()=> productForDelete(actualizeProduct)} className="hover:bg-red-800 px-6 py-2 border bg-red-500 border-red-800 hover:text-white w-full rounded-md">
+                        ELIMINAR PRODUCTO
                     </button>
                 </div>
             </ul >

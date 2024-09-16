@@ -93,7 +93,7 @@ export function ControlSection({ totalSaleOfTheDay }) {
             <TitleSection />
             <NavbarSections currentPage={handleCategoryChange} />
             <div className="flex flex-row justify-end md:items-center gap-4 px-4">
-                <div className="absolute">
+                <div className="absolute top-[120px] md:top-[80px]">
                     <div className="w-full relative">
                         <RiSearch2Line className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 cursor-pointer" onClick={searchItem} />
                         <input type="text"
