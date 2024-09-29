@@ -19,6 +19,7 @@ type Sales @model @auth(rules: [{allow: public}]) {
   product_name: String!
   product_category: String!
   product_date: String!
+  product_quantity: Int!
   price: Int!
 } 
 

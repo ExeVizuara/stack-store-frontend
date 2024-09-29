@@ -82,6 +82,7 @@ export const getSales = /* GraphQL */ `
       product_name
       product_category
       product_date
+      product_quantity
       price
       createdAt
       updatedAt
@@ -101,6 +102,7 @@ export const listSales = /* GraphQL */ `
         product_name
         product_category
         product_date
+        product_quantity
         price
         createdAt
         updatedAt

@@ -28,15 +28,17 @@ export const loadDailySales = async (date) => {
 };
 
 
-export const addSale = async (selectProduct) => {
+export const addSale = async (selectProduct, quantity) => {
     const API = generateClient();
     const currentDateTime = CurrentTime();
     try {
         selectProduct.map(async (product) => {
+            console.log(quantity[product.id]);
             const saleData = {
                 product_name: product.name,
                 product_category: product.category,
                 product_date: currentDateTime,
+                product_quantity: quantity[product.id],
                 price: product.price,
             };
 

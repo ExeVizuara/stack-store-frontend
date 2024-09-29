@@ -26,6 +26,7 @@ export default function SalesCreateForm(props) {
     product_name: "",
     product_category: "",
     product_date: "",
+    product_quantity: "",
     price: "",
   };
   const [product_name, setProduct_name] = React.useState(
@@ -37,12 +38,16 @@ export default function SalesCreateForm(props) {
   const [product_date, setProduct_date] = React.useState(
     initialValues.product_date
   );
+  const [product_quantity, setProduct_quantity] = React.useState(
+    initialValues.product_quantity
+  );
   const [price, setPrice] = React.useState(initialValues.price);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setProduct_name(initialValues.product_name);
     setProduct_category(initialValues.product_category);
     setProduct_date(initialValues.product_date);
+    setProduct_quantity(initialValues.product_quantity);
     setPrice(initialValues.price);
     setErrors({});
   };
@@ -50,6 +55,7 @@ export default function SalesCreateForm(props) {
     product_name: [{ type: "Required" }],
     product_category: [{ type: "Required" }],
     product_date: [{ type: "Required" }],
+    product_quantity: [{ type: "Required" }],
     price: [{ type: "Required" }],
   };
   const runValidationTasks = async (
@@ -81,6 +87,7 @@ export default function SalesCreateForm(props) {
           product_name,
           product_category,
           product_date,
+          product_quantity,
           price,
         };
         const validationResponses = await Promise.all(
@@ -147,6 +154,7 @@ export default function SalesCreateForm(props) {
               product_name: value,
               product_category,
               product_date,
+              product_quantity,
               price,
             };
             const result = onChange(modelFields);
@@ -174,6 +182,7 @@ export default function SalesCreateForm(props) {
               product_name,
               product_category: value,
               product_date,
+              product_quantity,
               price,
             };
             const result = onChange(modelFields);
@@ -201,6 +210,7 @@ export default function SalesCreateForm(props) {
               product_name,
               product_category,
               product_date: value,
+              product_quantity,
               price,
             };
             const result = onChange(modelFields);
@@ -215,6 +225,38 @@ export default function SalesCreateForm(props) {
         errorMessage={errors.product_date?.errorMessage}
         hasError={errors.product_date?.hasError}
         {...getOverrideProps(overrides, "product_date")}
+      ></TextField>
+      <TextField
+        label="Product quantity"
+        isRequired={true}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={product_quantity}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              product_name,
+              product_category,
+              product_date,
+              product_quantity: value,
+              price,
+            };
+            const result = onChange(modelFields);
+            value = result?.product_quantity ?? value;
+          }
+          if (errors.product_quantity?.hasError) {
+            runValidationTasks("product_quantity", value);
+          }
+          setProduct_quantity(value);
+        }}
+        onBlur={() => runValidationTasks("product_quantity", product_quantity)}
+        errorMessage={errors.product_quantity?.errorMessage}
+        hasError={errors.product_quantity?.hasError}
+        {...getOverrideProps(overrides, "product_quantity")}
       ></TextField>
       <TextField
         label="Price"
@@ -232,6 +274,7 @@ export default function SalesCreateForm(props) {
               product_name,
               product_category,
               product_date,
+              product_quantity,
               price: value,
             };
             const result = onChange(modelFields);
