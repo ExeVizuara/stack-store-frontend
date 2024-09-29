@@ -15,6 +15,7 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
     const { search, setSearch, searchProducts, setSearchProducts } = useSearchContext();
     const [products, setProducts] = useState([]);
     const [selectProduct, setSelectProduct] = useState([]);
+    const [inListProduct, setInListProduct] = useState({});
     const [initialStocks, setInitialStocks] = useState({});
     const [quantity, setQuantity] = useState({});
     const [newStock, setNewStock] = useState(0);
@@ -79,9 +80,16 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
             }
             if (!initialStocks.hasOwnProperty(product.id)) {
                 await storeInitialStock(product.id, product.stock - 1, product.price, product);
+                setInListProduct(prevList => ({
+                    ...prevList,
+                    [product.id]: true
+                }));
             } else {
                 if (initialStocks[product.id] === 0) {
                     return alert("No hay stock disponible de ese producto!");
+                }
+                if (inListProduct[product.id]) {
+                    return alert("El producto ya esta en la lista. \nPuedes agregar mas cantidad con '+'")
                 }
                 await storeInitialStock(product.id, initialStocks[product.id] - 1, product.price, product);
             }
@@ -95,18 +103,28 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
     }
 
     const addQuantity = async (productId, productPrice) => {
-        setQuantity( prevQuantity => ({
-            ...prevQuantity,
-            [productId]: quantity[productId]+1
-        }));
-        setSubTotal(prevSubTotal => ({
-            ...prevSubTotal,
-            [productId]: (prevSubTotal[productId] || productPrice) + productPrice // Actualiza el subtotal de este producto
-        }));
-    
-        setTotal(total + productPrice); // Aumenta el total global con el precio del producto
+        console.log('Stock inicial: ', initialStocks[productId]);
+        if (initialStocks[productId] === 0) {
+            return alert("No hay stock disponible de ese producto!");
+        } else {
+            initialStocks[productId]--;
+            setQuantity( prevQuantity => ({
+                ...prevQuantity,
+                [productId]: quantity[productId]+1
+            }));
+            setSubTotal(prevSubTotal => ({
+                ...prevSubTotal,
+                [productId]: (prevSubTotal[productId] || productPrice) + productPrice // Actualiza el subtotal de este producto
+            }));
+        
+            setTotal(total + productPrice); // Aumenta el total global con el precio del producto
+        }
     }
     const subtractQuantity = (productId, productPrice) => {
+        if (quantity[productId] === 1) {
+            return alert("El minimo en cantidad es 1 \nPuedes eliminar el producto con 'x'");
+        }
+        initialStocks[productId]++;
         setQuantity( prevQuantity => ({
             ...prevQuantity,
             [productId]: quantity[productId]-1
@@ -124,10 +142,14 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
         setSelectProduct(updatedProducts);
         setInitialStocks(prevState => ({
             ...prevState,
-            [productId]: initialStocks[productId] + 1
+            [productId]: initialStocks[productId] + quantity[productId]
         }));
         console.log("Stock: ", initialStocks[productId]);
-        setTotal((total) - price);
+        setTotal((total) - (price*quantity[productId]));
+        setInListProduct(prevList => ({
+            ...prevList,
+            [productId]: false
+        }));
     };
 
     const cancelOperation = () => {
@@ -137,7 +159,6 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
     }
 
     const chargeProducts = async () => {
-        const currentDateTime = CurrentTime();
         if(total === 0) return alert("Debe seleccionar al menos un producto primero");
         setPrintReceipt(!printReceipt);
         await actualizeStock(selectProduct, initialStocks);
