@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { HistoryNav } from "./HistoryNav";
 import { HistoryItem } from "./HistoryItem";
-import { CurrentTime } from "../../shared/Clock";
+import { CurrentDay } from "../../shared/Clock";
 import { getSales } from "../../../services/SalesService";
 
 export function HistorySection({ allSales, setAllSales }) {
@@ -10,6 +10,7 @@ export function HistorySection({ allSales, setAllSales }) {
     getSales(setAllSales);
   }, []);
 
+  const currentDay = CurrentDay();
   
   return (
     <div className="xl:col-span-2 p-1 sm:px-4 lg:px-6 xl:static xl:p-0">
@@ -23,9 +24,14 @@ export function HistorySection({ allSales, setAllSales }) {
           <div>
             {/* Product */}
             <div className="bg-[#262837] sm:p-4 rounded-xl overflow-y-auto overflow-x-auto">
-              <h4 className="text-center text-xs pl-1 border p-1 rounded-2xl border-gray-500">Martes</h4>
+              <h4 className="text-center text-xs pl-1 border p-1 rounded-2xl border-gray-500">{currentDay}</h4>
+              <div className="grid grid-cols-6 px-2">
+                <div className="col-span-3">Producto</div>
+                <div className="col-span-2">Cantidad</div>
+                <div className="col-span-1">Precio</div>
+              </div>
               {allSales.map((sale) => (
-                <HistoryItem key={sale.id} product_name={sale.product_name} price={sale.price} />
+                <HistoryItem key={sale.id} product_name={sale.product_name} price={sale.price} quantity={sale.product_quantity} />
               ))}
             </div>
           </div>

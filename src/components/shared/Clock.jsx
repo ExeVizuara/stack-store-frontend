@@ -35,3 +35,10 @@ export function CurrentTime () {
   return formattedDate;
 }
 
+export function CurrentDay () {
+  const weekDays = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  const currentDate = new Date();
+  const weekDay = currentDate.getDay();
+  return weekDays[weekDay];
+}
+
