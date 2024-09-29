@@ -162,7 +162,7 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
         if(total === 0) return alert("Debe seleccionar al menos un producto primero");
         setPrintReceipt(!printReceipt);
         await actualizeStock(selectProduct, initialStocks);
-        await addSale(selectProduct);
+        await addSale(selectProduct, quantity);
         getSales(setAllSales);
         setTotalSaleOfTheDay(totalSaleOfTheDay+total);
     }
