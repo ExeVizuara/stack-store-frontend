@@ -6,7 +6,7 @@ import { FindContent } from "./FindContent";
 import { PrintReceipt } from "./PrintReceip";
 import { actualizeStock, loadAllProducts } from "../../services/ProductService";
 import { searchName } from "../../utils/SearchName";
-import { addSale, getSales, loadDailySales } from "../../services/SalesService";
+import { addSale, getDailyGain, getSales, loadDailySales } from "../../services/SalesService";
 import { useSearchContext } from "../../services/SearchProvider";
 import { CurrentTime } from "../shared/Clock";
 
@@ -24,11 +24,12 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
     const [total, setTotal] = useState(0);
     const [printReceipt, setPrintReceipt] = useState(false);
     const [printTicket, setPrintTicket] = useState({ ticket: null });
+    const currentTime = CurrentTime();
     let results = [];
 
     useEffect(() => {
         loadProducts();
-        setSearch("")
+        setSearch("");
     }, []);
 
     const loadProducts = async () => {

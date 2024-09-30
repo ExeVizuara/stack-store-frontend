@@ -39,7 +39,7 @@ export const addSale = async (selectProduct, quantity) => {
                 product_category: product.category,
                 product_date: currentDateTime,
                 product_quantity: quantity[product.id],
-                price: product.price,
+                price: product.price
             };
 
             const result = await API.graphql({
@@ -80,5 +80,20 @@ export const getSales = async (setAllSales) => {
         console.log(sales);
     } catch (error) {
         console.error('Error al obtener productos:', error);
+    }
+};
+
+export const getDailyGain = async () => {
+    const currentDateTime = CurrentTime();
+    try {
+        const sales = await loadDailySales(currentDateTime);
+        const dailyGain = await sales.reduce((total, sale) => {
+            console.log(total + sale.price)
+            return total + sale.price;
+        }, 0);
+        console.log(dailyGain);
+        return dailyGain;
+    } catch (error) {
+        
     }
 };
