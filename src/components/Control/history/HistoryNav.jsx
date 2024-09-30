@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, BrowserRouter } from "react-router-dom";
 
-export function HistoryNav() {
+export function HistoryNav({ totalSaleOfTheDay }) {
 
     const [currentSection, setCurrentSection] = useState(false);
 
@@ -32,7 +32,10 @@ export function HistoryNav() {
                     onClick={() => handleClick('Diario')}
                     className={`text-[#5c9c19d8] py-2 px-1 xl:px-3 rounded-xl ${activedCats.Diario ? activatedLink : ""}`}
                 >
-                    Diario
+                    <div className="flex flex-row justify-around">
+                        <h3>Diario</h3>
+                        <div className="bg-green-700 px-2">${totalSaleOfTheDay}</div>
+                    </div>
                 </NavLink>
                 <NavLink
                     to="/"
