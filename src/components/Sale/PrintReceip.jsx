@@ -27,7 +27,7 @@ export function PrintReceipt({ products, total, quit, quantity, subTotal }) {
                 </ul>
                 <div className="overflow-y-auto overflow-x-auto sm:rounded-md text-slate-600 w-full">
                     {products.map((product, index) => (
-                        <SellItem key={index} name={product.name} price={product.price} quantity={quantity[product.id]} total={subTotal[product.id]} />
+                        <SellItem key={index} name={product.name} price={product.price} quantity={quantity[product.id]} total={subTotal[product.id]*quantity[product.id]} />
                     ))}
                 </div>
                 <div className="flex flex-row gap-10 pt-4">
