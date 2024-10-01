@@ -21,7 +21,13 @@ type Sales @model @auth(rules: [{allow: public}]) {
   product_date: String!
   product_quantity: Int!
   price: Int!
-} 
+}
+
+type WeeklySale @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  date: String!
+  total: Int!
+}
 
 type Query {
   listProductsByCategory(
