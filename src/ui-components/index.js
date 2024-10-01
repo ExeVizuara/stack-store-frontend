@@ -8,4 +8,6 @@ export { default as ProductsCreateForm } from "./ProductsCreateForm";
 export { default as ProductsUpdateForm } from "./ProductsUpdateForm";
 export { default as SalesCreateForm } from "./SalesCreateForm";
 export { default as SalesUpdateForm } from "./SalesUpdateForm";
+export { default as WeeklySaleCreateForm } from "./WeeklySaleCreateForm";
+export { default as WeeklySaleUpdateForm } from "./WeeklySaleUpdateForm";
 export { default as studioTheme } from "./studioTheme";

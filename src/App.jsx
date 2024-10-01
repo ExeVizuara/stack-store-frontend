@@ -2,9 +2,9 @@ import { useState } from "react";
 import { MainContent } from "./components/shared/MainContent";
 import { MobileMain } from "./components/shared/MobileMain";
 import { Sidebar } from "./components/shared/Sidebar";
-import "@aws-amplify/ui-react/styles.css";
 import { useAuthenticator, withAuthenticator, Authenticator } from '@aws-amplify/ui-react';
 import { useSearchContext } from "./services/SearchProvider";
+import "@aws-amplify/ui-react/styles.css";
 
 function App({ signOut }) {
 
