@@ -8,7 +8,7 @@ export function ItemDescription ({ products, removeProduct, total, subTotal, can
     }, []);
 
     return (
-        <div className="data bg-[#262837] flex flex-col sm:p-2 pb-4 lg:p-8 rounded-lg min-h-[350px] sm:min-h-[600px]">
+        <div className="data sm:bg-[#262837] bg-[#466822d8] flex flex-col sm:p-2 lg:p-8 rounded-lg min-h-[350px] sm:min-h-[600px]">
             <ul className="text-center grid grid-cols-5 sm:text-[13px] 2xl:text-lg text-[8.5px] border border-gray-600 p-1 sm:px-6 rounded-t-sm sm:rounded-t-xl">
                 <li>
                     NOMBRE

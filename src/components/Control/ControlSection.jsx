@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { NavbarSections } from "./NavbarSections";
-import { TitleSection } from "../shared/TitleSection";
 import { AlmacenSection } from "./AlmacenSection";
 import { loadProductsByCategory } from "../../services/ProductService";
 import { DailySaleComponent } from "./products/DailySaleComponent";
@@ -90,7 +89,7 @@ export function ControlSection({ totalSaleOfTheDay }) {
     return (
         <div className="xl:col-span-6 sm:p-2 p-1 lg:p-4 xl:p-2 xl:h-screen">
             {/* Header */}
-            <TitleSection />
+            {/* <TitleSection /> */}
             <NavbarSections currentPage={handleCategoryChange} />
             <div className="flex flex-row justify-end md:items-center gap-4 px-4">
                 <div className="absolute top-[120px] md:top-[80px]">

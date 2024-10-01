@@ -44,14 +44,6 @@ export function HomeSection({ searchProducts, setSearchProducts, search, setSear
         <div className="xl:col-span-6 sm:p-2 lg:p-4 xl:p-2">
             <div className="grid grid-cols-1 md:grid-cols-8 lg:gap-6 sm:gap-4">
                 <div className="col-span-8">
-                    <HomeTitles title="MENSAJES DEL SISTEMA"/>
-                </div>
-                <div className="col-span-8 sm:bg-[#1F1D2B] min-h-[350px] h-auto rounded-md md:p-8 2xl:px-2">
-                    <div className="w-10/12 md:w-11/12 items-center gap-2 lg:gap-4 rounded-lg h-[270px] mx-auto">
-                        <SystemMessages />
-                    </div>
-                </div>
-                <div className="col-span-8">
                     <HomeTitles title="REGISTRO DE GANANCIAS"/>
                 </div>
                 <div className="col-span-8 p-4 lg:p-0 md:col-span-4">
@@ -59,6 +51,14 @@ export function HomeSection({ searchProducts, setSearchProducts, search, setSear
                 </div>
                 <div className="col-span-8 p-4 lg:p-0 md:col-span-4">
                     <SalesChart data={salesData} />
+                </div>
+                <div className="col-span-8 sm:bg-[#1F1D2B] min-h-[350px] h-auto rounded-md md:p-8 2xl:px-2">
+                    <div className="flex flex-row justify-center">
+                        <HomeTitles title="MENSAJES DEL SISTEMA"/>
+                    </div>
+                    <div className="w-10/12 md:w-11/12 items-center gap-2 lg:gap-4 rounded-lg h-[270px] mx-auto">
+                        <SystemMessages />
+                    </div>
                 </div>
                 <div className="col-span-8 md:col-span-4 sm:bg-[#1F1D2B] min-h-[350px] h-auto rounded-md sm:px-8">
                     <h1 className="text-center text-gray-500 my-2">ANOTACIONES</h1>

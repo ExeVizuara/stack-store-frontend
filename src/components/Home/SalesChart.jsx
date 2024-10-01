@@ -41,7 +41,7 @@ export function SalesChart({ data }) {
         chartWeekly.destroy();
       }
     };
-  }, [data]);
+  }, []);
 
   return (
     <div className="items-center w-full mx-auto lg:bg-[#1F1D2B] p-4 lg:p-8 rounded-md">

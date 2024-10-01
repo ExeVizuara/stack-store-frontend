@@ -51,7 +51,7 @@ export function ProductSalesChart({ data }) {
         chartSales.destroy();
       }
     }
-  }, [data]);
+  }, []);
 
   return (
     <div className="w-full max-w-lg mx-auto">

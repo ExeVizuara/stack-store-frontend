@@ -1,16 +1,15 @@
 import { React, useState, useEffect } from "react";
-import { TitleSection } from "../shared/TitleSection";
 import { ItemDescription } from "./ItemDescription";
 import { RiSearch2Line } from "react-icons/ri";
 import { FindContent } from "./FindContent";
 import { PrintReceipt } from "./PrintReceip";
 import { actualizeStock, loadAllProducts } from "../../services/ProductService";
 import { searchName } from "../../utils/SearchName";
-import { addSale, getDailyGain, getSales, loadDailySales } from "../../services/SalesService";
+import { addSale, getDailyGain, getSales, getWeeklySale, addOrUpdateWeeklySale } from "../../services/SalesService";
 import { useSearchContext } from "../../services/SearchProvider";
 import { CurrentTime } from "../shared/Clock";
 
-export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSales, allSales }) {
+export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, totalWeeklySale, setTotalWeeklySale, setAllSales, setAllWeeklySale }) {
 
     const { search, setSearch, searchProducts, setSearchProducts } = useSearchContext();
     const [products, setProducts] = useState([]);
@@ -164,6 +163,7 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
         setPrintReceipt(!printReceipt);
         await actualizeStock(selectProduct, initialStocks);
         await addSale(selectProduct, quantity);
+        await addOrUpdateWeeklySale(total);
         getSales(setAllSales);
         setTotalSaleOfTheDay(totalSaleOfTheDay+total);
     }
@@ -182,7 +182,7 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
                         <div className="sm:col-span-3 row-span-2 md:text-center px-2">
                             <label className="text-3xl xl:text-2xl">Busqueda de artículo: </label>
                         </div>
-                        <div className="sm:col-span-6  relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg p-2 sm:p-0">
+                        <div className="sm:col-span-6  relative bg-[#466822d8] pl-6 sm:pl-10 rounded-lg p-2 sm:p-0">
                             <RiSearch2Line className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm" />
                             <input type="text" className="text-gray-400 pl-2 text-[16px] sm:text-sm outline-none w-full bg-transparent" value={search} placeholder="NOMBRE" onChange={handleFind} onClick={searchItem} />
                             {searchProducts && (
@@ -192,7 +192,7 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, setAllSal
                                 />
                             )}
                         </div>
-                        <div className="sm:col-span-6 relative bg-[#2c3e19d8] pl-6 sm:pl-10 rounded-lg p-2 sm:p-0">
+                        <div className="sm:col-span-6 relative bg-[#466822d8] pl-6 sm:pl-10 rounded-lg p-2 sm:p-0">
                             <RiSearch2Line className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm" />
                             <input type="text" className="text-gray-400 pl-2 text-[16px] sm:text-sm outline-none w-full bg-transparent" placeholder="CODIGO" />
                         </div>
