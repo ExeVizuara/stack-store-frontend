@@ -115,3 +115,45 @@ export const onDeleteSales = /* GraphQL */ `
     }
   }
 `;
+export const onCreateWeeklySale = /* GraphQL */ `
+  subscription OnCreateWeeklySale(
+    $filter: ModelSubscriptionWeeklySaleFilterInput
+  ) {
+    onCreateWeeklySale(filter: $filter) {
+      id
+      date
+      total
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateWeeklySale = /* GraphQL */ `
+  subscription OnUpdateWeeklySale(
+    $filter: ModelSubscriptionWeeklySaleFilterInput
+  ) {
+    onUpdateWeeklySale(filter: $filter) {
+      id
+      date
+      total
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteWeeklySale = /* GraphQL */ `
+  subscription OnDeleteWeeklySale(
+    $filter: ModelSubscriptionWeeklySaleFilterInput
+  ) {
+    onDeleteWeeklySale(filter: $filter) {
+      id
+      date
+      total
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;

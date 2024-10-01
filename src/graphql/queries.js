@@ -113,3 +113,35 @@ export const listSales = /* GraphQL */ `
     }
   }
 `;
+export const getWeeklySale = /* GraphQL */ `
+  query GetWeeklySale($id: ID!) {
+    getWeeklySale(id: $id) {
+      id
+      date
+      total
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listWeeklySales = /* GraphQL */ `
+  query ListWeeklySales(
+    $filter: ModelWeeklySaleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listWeeklySales(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        date
+        total
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;

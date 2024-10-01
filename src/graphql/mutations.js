@@ -118,3 +118,48 @@ export const deleteSales = /* GraphQL */ `
     }
   }
 `;
+export const createWeeklySale = /* GraphQL */ `
+  mutation CreateWeeklySale(
+    $input: CreateWeeklySaleInput!
+    $condition: ModelWeeklySaleConditionInput
+  ) {
+    createWeeklySale(input: $input, condition: $condition) {
+      id
+      date
+      total
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateWeeklySale = /* GraphQL */ `
+  mutation UpdateWeeklySale(
+    $input: UpdateWeeklySaleInput!
+    $condition: ModelWeeklySaleConditionInput
+  ) {
+    updateWeeklySale(input: $input, condition: $condition) {
+      id
+      date
+      total
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteWeeklySale = /* GraphQL */ `
+  mutation DeleteWeeklySale(
+    $input: DeleteWeeklySaleInput!
+    $condition: ModelWeeklySaleConditionInput
+  ) {
+    deleteWeeklySale(input: $input, condition: $condition) {
+      id
+      date
+      total
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
