@@ -7,8 +7,6 @@ import { useSearchContext } from "../../services/SearchProvider";
 
 export function ControlSection({ totalSaleOfTheDay, productList, setProductList, filteredProducts, setFilteredProducts }) {
 
-    const { search, setSearch, searchProducts, setSearchProducts } = useSearchContext();
-    const [products, setProducts] = useState([]);
     const [editOn, setEditOn] = useState(false);
     const [productEdit, setProductEdit] = useState([]);
     const { currentCategory, setCurrentCategory } = useSearchContext();
@@ -25,18 +23,6 @@ export function ControlSection({ totalSaleOfTheDay, productList, setProductList,
         };
         loadProducts();
     }, [currentCategory]);
-
-    const handlePageChange = async (category, prod) => {
-        const lowercaseCategory = category.toLowerCase();
-        const results = await prod.filter((data) => data.category.toLowerCase().includes(lowercaseCategory));
-        if (!results) {
-            console.log("NO HAY PRODUCTOS");
-            setProducts([]);
-        } else {
-            setProducts(results);
-            return results;
-        }
-    }
 
     const handleCategoryChange = (category) => {
         setCurrentCategory(category);

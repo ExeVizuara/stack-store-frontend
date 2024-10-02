@@ -7,9 +7,22 @@ import { loadProductsByCategory } from "../../services/ProductService";
 
 export function TitleSection({ productList, setProductList, filteredProducts, setFilteredProducts}) {
 
-    const {search, setSearch} = useSearchContext();
+    const {search, setSearch, currentCategory, setSearchProducts} = useSearchContext();
     const [isExpanded, setIsExpanded] = useState(false);
+    const [products, setProducts] = useState([]);
     let res = [];
+
+    const handlePageChange = async (category, prod) => {
+        const lowercaseCategory = category.toLowerCase();
+        const results = await prod.filter((data) => data.category.toLowerCase().includes(lowercaseCategory));
+        if (!results) {
+            console.log("NO HAY PRODUCTOS");
+            setProducts([]);
+        } else {
+            setProducts(results);
+            return results;
+        }
+    }
 
     const handleFocus = () => {
         setIsExpanded(true);
@@ -33,6 +46,7 @@ export function TitleSection({ productList, setProductList, filteredProducts, se
     const searchItem = async () => {
         //inputRef.current.focus();
         const productsList = await loadProductsByCategory(currentCategory);
+        console.log(currentCategory);
         setSearchProducts(true);
         handlePageChange(currentCategory, productsList);
     }
