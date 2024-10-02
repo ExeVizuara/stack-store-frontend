@@ -11,7 +11,7 @@ export function HistorySection({ allSales, setAllSales, allWeeklySale, setAllWee
   }, []);
 
   const currentDay = CurrentDay();
-  
+
   return (
     <div className="xl:col-span-2 p-1 sm:px-4 lg:px-6 xl:static xl:p-0">
       <div className="md:bg-[#1F1D28] rounded-xl sm:p-2 xl:p-2 h-full">
@@ -19,16 +19,18 @@ export function HistorySection({ allSales, setAllSales, allWeeklySale, setAllWee
           <h1 className="text-3xl sm:text-xl mb-2">Historial de ventas</h1>
           <HistoryNav totalSaleOfTheDay={totalSaleOfTheDay} totalWeeklySale={totalWeeklySale} />
           <div>
-            <div className="bg-[#262837] sm:p-4 rounded-xl overflow-y-auto overflow-x-auto">
+            <div className="bg-[#262837] sm:p-4 rounded-xl">
               <h4 className="text-center text-xs pl-1 border p-1 rounded-2xl border-gray-500">{currentDay}</h4>
               <div className="grid grid-cols-6 px-2 py-3">
                 <div className="col-span-3">Producto</div>
                 <div className="col-span-2">Cantidad</div>
                 <div className="col-span-1">Total</div>
               </div>
-              {allSales.map((sale) => (
-                <HistoryItem key={sale.id} product_name={sale.product_name} price={sale.price*sale.product_quantity} quantity={sale.product_quantity} />
-              ))}
+              <div className="overflow-y-auto overflow-x-auto">
+                {allSales.map((sale) => (
+                  <HistoryItem key={sale.id} product_name={sale.product_name} price={sale.price * sale.product_quantity} quantity={sale.product_quantity} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
