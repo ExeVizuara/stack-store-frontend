@@ -22,53 +22,12 @@ export const loadWeeklySales = async () => {
     const API = generateClient();
     try {
         const apiData = await API.graphql({ query: listWeeklySales });
-        const weeklySaleFromAPI = apiData.data.listSales.items;
+        const weeklySaleFromAPI = apiData.data.listWeeklySales.items;
         return weeklySaleFromAPI;
     } catch (error) {
         console.error('Error al cargar registro de venta semanal:', error);
     }
 };
-
-export const addOrUpdateWeeklySale = async (totalAmount) => {
-    const API = generateClient();
-    const currentDateTime = CurrentTime();
-    try {
-        const result = await API.graphql({
-            query: listWeeklySales,
-            variables: { date: currentDateTime },
-        });
-        const sale = result.data.listWeeklySales;
-
-        if (sale) {
-            const updatedTotal = sale.total + totalAmount;
-            const updateResult = await API.graphql({
-                query: updateWeeklySaleMutation,
-                variables: {
-                    input: {
-                        id: sale.id,
-                        total: updatedTotal,
-                    },
-                },
-            });
-            console.log('Registro semanal acualizado. Total: ', updatedTotal);
-            return updateResult.data.updateWeeklySaleMutation;
-        } else {
-            const createResult = await API.graphql({
-                query: createWeeklySaleMutation,
-                variables: {
-                    input: {
-                        fecha: currentDateTime,
-                        total: totalAmount,
-                    },
-                },
-            });
-
-            return createResult.data.createWeeklySaleMutation;
-        }
-    } catch (error) {
-        console.error("Error al actualizar o crear venta semanal:", error);
-    }
-}
 
 export const loadDailySales = async (date) => {
     try {
@@ -85,13 +44,19 @@ export const loadDailySales = async (date) => {
 
 export const loadWeeklySale = async (date) => {
     try {
-        const weeklySalesFromAPI = await loadWeeklySales();
-        const filteredSales = weeklySalesFromAPI.filter((data) => data.date.includes(date));
-        console.log("Ventas de la semana " + date + " : " + filteredSales.length);
+        const weeklySalesFromAPI = await loadWeeklySales(); // Carga todas las ventas
+        const filteredSales = weeklySalesFromAPI.filter((data) => data.date === date); // Compara la fecha exacta
+
+        if (filteredSales.length === 0) {
+            console.log(`No se encontraron ventas para la fecha: ${date}`);
+            return null; // Devuelve null si no hay ventas para esa fecha
+        }
+
+        console.log(`Ventas encontradas para ${date}: ${filteredSales.length}`);
         console.log(filteredSales);
-        return filteredSales;
+        return filteredSales[0]; // Retorna la primera venta encontrada
     } catch (error) {
-        console.error('Error al cargar las ventas del hoy:', error);
+        console.error('Error al cargar las ventas de la semana:', error);
         throw error;
     }
 };
@@ -132,6 +97,54 @@ export const addSale = async (selectProduct, quantity) => {
         alert("Ocurrió un error al procesar la solicitud. Por favor, intenta nuevamente más tarde.");
     }
 }
+
+export const addOrUpdateWeeklySale = async (totalAmount) => {
+    const API = generateClient();
+    const currentDateTime = CurrentTime();
+    console.log(totalAmount);
+    try {
+        const sales = await loadWeeklySale();
+        console.log(sales);
+
+        if (!sales || sales.length === 0) {
+            console.log('Creando registro del dia');
+            const createResult = await API.graphql({
+                query: createWeeklySaleMutation,
+                variables: {
+                    input: {
+                        date: currentDateTime,
+                        total: totalAmount
+                    },
+                },
+            });
+            if (createResult.errors) {
+                console.error("Errores de GraphQL:", createResult.errors);
+                alert("Ocurrieron errores al procesar la solicitud. Por favor, revisa los datos ingresados.");
+                return;
+            }
+
+            return createResult.data.createWeeklySaleMutation;
+        } else {
+            const existingSale = sales[0];
+            console.log('Actualizando registro del dia:', existingSale);
+            const updatedTotal = sales.total + totalAmount;
+            const updateResult = await API.graphql({
+                query: updateWeeklySaleMutation,
+                variables: {
+                    input: {
+                        id: sales.id,
+                        total: updatedTotal,
+                    },
+                },
+            });
+            console.log('Registro semanal acualizado. Total: ', updatedTotal);
+            return updateResult.data.updateWeeklySaleMutation;
+        }
+    } catch (error) {
+        console.error("Error al actualizar o crear venta semanal:", error);
+    }
+}
+
 
 export const getSales = async (setAllSales) => {
     const currentDateTime = CurrentTime();
