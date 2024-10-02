@@ -2,22 +2,16 @@ import { useState, useEffect, useRef } from "react";
 import { NavbarSections } from "./NavbarSections";
 import { AlmacenSection } from "./AlmacenSection";
 import { loadProductsByCategory } from "../../services/ProductService";
-import { DailySaleComponent } from "./products/DailySaleComponent";
 import { UpdateProduct } from "./products/UpdateProduct";
 import { useSearchContext } from "../../services/SearchProvider";
-import { searchName } from "../../utils/SearchName";
 
-export function ControlSection({ totalSaleOfTheDay }) {
+export function ControlSection({ totalSaleOfTheDay, productList, setProductList, filteredProducts, setFilteredProducts }) {
 
     const { search, setSearch, searchProducts, setSearchProducts } = useSearchContext();
     const [products, setProducts] = useState([]);
-    const [productList, setProductList] = useState([]);
-    const [filteredProducts, setFilteredProducts] = useState([]);
     const [editOn, setEditOn] = useState(false);
     const [productEdit, setProductEdit] = useState([]);
     const { currentCategory, setCurrentCategory } = useSearchContext();
-    const inputRef = useRef(null);
-    let res = [];
 
     useEffect(() => {
         const loadProducts = async () => {

@@ -2,11 +2,14 @@ import { RiSearch2Line } from "react-icons/ri";
 import { useState } from "react";
 import { Clock } from "./Clock";
 import { useSearchContext } from "../../services/SearchProvider";
+import { searchName } from "../../utils/SearchName";
+import { loadProductsByCategory } from "../../services/ProductService";
 
-export function TitleSection() {
+export function TitleSection({ productList, setProductList, filteredProducts, setFilteredProducts}) {
 
     const {search, setSearch} = useSearchContext();
     const [isExpanded, setIsExpanded] = useState(false);
+    let res = [];
 
     const handleFocus = () => {
         setIsExpanded(true);

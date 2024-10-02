@@ -12,6 +12,8 @@ export function MainContent({ selectedCat }) {
     const [totalWeeklySale, setTotalWeeklySale] = useState(null);
     const [allSales, setAllSales] = useState([]);
     const [allWeeklySale, setAllWeeklySale] = useState([]);
+    const [productList, setProductList] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
 
     const sectionComponents = {
         'Home': <HomeSection />,
@@ -23,7 +25,7 @@ export function MainContent({ selectedCat }) {
             setAllWeeklySale={setAllWeeklySale}
             setAllSales={setAllSales}
         />,
-        'Control': <ControlSection totalSaleOfTheDay={totalSaleOfTheDay} />,
+        'Control': <ControlSection totalSaleOfTheDay={totalSaleOfTheDay} productList={productList} setProductList={setProductList} filteredProducts={filteredProducts} setFilteredProducts={setFilteredProducts} />,
     };
 
     useEffect(() => {
@@ -40,7 +42,7 @@ export function MainContent({ selectedCat }) {
 
     return (
         <main className="lg:pl-24 grid grid-cols-1 xl:grid-cols-8 py-2 md:px-4 xl:pb-5 sm:h-[785px]">
-            <TitleSection />
+            <TitleSection productList={productList} setProductList={setProductList} filteredProducts={filteredProducts} setFilteredProducts={setFilteredProducts} />
             {sectionComponents[selectedCat] || <HomeSection />}
             <HistorySection allSales={allSales} setAllSales={setAllSales} allWeeklySale={allWeeklySale} setAllWeeklySale={setAllWeeklySale} totalSaleOfTheDay={totalSaleOfTheDay} totalWeeklySale={totalWeeklySale} />
         </main>
