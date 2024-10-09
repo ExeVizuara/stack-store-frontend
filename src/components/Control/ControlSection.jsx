@@ -9,18 +9,20 @@ export function ControlSection({ totalSaleOfTheDay, productList, setProductList,
 
     const [editOn, setEditOn] = useState(false);
     const [productEdit, setProductEdit] = useState([]);
-    const { currentCategory, setCurrentCategory } = useSearchContext();
+    const { currentCategory, setCurrentCategory, isLoading, setIsLoading } = useSearchContext();
+
+    const loadProducts = async () => {
+        try {
+            const products = await loadProductsByCategory(currentCategory);
+            setProductList(products);
+            console.log('Productos cargados: ', products.length);
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Error al cargar los productos:', error);
+        }
+    };
 
     useEffect(() => {
-        const loadProducts = async () => {
-            try {
-                const products = await loadProductsByCategory(currentCategory);
-                setProductList(products);
-                console.log('Productos cargados: ', products.length);
-            } catch (error) {
-                console.error('Error al cargar los productos:', error);
-            }
-        };
         loadProducts();
     }, [currentCategory]);
 
@@ -36,6 +38,7 @@ export function ControlSection({ totalSaleOfTheDay, productList, setProductList,
         setEditOn(!editOn);
         console.log(product);
         await selectProductEdit(product);
+        loadProducts();
     }
 
     return (
@@ -46,7 +49,6 @@ export function ControlSection({ totalSaleOfTheDay, productList, setProductList,
             {editOn && <UpdateProduct editMode={editMode} productEdit={productEdit} currentPage={currentCategory} productList={productList} />}
             <div className="grid grid-cols-3 h-auto w-full mb-4 sm:px-2 xl:h-auto">
                 <div className="md:bg-[#1F1D2B] pt-4 sm:pb-8 sm:px-4 px-2 md:px-8 lg:px-8 lg:py-6 rounded-xl items-center text-center text-gray-300 col-span-3">
-                    {/* <DailySaleComponent currentPage={currentCategory} totalSaleOfTheDay={totalSaleOfTheDay} /> */}
                     <AlmacenSection productsList={productList} filteredProducts={filteredProducts} cat={currentCategory} editMode={editMode} />
                 </div>
             </div>

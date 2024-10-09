@@ -105,7 +105,6 @@ export const updateProduct = async (product) => {
             alert("Ocurrieron errores al procesar la solicitud. Por favor, revisa los datos ingresados.");
         } else {
             alert("Producto actualizado exitosamente.");
-            // Si tienes una función setAll, puedes llamarla aquí para restablecer los valores del formulario
         }
     } catch (error) {
         console.error("Error al realizar la operación GraphQL:", error);

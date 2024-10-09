@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-import { deleteProduct, updateProduct } from "../../../services/ProductService";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { deleteProduct, loadProductsByCategory, updateProduct } from "../../../services/ProductService";
+import { useSearchContext } from "../../../services/SearchProvider";
+import { ButtonSave, ButtonDelete } from "../../shared/ButtonsEditProduct";
+import { UpdateField } from "./UpdateField";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import { es } from 'date-fns/locale/es';
-import { useSearchContext } from "../../../services/SearchProvider";
 registerLocale('es', es)
 setDefaultLocale('es');
 
 export function UpdateProduct({ productList, currentPage, editMode, productEdit }) {
 
-    const { search, setSearch, searchProducts, setSearchProducts } = useSearchContext();
+    const { search, setSearch, searchProducts, setSearchProducts, setCurrentCategory } = useSearchContext();
     const [products, setProducts] = useState([]);
     const [selectProduct, setSelectProduct] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -67,6 +67,7 @@ export function UpdateProduct({ productList, currentPage, editMode, productEdit 
                 price: ""
             });
             editMode();
+            setCurrentCategory(currentPage);
         } catch (error) {
             console.log("Error al procesar la solicitud")
         }
@@ -114,104 +115,22 @@ export function UpdateProduct({ productList, currentPage, editMode, productEdit 
             <ul className="absolute left-[10%] top-6 sm:top-4 sm:left-[30%] grid grid-cols-8 gap-4 px-10 sm:py-5 py-5 sm:px-10 text-gray-400 xl:mt-16 bg-white rounded-md">
                 <button className="absolute right-2 top-1 bg-red-500 border border-red-800 px-1" onClick={editMode}>x</button>
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
-                    <li className="flex flex-col">
-                        <label className="text-start sm:p-1">Nombre: </label>
-                        <input
-                            type="text"
-                            name="name"
-                            value={actualizeProduct.name}
-                            required className="sm:w-full rounded-md bg-gray-500 p-1"
-                            onChange={handleChange}
-                        />
-                    </li>
-                    <li className="flex flex-col">
-                        <label className="text-start sm:p-1">Categoría: </label>
-                        <input
-                            type="text"
-                            name="category"
-                            value={actualizeProduct.category}
-                            required className="sm:w-full rounded-md bg-gray-500 p-1"
-                        />
-                    </li>
-                    <li className="flex flex-col">
-                        <label className="text-start sm:p-1">Código: </label>
-                        <input
-                            type="text"
-                            name="code"
-                            value={actualizeProduct.code}
-                            required className="sm:w-full rounded-md bg-gray-500 p-1"
-                            onChange={handleChange}
-                        />
-                    </li>
-                    <li className="flex flex-col">
-                        <label className="text-start sm:p-1">Vencimiento: </label>
-                        <DatePicker
-                            className="sm:w-full rounded-md bg-gray-500 p-1"
-                            selected={actualizeProduct.expiration}
-                            showIcon
-                            isClearable
-                            dateFormat="dd/MM/yyyy"
-                            onChange={(date) => {
-                                if (!date) { setExpiration("") }
-                                else {
-                                    const formattedDate = date.toISOString().split('T')[0];
-                                    setExpiration(formattedDate);
-                                }
-                            }
-                            } />
-                    </li>
+                    <UpdateField title={'Nombre:'} name={'name'} value={actualizeProduct.name} handleChange={handleChange} />
+                    <UpdateField title={'Categoría:'} name={'category'} value={actualizeProduct.category} />
+                    <UpdateField title={'Código:'} name={'code'} value={actualizeProduct.code} handleChange={handleChange} />
+                    <UpdateField title={'Vencimiento:'} value={!expiration ? actualizeProduct.expiration : expiration} expiration={expiration} setExpiration={setExpiration} />
                 </div>
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
-                    <li className="flex flex-col">
-                        <label className="text-start sm:p-1">Stock: </label>
-                        <input
-                            type="text"
-                            name="stock"
-                            value={actualizeProduct.stock}
-                            required className="sm:w-full rounded-md bg-gray-500 p-1"
-                            onChange={handleChange}
-                        />
-                    </li>
-                    <li className="flex flex-col">
-                        <label className="text-start sm:p-1">Costo: </label>
-                        <input
-                            type="text"
-                            name="cost"
-                            value={actualizeProduct.cost}
-                            required className="sm:w-full rounded-md bg-gray-500 p-1"
-                            onChange={handleChange}
-                        />
-                    </li>
-                    <li className="flex flex-col">
-                        <label className="text-start sm:p-1">Descuento: </label>
-                        <input
-                            type="text"
-                            name="discount"
-                            value={actualizeProduct.discount ? actualizeProduct.discount : "0"}
-                            className="sm:w-full rounded-md bg-gray-500 p-1"
-                            onChange={handleChange}
-                        />
-                    </li>
-                    <li className="flex flex-col">
-                        <label className="text-start sm:p-1">Precio final: </label>
-                        <input
-                            type="text"
-                            name="price"
-                            value={actualizeProduct.price}
-                            className="sm:w-full rounded-md bg-gray-500 p-1"
-                            onChange={handleChange}
-                        />
-                    </li>
+                    <UpdateField title={'Stock:'} name={'stock'} value={actualizeProduct.stock} handleChange={handleChange} />
+                    <UpdateField title={'Costo:'} name={'cost'} value={actualizeProduct.cost} handleChange={handleChange} />
+                    <UpdateField title={'Descuento:'} name={'discount'} value={actualizeProduct.discount ? actualizeProduct.discount : "0"} handleChange={handleChange} />
+                    <UpdateField title={'Precio final:'} name={'price'} value={actualizeProduct.price} handleChange={handleChange} />
                 </div>
                 <div className="col-span-8 text-center">
-                    <button type="submit" className="bg-[#2c3e19d8] px-6 py-2 border border-[#5c9c19d8] text-white w-full rounded-md">
-                        GUARDAR
-                    </button>
+                    <ButtonSave />
                 </div>
                 <div className="col-span-8 text-center">
-                    <button type="button" onClick={()=> productForDelete(actualizeProduct)} className="hover:bg-red-800 px-6 py-2 border bg-red-500 border-red-800 hover:text-white w-full rounded-md">
-                        ELIMINAR PRODUCTO
-                    </button>
+                    <ButtonDelete onClick={() => productForDelete(actualizeProduct)}/>
                 </div>
             </ul >
         </form>
