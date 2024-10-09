@@ -26,15 +26,15 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, totalWeek
     const currentTime = CurrentTime();
     let results = [];
 
-    useEffect(() => {
-        loadProducts();
-        setSearch("");
-    }, []);
-
     const loadProducts = async () => {
         const productList = await loadAllProducts();
         setProducts(productList);
     }
+
+    useEffect(() => {
+        loadProducts();
+        setSearch("");
+    }, []);
 
     const searchItem = async () => {
         setSearchProducts(true);
@@ -166,6 +166,7 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, totalWeek
         await addOrUpdateWeeklySale(total);
         getSales(setAllSales);
         setTotalSaleOfTheDay(totalSaleOfTheDay+total);
+        loadProducts();
     }
 
     const quit = () => {

@@ -14,7 +14,7 @@ export function TitleSection({ productList, setProductList, filteredProducts, se
 
     const handlePageChange = async (category, prod) => {
         const lowercaseCategory = category.toLowerCase();
-        const results = await prod.filter((data) => data.category.toLowerCase().includes(lowercaseCategory));
+        const results = await prod.filter((data) => data.category.toLowerCase() === category);
         if (!results) {
             console.log("NO HAY PRODUCTOS");
             setProducts([]);
@@ -44,7 +44,6 @@ export function TitleSection({ productList, setProductList, filteredProducts, se
     };
 
     const searchItem = async () => {
-        //inputRef.current.focus();
         const productsList = await loadProductsByCategory(currentCategory);
         console.log(currentCategory);
         setSearchProducts(true);
