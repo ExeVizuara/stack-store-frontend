@@ -17,20 +17,21 @@ export function UpdateProduct({ productList, currentPage, editMode, productEdit 
     const [actualizeProduct, setActualizeProduct] = useState({});
     const [allProducts, setAllProducts] = useState([]);
     const [expiration, setExpiration] = useState("");
+    const initialProductState = {
+        id: "",
+        name: "",
+        category: currentPage,
+        code: "",
+        expiration: "",
+        stock: "",
+        cost: "",
+        discount: "",
+        price: ""
+    };
 
     useEffect(() => {
         console.log(currentPage)
-        setActualizeProduct({
-            id: productEdit.id,
-            name: productEdit.name,
-            category: productEdit.category,
-            code: productEdit.code,
-            expiration: productEdit.expiration,
-            stock: productEdit.stock,
-            cost: productEdit.cost,
-            discount: productEdit.discount,
-            price: productEdit.price
-        });
+        setActualizeProduct({ ...productEdit });
     }, []);
 
     const handleChange = (e) => {
@@ -44,71 +45,38 @@ export function UpdateProduct({ productList, currentPage, editMode, productEdit 
         event.preventDefault();
         console.log(actualizeProduct);
         try {
-            updateProduct({
-                id: actualizeProduct.id,
-                name: actualizeProduct.name,
-                category: actualizeProduct.category,
-                code: actualizeProduct.code,
-                expiration: expiration,
-                stock: actualizeProduct.stock,
-                cost: actualizeProduct.cost,
-                discount: actualizeProduct.discount,
-                price: actualizeProduct.price
+            await updateProduct({
+                ...actualizeProduct,
+                expiration: expiration
             });
+            // Resetear el producto
             setActualizeProduct({
-                id: "",
-                name: "",
-                category: currentPage,
-                code: "",
-                expiration: "",
-                stock: "",
-                cost: "",
-                discount: "",
-                price: ""
+                ...initialProductState, 
+                category: currentPage // Mantiene la categoría actual
             });
             editMode();
             setCurrentCategory(currentPage);
         } catch (error) {
-            console.log("Error al procesar la solicitud")
+            console.error("Error al actualizar el producto:", error.message || error);
+            alert("Ocurrió un error al actualizar el producto. Intenta de nuevo.");
         }
-    }
+    };
 
     const productForDelete = async (product) => {
 
-        const productID = product.id;
         const isConfirmed = window.confirm('¿Estás seguro de que deseas eliminar este producto?');
         if (isConfirmed) {
             try {
-                await deleteProduct(productID);
+                await deleteProduct(product.id);
                 editMode();
                 alert('Producto eliminado correctamente');
             } 
             catch (error) {
-                console.log('Ocurrió un error')
+                console.error('Ocurrió un error', error.message || error);
+                alert("Ocurrió un error al eliminar el producto. Intenta de nuevo.");
             }
         }
     }
-
-    const addProduct = async (productEdit) => {
-        try {
-            setActualizeProduct({
-                id: productEdit.id,
-                name: productEdit.name,
-                category: productEdit.category,
-                code: productEdit.code,
-                expiration: productEdit.expiration,
-                stock: productEdit.stock,
-                cost: productEdit.cost,
-                discount: productEdit.discount,
-                price: productEdit.price
-            });
-            console.log(productEdit);
-            setSelectProduct(productEdit.name);
-            setSearchProducts(false);
-        } catch (error) {
-            console.error('Error al agregar el producto:', error);
-        }
-    };
 
     return (
         <form onSubmit={update}>

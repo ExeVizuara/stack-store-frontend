@@ -38,14 +38,7 @@ export function NavbarProducts({ onCategoryChange }) {
                 >
                     +
                 </NavLink>
-                {/* <NavLink
-                    to="/"
-                    onClick={() => handleClick('Update')}
-                    className={`text-gray-300 rounded-lg p-2 px-2 w-full sm:px-12 md:px-16 xl:py-2 ${activedCats.Update ? activatedLink : "bg-[#262837]"}`}
-                >
-                    Modificar
-                </NavLink> */}
             </BrowserRouter>
         </nav>
-    )
-}
+    );
+};

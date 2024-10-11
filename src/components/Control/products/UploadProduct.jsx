@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { addProduct, loadAllProducts, loadProductsByCategory } from "../../../services/ProductService";
+import { addProduct } from "../../../services/ProductService";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
@@ -7,20 +7,20 @@ import { es } from 'date-fns/locale/es';
 registerLocale('es', es)
 setDefaultLocale('es');
 
-export function UploadProduct({ productList, currentPage }) {
+export function UploadProduct({ productList, loadProducts, currentPage }) {
 
     const [newProduct, setNewProduct] = useState({});
-    const [allProducts, setAllProducts] = useState([]);
     const [expiration, setExpiration] = useState("");
-
-    useEffect(() => {
-        getAllProducts();
-    }, []);
-
-    const getAllProducts = async () => {
-        const productsList = await productList;
-        setAllProducts(productsList);
-    }
+    const initialProductState = {
+        name: "",
+        category: currentPage,
+        code: "",
+        expiration: "",
+        stock: "",
+        cost: "",
+        discount: "",
+        price: ""
+    };
 
     const handleChange = (e) => {
         setNewProduct({
@@ -32,28 +32,11 @@ export function UploadProduct({ productList, currentPage }) {
     const add = async (event) => {
         event.preventDefault();
         await addProduct({
-            name: newProduct.name,
+            ...newProduct,
             category: currentPage,
-            code: newProduct.code,
-            expiration: expiration,
-            stock: newProduct.stock,
-            cost: newProduct.cost,
-            discount: newProduct.discount,
-            price: newProduct.price
         });
-        setAllProducts([...allProducts, newProduct]);
-        setNewProduct({
-            name: "",
-            category: "",
-            code: "",
-            expiration: "",
-            stock: "",
-            cost: "",
-            discount: "",
-            price: ""
-        });
-        await loadAllProducts();
-        await loadProductsByCategory(currentPage);
+        setNewProduct({ ...initialProductState });
+        loadProducts();
     }
 
     return (

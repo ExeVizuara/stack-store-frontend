@@ -3,25 +3,18 @@ import { useState } from "react";
 import { Clock } from "./Clock";
 import { useSearchContext } from "../../services/SearchProvider";
 import { searchName } from "../../utils/SearchName";
-import { loadProductsByCategory } from "../../services/ProductService";
 
-export function TitleSection({ productList, setProductList, filteredProducts, setFilteredProducts}) {
+export function TitleSection({ productList, setFilteredProducts}) {
 
     const {search, setSearch, currentCategory, setSearchProducts} = useSearchContext();
     const [isExpanded, setIsExpanded] = useState(false);
-    const [products, setProducts] = useState([]);
-    let res = [];
+    const [res, setRes] = useState([]);
 
     const handlePageChange = async (category, prod) => {
         const lowercaseCategory = category.toLowerCase();
-        const results = await prod.filter((data) => data.category.toLowerCase() === category);
-        if (!results) {
-            console.log("NO HAY PRODUCTOS");
-            setProducts([]);
-        } else {
-            setProducts(results);
-            return results;
-        }
+        const results = await prod.filter((data) => data.lowercaseCategory === category);
+        if (!results) { console.log("NO HAY PRODUCTOS");} 
+        else return results;
     }
 
     const handleFocus = () => {
@@ -37,17 +30,16 @@ export function TitleSection({ productList, setProductList, filteredProducts, se
     const handleSearch = async (e) => {
         if (e.target.value) {
             setSearch(e.target.value);
-            res = await searchName(productList, e.target.value);
+            setRes(await searchName(productList, e.target.value));
             setFilteredProducts(res);
         } else { setSearch("") }
         console.log(res);
     };
 
     const searchItem = async () => {
-        const productsList = await loadProductsByCategory(currentCategory);
-        console.log(currentCategory);
+        console.log('Buscar  en: ', currentCategory);
         setSearchProducts(true);
-        handlePageChange(currentCategory, productsList);
+        handlePageChange(currentCategory, productList);
     }
 
     return (
@@ -70,5 +62,5 @@ export function TitleSection({ productList, setProductList, filteredProducts, se
                     </div>
                 </div>
         </div>
-    )
-}
+    );
+};
