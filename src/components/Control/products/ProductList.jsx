@@ -2,16 +2,11 @@ import { Product } from "./Product";
 import { useSearchContext } from "../../../services/SearchProvider";
 import { useEffect } from "react";
 
-export function ProductList({ productList, filteredProducts, editMode }) {
+export function ProductList({ productList, filteredProducts, editMode, isLoading }) {
 
     const { search, searchProducts } = useSearchContext();
     const sortedProductList = productList.sort((a, b) => a.name.localeCompare(b.name));
     const sortedFilteredProducts = filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
-    // const displayProducts = searchProducts ? sortedFilteredProducts : sortedProductList;
-
-    useEffect(()=>{
-        
-    }, [])
 
     return (
         <div className="data bg-gray-700 flex flex-col pb-4 lg:p-4 gap-2 lg:gap-4 md:pb-18 mt-2 rounded-lg max-h-[500px]">
@@ -41,17 +36,20 @@ export function ProductList({ productList, filteredProducts, editMode }) {
                     PRECIO
                 </li>
             </ul>
-            {search ? 
+            {search ?
                 <div className="overflow-y-auto overflow-x-auto sm:rounded-md bg-[#262837]">
-                {sortedFilteredProducts.map((product) => (
-                    <Product key={product.id} {...product} editMode={editMode}/>
-                ))}
+                    {sortedFilteredProducts.map((product) => (
+                        <Product key={product.id} {...product} editMode={editMode} />
+                    ))}
                 </div>
                 :
                 <div className="overflow-y-auto overflow-x-auto sm:rounded-md bg-[#262837]">
-                    {sortedProductList.map((product) => (
-                        <Product key={product.id} {...product} editMode={editMode}/>
-                    ))}
+                    {isLoading ?
+                        (<h1>CARGANDO...</h1>)
+                        : (sortedProductList.map((product) => (
+                            <Product key={product.id} {...product} editMode={editMode} />
+                        )))
+                    }
                 </div>
             }
             <h3 className="flex flex-row justify-end">Resultados = {search ? sortedFilteredProducts.length : sortedProductList.length} productos</h3>

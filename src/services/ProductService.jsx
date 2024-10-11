@@ -33,8 +33,6 @@ export const loadProductsByCategory = async (category) => {
     try {
         const productsFromAPI = await loadAllProducts();
         const filteredProducts = productsFromAPI.filter((data) => data.category === category);
-        console.log(productsFromAPI);
-
         return filteredProducts;
     } catch (error) {
         console.error('Error al cargar los productos:', error);
