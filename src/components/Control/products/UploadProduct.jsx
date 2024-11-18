@@ -113,7 +113,7 @@ export function UploadProduct({ productList, loadProducts, currentPage }) {
                         />
                     </li>
                     <li className="flex flex-col">
-                        <label className="text-start sm:p-1">Descuento: </label>
+                        <label className="text-start sm:p-1">Precio x bulto: </label>
                         <input
                             type="text"
                             name="discount"

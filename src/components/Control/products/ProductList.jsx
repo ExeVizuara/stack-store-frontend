@@ -30,7 +30,7 @@ export function ProductList({ productList, filteredProducts, editMode, isLoading
                     COSTO
                 </li>
                 <li>
-                    DESC
+                    BULTO
                 </li>
                 <li>
                     PRECIO

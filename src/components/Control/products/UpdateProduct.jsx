@@ -91,7 +91,7 @@ export function UpdateProduct({ productList, currentPage, editMode, productEdit 
                 <div className="grid col-span-8 sm:col-span-4 gap-2">
                     <UpdateField title={'Stock:'} name={'stock'} value={actualizeProduct.stock} handleChange={handleChange} />
                     <UpdateField title={'Costo:'} name={'cost'} value={actualizeProduct.cost} handleChange={handleChange} />
-                    <UpdateField title={'Descuento:'} name={'discount'} value={actualizeProduct.discount ? actualizeProduct.discount : "0"} handleChange={handleChange} />
+                    <UpdateField title={'Precio x bulto:'} name={'discount'} value={actualizeProduct.discount ? actualizeProduct.discount : "-"} handleChange={handleChange} />
                     <UpdateField title={'Precio final:'} name={'price'} value={actualizeProduct.price} handleChange={handleChange} />
                 </div>
                 <div className="col-span-8 text-center">
