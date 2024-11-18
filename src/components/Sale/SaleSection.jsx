@@ -24,11 +24,9 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, totalWeek
     const [printReceipt, setPrintReceipt] = useState(false);
     const [printTicket, setPrintTicket] = useState({ ticket: null });
     const currentTime = CurrentTime();
-    let results = [];
 
     const loadProducts = async () => {
-        const productList = await loadAllProducts();
-        setProducts(productList);
+        setProducts(await loadAllProducts());
     }
 
     useEffect(() => {
@@ -42,6 +40,7 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, totalWeek
     }
 
     const handleFind = (e) => {
+        let results = [];
         if (e.target.value) {
             setSearch(e.target.value);
             results = searchName(products, e.target.value);

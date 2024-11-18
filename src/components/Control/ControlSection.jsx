@@ -5,18 +5,17 @@ import { loadProductsByCategory } from "../../services/ProductService";
 import { UpdateProduct } from "./products/UpdateProduct";
 import { useSearchContext } from "../../services/SearchProvider";
 
-export function ControlSection({ totalSaleOfTheDay, productList, setProductList, filteredProducts, setFilteredProducts }) {
+export function ControlSection({ productList, setProductList, filteredProducts }) {
 
     const [editOn, setEditOn] = useState(false);
     const [productEdit, setProductEdit] = useState([]);
-    const { currentCategory, setCurrentCategory, isLoading, setIsLoading } = useSearchContext();
+    const { currentCategory, setCurrentCategory, setIsLoading } = useSearchContext();
 
     const loadProducts = async () => {
         try {
             setIsLoading(true);
-            const products = await loadProductsByCategory(currentCategory);
-            setProductList(products);
-            console.log('Productos cargados: ', products.length);
+            setProductList(await loadProductsByCategory(currentCategory));
+            console.log('Productos cargados: ', productList.length);
         } catch (error) {
             console.error('Error al cargar los productos:', error);
         } finally {
