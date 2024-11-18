@@ -65,7 +65,7 @@ function CustomApp({ signOut }) {
             logOut={signOut}
           />
           <MobileMain onItemClick={toggleMenu} showMenu={showMenu} />
-            <MainContent selectedCat={currentCategory} />
+          <MainContent selectedCat={currentCategory} />
         </div>
       )}
     </>

@@ -9,10 +9,23 @@ import { CurrentTime } from "../components/shared/Clock";
 
 export const loadSales = async () => {
     const API = generateClient();
+    let allSales=[];
     try {
-        const apiData = await API.graphql({ query: listSales });
-        const productsFromAPI = apiData.data.listSales.items;
-        return productsFromAPI;
+        let nextToken = null;
+        const limit = 100;
+        do {
+            const apiData = await API.graphql({
+                query: listSales,
+                variables: {
+                    limit,
+                    nextToken
+                }
+            });    
+            const sales = apiData.data.listSales.items;
+            allSales.push(...sales);
+            nextToken = apiData.data.listSales.nextToken;
+        } while (nextToken);
+        return allSales;
     } catch (error) {
         console.error('Error al cargar registro de ventas:', error);
     }
@@ -32,12 +45,15 @@ export const loadWeeklySales = async () => {
 export const loadDailySales = async (date) => {
     try {
         const salesFromAPI = await loadSales();
-        const filteredSales = salesFromAPI.filter((data) => data.product_date.includes(date));
+        // Verifica que el filtro esté funcionando correctamente
+        // const filteredSales = salesFromAPI.filter((data) => data.product_date === date);
+        const filteredSales = await salesFromAPI.filter((data) =>
+            data.product_date.toLowerCase().includes(date));
         console.log("Ventas de hoy " + date + " : " + filteredSales.length);
-        console.log(filteredSales);
+        console.log("Lista de ventas filtradas:", filteredSales);
         return filteredSales;
     } catch (error) {
-        console.error('Error al cargar las ventas del hoy:', error);
+        console.error('Error al cargar las ventas de hoy:', error);
         throw error;
     }
 };
