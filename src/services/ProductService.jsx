@@ -4,7 +4,12 @@ import { updateProducts as updateProductMutation } from "../graphql/mutations";
 import { createProducts as createProductMutation } from "../graphql/mutations";
 import { deleteProducts as deleteProductsMutation } from "../graphql/mutations";
 
+let globalProducts=[];
+
 export const loadAllProducts = async () => {
+    if (globalProducts.length > 0) {
+        return globalProducts;
+    }
     const API = generateClient();
     let allProducts=[];
     try {
@@ -22,7 +27,8 @@ export const loadAllProducts = async () => {
             allProducts.push(...products);
             nextToken = apiData.data.listProducts.nextToken;
         } while (nextToken);
-        return allProducts;
+        globalProducts = allProducts;
+        return globalProducts;
     } catch (error) {
         console.error('Error al cargar todos los productos:', error);
     }
@@ -31,8 +37,10 @@ export const loadAllProducts = async () => {
 export const loadProductsByCategory = async (category) => {
     const API = generateClient();
     try {
-        const productsFromAPI = await loadAllProducts();
-        const filteredProducts = productsFromAPI.filter((data) => data.category === category);
+        if (globalProducts.length === 0) {
+            await loadAllProducts();
+        }
+        const filteredProducts = globalProducts.filter((data) => data.category === category);
         return filteredProducts;
     } catch (error) {
         console.error('Error al cargar los productos:', error);
