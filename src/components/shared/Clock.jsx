@@ -31,7 +31,6 @@ export function CurrentTime () {
   const month = currentDate.getMonth() + 1;
   const day = currentDate.getDate();
   const formattedDate = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-  console.log(formattedDate);
   return formattedDate;
 }
 
