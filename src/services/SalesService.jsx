@@ -45,10 +45,7 @@ export const loadWeeklySales = async () => {
 export const loadDailySales = async (date) => {
     try {
         const salesFromAPI = await loadSales();
-        // Verifica que el filtro esté funcionando correctamente
-        // const filteredSales = salesFromAPI.filter((data) => data.product_date === date);
-        const filteredSales = await salesFromAPI.filter((data) =>
-            data.product_date.toLowerCase().includes(date));
+        const filteredSales = salesFromAPI.filter((data) => data.product_date === date);
         console.log("Ventas de hoy " + date + " : " + filteredSales.length);
         console.log("Lista de ventas filtradas:", filteredSales);
         return filteredSales;

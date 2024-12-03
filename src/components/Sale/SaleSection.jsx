@@ -7,7 +7,7 @@ import { actualizeStock, loadAllProducts } from "../../services/ProductService";
 import { searchName } from "../../utils/SearchName";
 import { addSale, getDailyGain, getSales, getWeeklySale, addOrUpdateWeeklySale } from "../../services/SalesService";
 import { useSearchContext } from "../../services/SearchProvider";
-import { CurrentTime } from "../shared/Clock";
+import { calculateInGrams } from "../../services/MathematicalOperationsService";
 
 export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, totalWeeklySale, setTotalWeeklySale, setAllSales, setAllWeeklySale }) {
 
@@ -23,7 +23,6 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, totalWeek
     const [total, setTotal] = useState(0);
     const [printReceipt, setPrintReceipt] = useState(false);
     const [printTicket, setPrintTicket] = useState({ ticket: null });
-    const currentTime = CurrentTime();
 
     const loadProducts = async () => {
         setProducts(await loadAllProducts());
@@ -65,10 +64,12 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, totalWeek
             ...prevSubTotal,
             [productId]: price
         }));
-        setQuantity( prevQuantity => ({
-            ...prevQuantity,
-            [productId]: 1
-        }));
+        if (product.category != 'PorKG') {
+            setQuantity(prevQuantity => ({
+                ...prevQuantity,
+                [productId]: 1
+            }));
+        }
     };
 
     const addProduct = async (product, stock) => {
@@ -78,7 +79,21 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, totalWeek
                 return searchItem();
             }
             if (!initialStocks.hasOwnProperty(product.id)) {
-                await storeInitialStock(product.id, product.stock - 1, product.price, product);
+                if (product.category === 'PorKG') {
+                    const quantityInserted = prompt("Ingrese la cantidad en gramos", "");
+                    if (!quantityInserted) {
+                        alert("Debe ingresar una cantidad");
+                        setSearchProducts(!searchProducts);
+                        setSearch("");
+                        return;
+                    }
+                    const totalPrice = calculateInGrams(quantityInserted, product.price);
+                    setQuantity(prevQuantity => ({
+                        ...prevQuantity,
+                        [product.id]: quantityInserted
+                    }));
+                    return await storeInitialStock(product.id, stock-quantityInserted, totalPrice, product);
+                } else await storeInitialStock(product.id, product.stock-1, product.price, product);
                 setInListProduct(prevList => ({
                     ...prevList,
                     [product.id]: true
@@ -90,8 +105,22 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, totalWeek
                 if (inListProduct[product.id]) {
                     return alert("El producto ya esta en la lista. \nPuedes agregar mas cantidad con '+'")
                 }
-                await storeInitialStock(product.id, initialStocks[product.id] - 1, product.price, product);
-            }
+                if (product.category === 'PorKG') {
+                    const quantityInserted = prompt("Ingrese la cantidad en gramos", "");
+                    if (!quantityInserted) {
+                        alert("Debe ingresar una cantidad");
+                        setSearchProducts(!searchProducts);
+                        setSearch("");
+                        return;
+                    }
+                    const totalPrice = calculateInGrams(quantityInserted, product.price);
+                    setQuantity(prevQuantity => ({
+                        ...prevQuantity,
+                        [product.id]: quantityInserted
+                    }));
+                    return await storeInitialStock(product.id, initialStocks[product.id]-quantityInserted, totalPrice, product);
+                } else return await storeInitialStock(product.id, initialStocks[product.id] - 1, product.price, product);
+            };
         } catch (error) {
             console.error('Error al agregar el producto:', error);
         }
@@ -107,15 +136,15 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, totalWeek
             return alert("No hay stock disponible de ese producto!");
         } else {
             initialStocks[productId]--;
-            setQuantity( prevQuantity => ({
+            setQuantity(prevQuantity => ({
                 ...prevQuantity,
-                [productId]: quantity[productId]+1
+                [productId]: quantity[productId] + 1
             }));
             setSubTotal(prevSubTotal => ({
                 ...prevSubTotal,
                 [productId]: (prevSubTotal[productId] || productPrice) + productPrice // Actualiza el subtotal de este producto
             }));
-        
+
             setTotal(total + productPrice); // Aumenta el total global con el precio del producto
         }
     }
@@ -124,30 +153,30 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, totalWeek
             return alert("El minimo en cantidad es 1 \nPuedes eliminar el producto con 'x'");
         }
         initialStocks[productId]++;
-        setQuantity( prevQuantity => ({
+        setQuantity(prevQuantity => ({
             ...prevQuantity,
-            [productId]: quantity[productId]-1
+            [productId]: quantity[productId] - 1
         }));
         setSubTotal(prevSubTotal => ({
             ...prevSubTotal,
             [productId]: (prevSubTotal[productId] || productPrice) - productPrice // Actualiza el subtotal de este producto
         }));
-    
+
         setTotal(total - productPrice); // Aumenta el total global con el precio del producto
     }
 
-    const removeProduct = async (index, price, productId) => {
+    const removeProduct = async (index, product) => {
         const updatedProducts = selectProduct.filter((_, i) => i !== index);
         setSelectProduct(updatedProducts);
         setInitialStocks(prevState => ({
             ...prevState,
-            [productId]: initialStocks[productId] + quantity[productId]
+            [product.id]: initialStocks[product.id] + quantity[product.id]
         }));
-        console.log("Stock: ", initialStocks[productId]);
-        setTotal((total) - (price*quantity[productId]));
+        console.log("Stock: ", initialStocks[product.id]);
+        product.category === 'PorKG' ? setTotal((total) - subTotal[product.id]) : setTotal((total) - (subTotal[product.id] * quantity[product.id]));
         setInListProduct(prevList => ({
             ...prevList,
-            [productId]: false
+            [product.id]: false
         }));
     };
 
@@ -158,13 +187,13 @@ export function SaleSection({ totalSaleOfTheDay, setTotalSaleOfTheDay, totalWeek
     }
 
     const chargeProducts = async () => {
-        if(total === 0) return alert("Debe seleccionar al menos un producto primero");
+        if (total === 0) return alert("Debe seleccionar al menos un producto primero");
         setPrintReceipt(!printReceipt);
         await actualizeStock(selectProduct, initialStocks);
         await addSale(selectProduct, quantity);
         await addOrUpdateWeeklySale(total);
         getSales(setAllSales);
-        setTotalSaleOfTheDay(totalSaleOfTheDay+total);
+        setTotalSaleOfTheDay(totalSaleOfTheDay + total);
         loadProducts();
     }
 
