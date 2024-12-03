@@ -6,7 +6,7 @@ export function HistoryItem({ product_name, price, quantity }) {
                 <h5 className="text-sm">{product_name}</h5>
             </div>
             <div className="col-span-2">
-                <span>{quantity}</span>
+                <span>{quantity > 10 ? `${quantity} Grs` : quantity}</span>
             </div>
             <div className="col-span-1 text-sm">
                 <span>{price}</span>

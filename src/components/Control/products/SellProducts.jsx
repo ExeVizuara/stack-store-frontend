@@ -1,28 +1,33 @@
-export function SellProducts({ 
-        name, 
-        category, 
-        code, 
-        expiration, 
-        discount, 
-        price,
-        subTotal, 
-        quantity, 
-        removeProduct, 
-        addQuantity, 
-        subtractQuantity 
-    }) 
-    {
+export function SellProducts({
+    name,
+    category,
+    code,
+    expiration,
+    discount,
+    price,
+    subTotal,
+    quantity,
+    removeProduct,
+    addQuantity,
+    subtractQuantity
+}) {
 
     return (
         <ul className="relative text-center grid grid-cols-5 sm:text-xs md:text-md 2xl:text-lg text-[10px] p-2 border-b-2 text-gray-400 border-b-slate-600 py-1">
             <li>
                 {name}
             </li>
-            <li className="flex flex-row justify-around">
-                <button className="border px-1 bg-[#262837]" onClick={subtractQuantity}>-</button>
+            {category === 'PorKG' ? (
+                <li>
+                    {quantity} Grs
+                </li>
+            ) : (
+                <li className="flex flex-row justify-around">
+                    <button className="border px-1 bg-[#262837]" onClick={subtractQuantity}>-</button>
                     {quantity}
-                <button className="border px-1 bg-[#262837]" onClick={addQuantity}>+</button>
-            </li>
+                    <button className="border px-1 bg-[#262837]" onClick={addQuantity}>+</button>
+                </li>
+            )}
             <li>
                 {price}
             </li>
