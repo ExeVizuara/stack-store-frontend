@@ -29,7 +29,7 @@ export function HistorySection({ allSales, setAllSales, allWeeklySale, setAllWee
               </div>
               <div className="overflow-y-auto overflow-x-auto max-h-[450px]">
                 {allSales.map((sale) => (
-                  <HistoryItem key={sale.id} product_name={sale.product_name} price={sale.product_quantity > 10 ? calculateInGrams(sale.product_quantity, ) : sale.price * sale.product_quantity} quantity={sale.product_quantity} />
+                  <HistoryItem key={sale.id} product_name={sale.product_name} price={sale.product_quantity > 10 ? calculateInGrams(sale.product_quantity, sale.price) : sale.price * sale.product_quantity} quantity={sale.product_quantity} />
                 ))}
               </div>
             </div>
